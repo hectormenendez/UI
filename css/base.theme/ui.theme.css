@@ -1,0 +1,47 @@
+/*******************************************************************************
+ * BASE THEME                                                                  *
+ * @created 2011/AUG/31 14:24                                                  *
+ *                                                                             *
+ ******************************************************************************* 
+ * COMMON                                                                      *
+ * @created 2011/AUG/31 15:12                                                  *
+ *******************************************************************************/
+
+.ui-disabled,
+.ui-disabled:hover,
+.ui-disabled:focus 
+{
+	background:none !important;
+	border:none     !important;
+	cursor:default  !important;
+	color:#666      !important;
+}
+
+.ui-modal header h2,
+.ui-menubar > li > a
+{
+	color:#333;
+	text-shadow: 0 1px 0 #CCC;
+}
+
+.ui-modal header,
+.ui-menubar
+{
+	border-bottom:1px solid #666;
+	background-color:                               #888;
+	background-image:   -moz-linear-gradient(90deg, #888, #CCC 100%);
+	background-image:-webkit-linear-gradient(90deg, #888, #CCC 100%);
+	background-image:     -o-linear-gradient(90deg, #888, #CCC 100%);
+	background-image:    -ms-linear-gradient(90deg, #888, #CCC 100%);
+	background-image:        linear-gradient(90deg, #888, #CCC 100%);
+	background:-moz-linear-gradient(center top,#CCC,#888) repeat scroll 0 0 transparent;
+}
+
+
+/******************************************************************************* 
+ * OVERLAY                                                                     *
+ * @created 2011/AUG/30 00:16                                                  *
+ *******************************************************************************/
+
+.ui-overlay { background-color:#000C16; }
+

@@ -1,0 +1,10 @@
+/**
+ * Import all styles.
+ * You should customize this to your needs.
+ *
+ * @created 2011/AUG/31 16:49
+ */
+
+@import "ui.theme.css";
+@import "ui.theme.menubar.css";
+@import "ui.theme.modal.css";

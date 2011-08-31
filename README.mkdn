@@ -2,5 +2,9 @@
 ##### A minimalist alternative for jQuery-UI
 ###   v0.0
 
+## Usage
+Checkout http://hectormenendez.github.com/UI/ for examples.
+
 ## Changelog
 - First Commit
+- Menubar & Modal css working; Modal javascript triggers no error, but it's not complete.

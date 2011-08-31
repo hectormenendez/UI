@@ -1,0 +1,54 @@
+/******************************************************************************* 
+ * MENUBAR                                                                     *
+ * @created 2011/AUG/31 00:46                                                  *
+ *******************************************************************************/
+
+/* Text elements */
+.ui-menubar                 a { color:#333; }
+.ui-menubar      li:hover > a { color:#FFF; text-shadow: 0 1px 0 #06C; }
+.ui-menubar ul > li:hover > a { font-weight:bold; }
+/* Box elements */
+.ui-menubar   {
+   -moz-box-shadow:0 0 8px #999, 0 1px 0 #FFF inset; 
+-webkit-box-shadow:0 0 8px #999, 0 1px 0 #FFF inset;
+        box-shadow:0 0 8px #999, 0 1px 0 #FFF inset;
+}
+/* main menu items only */
+.ui-menubar > li:hover {
+	border-left :1px solid #06C;
+	border-right:1px solid #06C;
+}
+/* second level onwards, hover */
+.ui-menubar ul > li:hover {
+	border-top   :1px solid #06A;
+	border-bottom:1px solid #039;
+}
+/* all li elements hover */
+.ui-menubar li:hover {
+	background-color:                                 #06C;
+	background-image:    -moz-linear-gradient (90deg, #06C, #9CF 100%);
+	background-image: -webkit-linear-gradient (90deg, #06C, #9CF 100%);
+	background-image:      -o-linear-gradient (90deg, #06C, #9CF 100%);
+	background-image:     -ms-linear-gradient (90deg, #06C, #9CF 100%);
+	background-image:         linear-gradient (90deg, #06C, #9CF 100%);
+	background: -moz-linear-gradient(center top,#9CF, #06C) repeat scroll 0 0 transparent;
+}
+/*  all menus */
+.ui-menubar li ul {
+		border:1px solid #777;
+		background:#EEE;
+   -moz-border-radius:0 0 .25em .25em;
+-webkit-border-radius:0 0 .25em .25em;
+ -khtml-border-radius:0 0 .25em .25em;
+	    border-radius:0 0 .25em .25em;
+   -moz-box-shadow:0 0 8px #9AD, 0 1px 0 #FFF inset; 
+-webkit-box-shadow:0 0 8px #9AD, 0 1px 0 #FFF inset;
+	    box-shadow:0 0 8px #9AD, 0 1px 0 #FFF inset;
+-webkit-transition:-webkit-box-shadow 0.5s ease-in-out;
+   -moz-transition:   -moz-box-shadow 0.5s ease-in-out;
+     -o-transition:     -o-box-shadow 0.5s ease-in-out;
+}
+/* menus, second level onwards*/
+.ui-menubar ul > li ul {
+	border-radius:0 .25em .25em .25em;
+}

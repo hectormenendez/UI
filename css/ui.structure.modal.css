@@ -1,0 +1,36 @@
+/*******************************************************************************
+ * MODAL Structure                                                             *
+ *                                                                             *
+ * @working 2011/AUG/31 14:25 Chrome, FF5                                      *
+ * @created 2011/AUG/31 14:15                                                  *
+ *******************************************************************************/
+
+.ui-modal { 
+	z-index:1001;
+	position:absolute;
+	left:50%;
+	top:50%;
+	border-radius:.25em;
+}
+
+.ui-modal header {
+	border-radius:.25em .25em 0 0;
+}
+.ui-modal header h2 {
+	cursor:default;
+	margin:0;
+	padding:0;
+	font-size:1em;
+	line-height:2em;
+	text-indent:1em;
+}
+
+.ui-modal section{
+	padding:1em;
+}
+
+.ui-modal footer {
+	text-align:right;
+	padding:.5em;
+	border-radius:0 0 .25em .25em;
+}

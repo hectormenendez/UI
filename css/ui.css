@@ -1,0 +1,10 @@
+/**
+ * Import all styles.
+ * You should customize this to your needs.
+ *
+ * @created 2011/AUG/31 16:54
+ */
+
+@import "ui.structure.css";
+@import "ui.structure.menubar.css";
+@import "ui.structure.modal.css";

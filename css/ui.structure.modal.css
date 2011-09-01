@@ -5,8 +5,9 @@
  * @created 2011/AUG/31 14:15                                                  *
  *******************************************************************************/
 
-.ui-modal { 
+.ui-modal {
 	z-index:1001;
+	display:none;
 	position:absolute;
 	left:50%;
 	top:50%;

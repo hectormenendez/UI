@@ -1,15 +1,18 @@
 /*******************************************************************************
  * BASE THEME                                                                  *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/AUG/31 14:24                                                  *
  *                                                                             *
- ******************************************************************************* 
+ *******************************************************************************
  * COMMON                                                                      *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/AUG/31 15:12                                                  *
  *******************************************************************************/
 
 .ui-disabled,
 .ui-disabled:hover,
-.ui-disabled:focus 
+.ui-disabled:focus
 {
 	background:none !important;
 	border:none     !important;
@@ -38,10 +41,35 @@
 }
 
 
-/******************************************************************************* 
+/*******************************************************************************
  * OVERLAY                                                                     *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/AUG/30 00:16                                                  *
  *******************************************************************************/
 
 .ui-overlay { background-color:#000C16; }
+
+/*******************************************************************************
+ * LOADER                                                                      *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 11:23                                                  *
+ *******************************************************************************/
+
+.ui-loader{
+    background:transparent;
+    background-image:     -o-linear-gradient(rgba(0,11,21,0), #CCC 80%),      -o-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:   -moz-linear-gradient(rgba(0,11,21,0), #CCC 80%),    -moz-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:    -ms-linear-gradient(rgba(0,11,21,0), #CCC 80%),     -ms-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:-webkit-linear-gradient(rgba(0,11,21,0), #CCC 80%), -webkit-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:        linear-gradient(rgba(0,11,21,0), #CCC 80%),         linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+}
+
+.ui-loader:before {
+    background:-webkit-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+    background:   -moz-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+    background:     -o-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+    background:        radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+}
 

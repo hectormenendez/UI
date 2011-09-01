@@ -1,16 +1,58 @@
 /*******************************************************************************
  * OVERLAY Structure                                                           *
  *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @working 2011/AUG/31 15:26 Chrome, FF5                                      *
  * @created 2011/AUG/31 15:16                                                  *
  *******************************************************************************/
 
 .ui-overlay {
-	z-index:1000;
+	z-index:999;
+	display:none;
 	position:fixed;
 	top:0;
 	left:0;
 	width:100%;
 	height:100%;
 	opacity:.8;
+}
+
+/*******************************************************************************
+ * LOADER Structure                                                            *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 11:21                                                  *
+ *******************************************************************************/
+
+ .ui-loader {
+ 		z-index:1000;
+        display:none;
+        position:absolute;
+        overflow:hidden;
+        white-space:nowrap;
+        top          : 50%;
+        left         : 50%;
+        text-indent  : 2em;
+        width        : 2em;
+        height       : 2em;
+        margin-top   :-1em;
+        margin-left  :-1em;
+        border-radius: 2em;
+-webkit-animation: uiloader 2s linear infinite;
+   -moz-animation: uiloader 2s linear infinite;
+        animation: uiloader 2s linear infinite;
+}
+
+@-webkit-keyframes uiloader { 0% { -webkit-transform:rotate(-360deg); } }
+   @-moz-keyframes uiloader { 0% {    -moz-transform:rotate(-360deg); } }
+        @keyframes uiloader { 0% {         transform:rotate(-360deg); } }
+
+.ui-loader:before {
+    position:absolute;
+    border-radius:2em;
+    content:"";
+    top   :0;
+    left  :0;
+    bottom:0;
+    right :0;
 }

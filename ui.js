@@ -70,7 +70,7 @@ ui.loader.hide = function(){
  * @working 2011/AUG/31 04:57
  * @created 2011/AUG/31 04:15
  */
-ui.init = function(settings){
+ui.init = function(settings, callback){
 	// if ui has not been set, do so.
 	if (!ui.isset) ui.__construct();
 	// start loader
@@ -110,7 +110,7 @@ ui.init = function(settings){
 			// append/replace element to ui
 			ui[cname] = uiSource;
 			// construct element, with this scope.
-			ui[cname].__construct($this, ui);
+			ui[cname].__construct($this, ui, callback);
 			// public local methods to the jQuery element.
 			$this[cname] = ui[cname];
 			// delete constructor from public scope-

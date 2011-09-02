@@ -8,7 +8,7 @@
 .ui-menubar,
 .ui-menubar *  { display:block; position:relative;  }
 /* main bar, removes spacing left by inline-block */
-.ui-menubar    { font-size:00px; } 
+.ui-menubar    { font-size:00px; }
 /* don't allow word wrapping on all LI elements */
 .ui-menubar li        { white-space:nowrap;   }
 .ui-menubar  a        { text-decoration:none; }
@@ -38,3 +38,53 @@
 }
 /* menus, second, third,fourth... levels */
 .ui-menubar ul > li ul { left:100%; top:-.40em;  }
+
+/* exit button */
+.ui-menubar > li.ui-menubar-exit {
+    overflow:hidden;
+    position:absolute;
+    right:0;
+    top:0;
+	width:16px;
+	height:16px;
+	padding:0;
+	margin:0;
+	margin-top:.5em;
+	margin-right:.4em;
+	border:0 !important;
+}
+/* mozilla only */
+@-moz-document url-prefix() { .ui-menubar > li.ui-menubar-exit  {
+	margin-top:.45em;
+} }
+
+
+.ui-menubar > li.ui-menubar-exit > *{
+	z-index:1;
+	display:block;
+	position:absolute;
+	top:0; left:0;
+	background:transparent;
+}
+
+.ui-menubar > li.ui-menubar-exit,
+.ui-menubar > li.ui-menubar-exit *
+{
+  color:transparent !important;
+  text-shadow:none  !important;
+}
+
+.ui-menubar > li.ui-menubar-exit:after {
+	z-index:0;
+	content:"x";
+	display:block;
+	position:absolute;
+	width:15.5px;
+	line-height:1em;
+	top:0;
+	left:0;
+	text-align:center;
+	padding:0;
+	margin:0;
+	cursor:pointer;
+}

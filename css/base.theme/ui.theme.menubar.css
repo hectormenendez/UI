@@ -53,3 +53,23 @@
 .ui-menubar ul > li ul {
 	border-radius:0 .25em .25em .25em;
 }
+
+/* exit buttton */
+.ui-menubar > li.ui-menubar-exit:after {
+    color:#AAA;
+    text-shadow:-1px -1px #222;
+    font-weight:bold;
+	font-size:12px;
+}
+.ui-menubar > li.ui-menubar-exit {
+	background:#444;
+    box-shadow:-1px -1px #CCC inset;
+	border-radius:.25em;
+}
+.ui-menubar > li.ui-menubar-exit:hover {
+	background:#633;
+    box-shadow:-1px -1px #D6CCCC inset;
+}
+.ui-menubar > li.ui-menubar-exit:hover:after {
+	color:#D6CCCC;
+}

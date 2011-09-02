@@ -1,4 +1,47 @@
 /*******************************************************************************
+ * COMMON                                                                      *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 17:02                                                  *
+ *******************************************************************************/
+
+
+/* disable selection */
+
+.ui-loader,
+.ui-modal > header,
+.ui-modal > footer,
+.ui-label,
+.ui-menubar
+{
+-webkit-user-select:none !important;
+   -moz-user-select:none !important;
+        user-select:none !important;
+}
+
+/* disable default browser outline on focus */
+.ui-input:focus,
+.ui-button:focus,
+.ui-textarea:focus,
+.ui-select:focus
+{
+    outline:none !important;
+}
+
+/* reset default styling by applying a temporary transparent border */
+.ui-input,
+.ui-button,
+.ui-textarea,
+.ui-select
+{
+        border: 1px solid transparent;
+        border-radius:.25em;
+}
+
+.ui-label {
+    display:inline-block;
+}
+
+/*******************************************************************************
  * OVERLAY Structure                                                           *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
@@ -56,3 +99,43 @@
     bottom:0;
     right :0;
 }
+/*******************************************************************************
+ * TEXT INPUTS                                                                 *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 17:49                                                  *
+ *******************************************************************************/
+.ui-input[type="text"],
+.ui-input[type="password"]
+{
+    text-indent:.5em !important;
+    padding:.15em 0 .25em 0;
+    width:100%;
+}
+
+/*******************************************************************************
+ * BUTTONS                                                                     *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 16:56                                                  *
+ *******************************************************************************/
+
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
+{
+    display:inline-block;
+    position:relative;
+    padding:.25em .5em;
+}
+
+.ie-lt8 .ui-input[type="button"],
+.ie-lt8 .ui-input[type="reset"],
+.ie-lt8 .ui-input[type="submit"],
+.ie-lt8 .ui-button
+{
+    zoom:1;
+    display:inline;
+}
+
+
+

@@ -21,14 +21,37 @@
 }
 
 .ui-modal header h2,
-.ui-menubar > li > a
+.ui-menubar > li > a,
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
 {
+	font-weight:bold;
 	color:#333;
 	text-shadow: 0 1px 0 #CCC;
 }
 
+.ui-label {
+	color:#777;
+	font-weight:bold;
+	font-size:.85em;
+	text-shadow: #FFF 1px 1px;
+}
+
+.ui-input[type="text"],
+.ui-input[type="password"]
+{
+	font-size:1.3em;
+	font-weight:bold;
+}
+
 .ui-modal header,
-.ui-menubar
+.ui-menubar,
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
 {
 	border-bottom:1px solid #666;
 	background-color:                               #888;
@@ -40,6 +63,25 @@
 	background:-moz-linear-gradient(center top,#CCC,#888) repeat scroll 0 0 transparent;
 }
 
+.ui-modal header,
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
+{
+   -moz-box-shadow:0 1px 0 #FFF inset;
+-webkit-box-shadow:0 1px 0 #FFF inset;
+        box-shadow:0 1px 0 #FFF inset;
+}
+
+.ui-input,
+.ui-button,
+.ui-textarea,
+.ui-select
+{
+    border: 1px solid #999;
+    color:#555;
+}
 
 /*******************************************************************************
  * OVERLAY                                                                     *

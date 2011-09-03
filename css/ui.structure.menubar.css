@@ -10,11 +10,12 @@
 /* main bar, removes spacing left by inline-block */
 .ui-menubar    { font-size:00px; }
 /* don't allow word wrapping on all LI elements */
-.ui-menubar li        { white-space:nowrap;   }
+.ui-menubar li        { white-space:nowrap;   cursor:pointer; }
 .ui-menubar  a        { text-decoration:none; }
 .ui-menubar > li > a  { font-weight:bold;     }
 /* Main menu items */
 .ui-menubar > li {
+	cursor:default;
 	font-size:13px; /* restores from font:0 */
 	line-height:2em;
 	display:inline-block;

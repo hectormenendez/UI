@@ -14,3 +14,4 @@ http://hectormenendez.github.com/UI/ for examples. [v0.1r2]
 - base styles for inputs, buttons and labels
 - Added callback support.
 - Added .ui-menubar-exit button.
+- Cursor consistency in .ui-menubar.

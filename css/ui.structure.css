@@ -4,6 +4,12 @@
  * @created 2011/SEP/01 17:02                                                  *
  *******************************************************************************/
 
+/* layer position */
+
+.ui-loader  { z-index:999; }
+.ui-modal   { z-index:999; }
+.ui-overlay { z-index:998; }
+.ui-menubar { z-index:997; }
 
 /* disable selection */
 
@@ -15,8 +21,7 @@
 {
 -webkit-user-select:none !important;
    -moz-user-select:none !important;
-        user-select:none !important;
-}
+ }
 
 /* disable default browser outline on focus */
 .ui-input:focus,
@@ -50,7 +55,6 @@
  *******************************************************************************/
 
 .ui-overlay {
-	z-index:999;
 	display:none;
 	position:fixed;
 	top:0;
@@ -68,7 +72,6 @@
  *******************************************************************************/
 
  .ui-loader {
- 		z-index:1000;
         display:none;
         position:absolute;
         overflow:hidden;

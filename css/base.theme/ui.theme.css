@@ -12,12 +12,16 @@
 
 .ui-disabled,
 .ui-disabled:hover,
-.ui-disabled:focus
+.ui-disabled:focus,
+.ui-menubar-current,
+.ui-menubar-current > *
 {
-	background:none !important;
-	border:none     !important;
-	cursor:default  !important;
-	color:#666      !important;
+	background:none    !important;
+	border:none        !important;
+	cursor:default     !important;
+	color:#666         !important;
+	text-shadow:none   !important;
+	font-weight:normal !important;
 }
 
 .ui-modal header h2,

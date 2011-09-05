@@ -42,12 +42,12 @@
 	font-size:.85em;
 	text-shadow: #FFF 1px 1px;
 }
-
 .ui-input[type="text"],
-.ui-input[type="password"]
+.ui-input[type="password"],
+.ui-textarea
 {
+	color:#555;
 	font-size:1.3em;
-	font-weight:bold;
 }
 
 .ui-modal header,
@@ -84,7 +84,6 @@
 .ui-select
 {
     border: 1px solid #999;
-    color:#555;
 }
 
 /*******************************************************************************
@@ -95,6 +94,18 @@
  *******************************************************************************/
 
 .ui-overlay { background-color:#000C16; }
+
+/*******************************************************************************
+ * INSET                                                                       *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/05 01:25                                                  *
+ *******************************************************************************/
+
+fieldset.ui-inset > legend {
+    font-size:0.85em;
+    font-weight:bold;
+}
 
 /*******************************************************************************
  * LOADER                                                                      *

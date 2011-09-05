@@ -8,7 +8,7 @@ var uiSource = {
 	$this:null,
 
 	settings:{
-		high: 1.5,
+		high: 1.25,
 		base: 0.9,
 		low : 0.5
 	},
@@ -46,14 +46,55 @@ var uiSource = {
 			return  parseInt(a*core.settings.inset.low,10);
 		});
 		for (var i in color) color[i] = 'rgb('+color[i].join(',')+')';
-		$this.css({
-			'color'       : 'transparent',
-			'text-shadow' :
-				color.base + ' 1px 1px 0,' +
-				color.low  + ' 0px 0px 0,' +
-				color.high + ' 2px 2px 0'
+		// apply corresponding CSS to each element and return jQuery element.
+		$this.each(function(){
+			var css;
+			var self = $(this);
+			// fieldsets are treated differently
+			if (this.tagName.toLowerCase() == 'fieldset'){
+				css = {
+					'border-top'   : '1px solid ' + color.high,
+					'border-left'  : '1px solid ' + color.high,
+					'border-bottom': '1px solid ' + color.low,
+					'border-right' : '1px solid ' + color.low,
+					'box-shadow'   : color.low  + ' -1px -1px 0,' +
+									 color.high + '  1px  1px 0 '
+				};
+				// apply colors to fieldsets if existent.
+				// we have to darken text 10% more, for readibility.
+				var dk = bg.map(function(a){
+					return parseInt(a*core.settings.inset.low - (a*0.10),10);
+				});
+				self.find('> legend').css({
+					'color'            : 'rgb(' + dk.join(',') + ')',
+					'background-color' : 'rgb(' + bg.join(',') + ')'
+				});
+			} else css = {
+				'color'       : 'transparent',
+				'text-shadow' :	color.base + ' 1px 1px 0,' +
+								color.low  + ' 0px 0px 0,' +
+								color.high + ' 2px 2px 0'
+			};
+			$(this).css(css);
 		});
-		// don't break the chain,
+		if (core.settings.debug) console.info('inset: constructed succesfully.', core.inset);
 		return $this;
 	}
 };
+
+
+/**
+
+
+	border-radius:.5em;
+	border-top:   1px solid rgba(255,255,255,0.75);
+	border-left:  1px solid rgba(255,255,255,0.75);
+	border-bottom:1px solid rgba(  0,  0,  0,0.25);
+	border-right: 1px solid rgba(  0,  0,  0,0.25);
+	box-shadow:
+		rgba(  0,  0,  0,0.25) -1px -1px 0,
+		rgba(255,255,255,0.75)  1px  1px 0
+	;
+
+
+**/

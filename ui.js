@@ -16,6 +16,7 @@ ui.$overlay = null;
 ui.$loader  = null;
 
 /**
+ * GENERAL Preparations.
  * @author Hector Menendez <h@cun.mx>
  * @created 2011/SEP/01 09:02
  */
@@ -23,11 +24,29 @@ ui.$loader  = null;
 	// cache body element.
 	ui.$body = $('body');
 	// these cannot be set by the user.
-	$('.ui-overlay,.ui-hider').remove();
+	$('.ui-overlay, .ui-hider').remove();
 	// overlay and hider must alway be the only direct siblings of body.
 	ui.$body.prepend('<div class="ui-overlay"></div><div class="ui-loader"></div>');
 	ui.$overlay = ui.$body.find('.ui-overlay');
 	ui.$loader  = ui.$body.find('.ui-loader');
+	// generate adecuate padding for textarea elements.
+	$('.ui-textarea').each(function(){
+		// currently, inputs fake padding, by using text-indent;
+		// so, retrieve that value, apply it, and then compensate width.
+		var self = $(this);
+		var pad = parseInt(self.css('text-indent'),10);
+		// pad percentage, relative to total width
+		var wide = (pad * 100) / self.width();
+		// we only need two decimal digits, get rid of everything else.
+		wide = Math.round(wide*100+((wide*1000)%10>4?1:0))/100;
+		// set css padding and width.
+		self.css({
+			'text-indent'   : '0 !important',
+			'width'         : 100-(wide*2) + '% !important',
+			'padding-left'  :        wide  + '% !important',
+			'padding-right' :        wide  + '% !important'
+		});
+	});
 	// set baseurl
 	$('script').each(function(){
 		if (this.src.substr(-5)!='ui.js') return;

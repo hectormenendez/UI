@@ -50,6 +50,37 @@
 }
 
 /*******************************************************************************
+ * INSET Structure                                                             *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/05 00:35                                                  *
+ *******************************************************************************/
+
+fieldset.ui-inset{
+    display:block;
+    position:relative;
+    padding:1.5em 1.5em 1.5em 1.3em;
+    border-radius:.25em;
+}
+
+fieldset.ui-inset > legend {
+    position:relative;
+    display:block;
+    line-height:1em;
+    padding:0 .5em;
+    top:-2.5em;
+    float:right;
+}
+
+fieldset.ui-inset > legend:after {
+    content: ".";
+    opacity: 0;
+    display:block;
+    position:relative;
+    clear:right;
+}
+
+/*******************************************************************************
  * OVERLAY Structure                                                           *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
@@ -111,11 +142,16 @@
  * @created 2011/SEP/01 17:49                                                  *
  *******************************************************************************/
 .ui-input[type="text"],
-.ui-input[type="password"]
+.ui-input[type="password"],
+.ui-textarea
 {
     text-indent:.5em !important;
-    padding:.15em 0 .25em 0;
+    padding:.15em 0 .25em 0 !important;
     width:100%;
+}
+
+.ui-textarea {
+    resize:vertical;
 }
 
 /*******************************************************************************
@@ -131,7 +167,7 @@
 {
     display:inline-block;
     position:relative;
-    padding:.25em .5em;
+    padding:.25em .5em .35em;
 }
 
 .ie-lt8 .ui-input[type="button"],

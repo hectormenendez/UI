@@ -1,6 +1,6 @@
 #     UI
 ##### A minimalist alternative for jQuery-UI
-###   v0.1r8
+###   v0.1r9
 
 ## Usage
 http://hectormenendez.github.com/UI/ for examples. [v0.1r2]
@@ -15,3 +15,4 @@ http://hectormenendez.github.com/UI/ for examples. [v0.1r2]
 - Added callback support.
 - Added .ui-menubar-exit button.
 - Cursor consistency in .ui-menubar.
+- Added ui-inset

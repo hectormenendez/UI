@@ -17,10 +17,13 @@
 .ui-modal > header,
 .ui-modal > footer,
 .ui-label,
-.ui-menubar
+.ui-menubar,
+.ui-inset
 {
+    cursor:default;
 -webkit-user-select:none !important;
    -moz-user-select:none !important;
+        user-select:none !important;
  }
 
 /* disable default browser outline on focus */

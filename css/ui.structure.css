@@ -12,7 +12,7 @@
 .ui-menubar { z-index:997; }
 
 /* disable selection */
-
+/*
 .ui-loader,
 .ui-modal > header,
 .ui-modal > footer,
@@ -21,10 +21,11 @@
 .ui-inset
 {
     cursor:default;
--webkit-user-select:none !important;
-   -moz-user-select:none !important;
-        user-select:none !important;
+-webkit-user-select:none;
+   -moz-user-select:none;
+        user-select:none;
  }
+*/
 
 /* disable default browser outline on focus */
 .ui-input:focus,
@@ -35,20 +36,6 @@
     outline:none !important;
 }
 
-/* reset default styling by applying a temporary transparent border */
-.ui-input,
-.ui-button,
-.ui-textarea,
-.ui-select
-{
-        border: 1px solid transparent;
-        border-radius:.25em;
-}
-
-.ui-label {
-    display:inline-block;
-}
-
 /*******************************************************************************
  * INSET Structure                                                             *
  *                                                                             *
@@ -56,7 +43,7 @@
  * @created 2011/SEP/05 00:35                                                  *
  *******************************************************************************/
 
-fieldset.ui-inset{
+fieldset.ui-inset {
     display:block;
     position:relative;
     padding:1.5em 1.5em 1.5em 1.3em;
@@ -136,23 +123,51 @@ fieldset.ui-inset > legend:after {
     bottom:0;
     right :0;
 }
+
 /*******************************************************************************
- * TEXT INPUTS                                                                 *
+ * TEXT INPUTS & LABELS                                                        *
  * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/SEP/01 17:49                                                  *
  *******************************************************************************/
+
 .ui-input[type="text"],
 .ui-input[type="password"],
 .ui-textarea
 {
     text-indent:.5em !important;
     padding:.15em 0 .25em 0 !important;
-    width:100%;
+    display:block;
+    position:relative;
 }
 
 .ui-textarea {
     resize:vertical;
 }
+
+.ui-label {
+    line-height:15px;
+    width:100%;
+    overflow:hidden;
+    position:relative;
+    display:block;
+}
+
+.ui-label > span:first-child {
+    top:-1px;
+}
+
+.ui-label > span {
+    position:relative;
+    display:block;
+    float:left;
+}
+
+.ui-label-count {
+    float:right !important;
+    color:#CCC;
+    font-size:1.1em;
+}
+
 
 /*******************************************************************************
  * BUTTONS                                                                     *

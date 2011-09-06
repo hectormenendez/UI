@@ -61,13 +61,14 @@ var uiSource = {
 									 color.high + '  1px  1px 0 '
 				};
 				// apply colors to fieldsets if existent.
-				// we have to darken text 10% more, for readibility.
+				// we have to darken text 5% more, for readibility.
 				var dk = bg.map(function(a){
-					return parseInt(a*core.settings.inset.low - (a*0.10),10);
+					return parseInt(a*core.settings.inset.low - (a*0.05),10);
 				});
 				self.find('> legend').css({
 					'color'            : 'rgb(' + dk.join(',') + ')',
-					'background-color' : 'rgb(' + bg.join(',') + ')'
+					'background-color' : 'rgb(' + bg.join(',') + ')',
+					'text-shadow'      : '1px 1px ' + color.high
 				});
 			} else css = {
 				'color'       : 'transparent',

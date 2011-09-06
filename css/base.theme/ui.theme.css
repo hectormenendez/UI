@@ -36,14 +36,18 @@
 	text-shadow: 0 1px 0 #CCC;
 }
 
-.ui-label,
-.ui-label-count
-{
+.ui-label {
 	color:#777;
 	font-weight:bold;
 	font-size:.85em;
 	text-shadow: #FFF 1px 1px;
 }
+
+.ui-label-count {
+    color:#CCC;
+    font-size:1.1em;
+}
+
 .ui-input[type="text"],
 .ui-input[type="password"],
 .ui-textarea

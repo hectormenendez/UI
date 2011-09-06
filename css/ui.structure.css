@@ -46,25 +46,17 @@
 fieldset.ui-inset {
     display:block;
     position:relative;
-    padding:1.5em 1.5em 1.5em 1.3em;
+    padding:1em 1.5em 1.5em 1.3em;
     border-radius:.25em;
 }
 
 fieldset.ui-inset > legend {
-    position:relative;
+    position:absolute;
     display:block;
     line-height:1em;
-    padding:0 .5em;
-    top:-2.5em;
-    float:right;
-}
-
-fieldset.ui-inset > legend:after {
-    content: ".";
-    opacity: 0;
-    display:block;
-    position:relative;
-    clear:right;
+    padding:0 1em;
+    top:-2.0em;
+    right:3.33em;
 }
 
 /*******************************************************************************
@@ -164,10 +156,7 @@ fieldset.ui-inset > legend:after {
 
 .ui-label-count {
     float:right !important;
-    color:#CCC;
-    font-size:1.1em;
 }
-
 
 /*******************************************************************************
  * BUTTONS                                                                     *

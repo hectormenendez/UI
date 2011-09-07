@@ -91,22 +91,38 @@ ui.textinput = function(context){
 			'padding-left'  :        pad  + '% !important',
 			'padding-right' :        pad  + '% !important'
 		});
-		// does this element has a counter label?
-		var count = self.siblings('.ui-label').last().find('.ui-label-count').last();
+		// does this element has a label?
+		var label = self.siblings('.ui-label').last();
+		if (!label.length) return;
+		// sete  character limitier, if existent.
+		var regex = null;
+		if ((regex = label.attr('data-limit'))) regex = new RegExp('['+regex+']','g');
+		// if the element has a character maxcount, generate it and set its event.
 		var maxch;
-		if (!count.length || !(maxch = parseInt(count.html(),10))) return;
-		// make it work then!
-		self.keypress(function(e){
-			var len = maxch-this.value.length-1;
-			if (len > -1) {
-				if (len > 0) count.attr('class','ui-label-count');
-				count.html(len);
-				if (len < parseInt(maxch/3,10)){
-					if (len < 10) count.addClass('ui-label-count-halt');
-					else          count.addClass('ui-label-count-warn');
-				}
-			} else return false;
-		});
+		if ((maxch = parseInt(label.attr('data-count'),10))){
+			$('<span class="ui-label-count">'+maxch+'</span>').appendTo(label);
+		}
+		// set event only if necessary
+		if (regex || maxch){
+			var count = label.find('.ui-label-count').last();
+			self.keypress(function(e){
+				var key = String.fromCharCode(e.charCode);
+				// if a regex exists, limit keys.
+				if (regex && !key.match(regex)) return false;
+				// continue only if a maxch isset.
+				if (!maxch) return true;
+				var len = maxch-this.value.length-1;
+				if (len > -1) {
+					if (len > 0) count.attr('class','ui-label-count');
+					count.html(len);
+					if (len < parseInt(maxch/3,10)){
+						if (len < 10) count.addClass('ui-label-count-halt');
+						else          count.addClass('ui-label-count-warn');
+					}
+				} else return false;
+			});
+
+		}
 	});
 	if (ui.settings.debug) console.info('textinput: succes.', [obj]);
 };

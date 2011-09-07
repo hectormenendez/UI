@@ -48,6 +48,9 @@
     font-size:1.1em;
 }
 
+.ui-label-count-warn { color:rgba(128,128,0,.75) !important; }
+.ui-label-count-halt { color:rgba(128,  0,0,.75) !important; }
+
 .ui-input[type="text"],
 .ui-input[type="password"],
 .ui-textarea

@@ -91,6 +91,22 @@ ui.textinput = function(context){
 			'padding-left'  :        pad  + '% !important',
 			'padding-right' :        pad  + '% !important'
 		});
+		// does this element has a counter label?
+		var count = self.siblings('.ui-label').last().find('.ui-label-count').last();
+		var maxch;
+		if (!count.length || !(maxch = parseInt(count.html(),10))) return;
+		// make it work then!
+		self.keypress(function(e){
+			var len = maxch-this.value.length-1;
+			if (len > -1) {
+				if (len > 0) count.attr('class','ui-label-count');
+				count.html(len);
+				if (len < parseInt(maxch/3,10)){
+					if (len < 10) count.addClass('ui-label-count-halt');
+					else          count.addClass('ui-label-count-warn');
+				}
+			} else return false;
+		});
 	});
 	if (ui.settings.debug) console.info('textinput: succes.', [obj]);
 };

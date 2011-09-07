@@ -26,6 +26,8 @@ var uiSource = {
 		var $section = $this.html('').append('<section>'+html+'</section');
 		// add ui-classes to children.
 		core.children($section);
+		//  Generate adecuate padding for inputs and textareas.
+		core.textinput();
 		// obtain title. {TODO} what happens if it doesn't exist?
 		var title = $this.attr('title');
 		// save submit or reset elements and move'em to the footer.

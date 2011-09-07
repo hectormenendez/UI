@@ -30,25 +30,7 @@ ui.$loader  = null;
 	ui.$overlay = ui.$body.find('.ui-overlay');
 	ui.$loader  = ui.$body.find('.ui-loader');
 	// generate adecuate padding for inputs and textareas.
-	$(
-		'.ui-textarea,'+
-		'.ui-input[type="text"],'+
-		'.ui-input[type="password"]'
-	).each(function(){
-		var self = $(this);
-		self.width('100%');
-		// get rough estimate of what .25em equals in percentage.
-		var pad = ((parseInt(ui.$body.css('font-size'),10)/4)*100)/self.width();
-		// we only need two decimal digits, get rid of everything else.
-		pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
-		// set css padding and width.
-		self.css({
-			'text-indent'   : '0 !important',
-			'width'         : 100-(pad*2) + '% !important',
-			'padding-left'  :        pad  + '% !important',
-			'padding-right' :        pad  + '% !important'
-		});
-	});
+	ui.textinput();
 	// set baseurl
 	$('script').each(function(){
 		if (this.src.substr(-5)!='ui.js') return;
@@ -60,6 +42,7 @@ ui.$loader  = null;
 		ui.settings.baseurl = url;
 	});
 	ui.isset = true;
+	return ui;
 };
 
 /**
@@ -81,6 +64,36 @@ ui.loader.hide = function(){
 	ui.$loader.hide();
 };
 
+/**
+ * Generates adecuate padding for inputs and textareas.
+ *
+ * @author Hector Menendez <h@cun.mx>
+ * @created 2011/SEP/07 00:23
+ */
+ui.textinput = function(context){
+	// if no context is provided use body
+	if (context === undefined) context = ui.$body;
+	var obj = context.find(
+		'.ui-textarea,'+
+		'.ui-input[type="text"],'+
+		'.ui-input[type="password"]'
+	).each(function(){
+		var self = $(this);
+		self.width('100%');
+		// get rough estimate of what .25em equals in percentage.
+		var pad = ((parseInt(ui.$body.css('font-size'),10)/4)*100)/self.width();
+		// we only need two decimal digits, get rid of everything else.
+		pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
+		// set css padding and width.
+		self.css({
+			'text-indent'   : '0 !important',
+			'width'         : 100-(pad*2) + '% !important',
+			'padding-left'  :        pad  + '% !important',
+			'padding-right' :        pad  + '% !important'
+		});
+	});
+	if (ui.settings.debug) console.info('textinput: succes.', [obj]);
+};
 
 /**
  * Redirect all calls to widget counterparts according to classname.
@@ -92,6 +105,8 @@ ui.loader.hide = function(){
  * @created 2011/AUG/31 04:15
  */
 ui.init = function(settings, callback){
+	// don't trigger errors when empty selections are sent.
+	if (this.length === 0) return this;
 	// if ui has not been set, do so.
 	if (!ui.isset) ui.__construct();
 	// start loader
@@ -184,7 +199,7 @@ ui.children = function(parent){
 };
 
 /**
- * Allow user to pass global settings.
+ * Allow user to pass global settings and get access to UI core.
  * @author Hector Menendez <h@cun.mx>
  * @created 2011/SEP/01 03:48
  */
@@ -193,6 +208,7 @@ ui.globalsettings = function(settings){
 		for (var i in settings)
 			if (settings.hasOwnProperty(i)) ui.settings[i] = settings[i];
 	else if (settings !== undefined) return  ui.error('Settings are required.');
+	return ui.__construct();
 };
 
 $.ui    = ui.globalsettings;

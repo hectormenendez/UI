@@ -5,7 +5,12 @@
 
 (function($,undefined){
 
-if (console === undefined) console = {};
+if (typeof console == "undefined") {
+	window.console = {};
+	console.info = console.dir = console.log = function(s){
+		alert(s);
+	};
+}
 
 var ui = {};
 

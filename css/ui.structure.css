@@ -209,6 +209,7 @@ fieldset.ui-inset > legend {
 .ui-input[type="submit"],
 .ui-button
 {
+    cursor: pointer;
     display:inline-block;
     position:relative;
     padding:.25em .5em .35em;

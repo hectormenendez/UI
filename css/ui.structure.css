@@ -10,6 +10,7 @@
 .ui-modal   { z-index:999; }
 .ui-overlay { z-index:998; }
 .ui-menubar { z-index:997; }
+.ui-tooltip { z-index:996; }
 
 /* disable selection */
 /*
@@ -152,12 +153,46 @@ fieldset.ui-inset > legend {
     position:relative;
     display:block;
     float:left;
+    margin-left:.5em;
+}
+
+.ui-label > span:first-child {
+    margin-left:0;
 }
 
 .ui-label-count {
     float:right !important;
 }
 
+.ui-label-help {
+    cursor:help;
+    overflow:hidden;
+    width:13px;
+    height:12px;
+    line-height:11px;
+    text-align:center;
+    border-radius:6px;
+}
+
+.ui-tooltip {
+    display:none;
+    position:absolute;
+    padding:1em;
+    white-space:pre;
+    font-size:.85em;
+}
+
+.ui-tooltip pre,
+.ui-tooltip code {
+    font-size:.9em;
+}
+
+.ui-tooltip pre ul,
+.ui-tooltip code ul {
+    display:inline-block !important;
+    margin:0; padding:0;
+    margin-left:13px;
+}
 /*******************************************************************************
  * BUTTONS                                                                     *
  * @author Hector Menendez <h@cun.mx>                                          *

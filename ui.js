@@ -14,6 +14,8 @@ ui.isset    = null;
 ui.$body    = null;
 ui.$overlay = null;
 ui.$loader  = null;
+ui.$tooltip = null;
+
 
 /**
  * GENERAL Preparations.
@@ -24,11 +26,11 @@ ui.$loader  = null;
 	// cache body element.
 	ui.$body = $('body');
 	// these cannot be set by the user.
-	$('.ui-overlay, .ui-hider').remove();
+	$('.ui-overlay, .ui-hider, .ui-tooltip').remove();
 	// overlay and hider must alway be the only direct siblings of body.
-	ui.$body.prepend('<div class="ui-overlay"></div><div class="ui-loader"></div>');
-	ui.$overlay = ui.$body.find('.ui-overlay');
-	ui.$loader  = ui.$body.find('.ui-loader');
+	ui.$loader  = $('<div class="ui-loader">').prependTo(ui.$body);
+	ui.$overlay = $('<div class="ui-overlay">').prependTo(ui.$body);
+	ui.$tooltip = $('<div class="ui-tooltip">').prependTo(ui.$body);
 	// generate adecuate padding for inputs and textareas.
 	ui.textinput();
 	// set baseurl
@@ -45,11 +47,12 @@ ui.$loader  = null;
 	return ui;
 };
 
+ui.loader  = {};
+
 /**
  * @author Hector Menendez <h@cun.mx>
  * @created 2011/SEP/01 08:33
  */
-ui.loader      = {};
 ui.loader.show = function(){
 	ui.$overlay.show();
 	ui.$loader.show();
@@ -62,6 +65,49 @@ ui.loader.show = function(){
 ui.loader.hide = function(){
 	ui.$overlay.hide();
 	ui.$loader.hide();
+};
+
+
+/**
+ * @author Hector Menendez <h@cun.mx>
+ * @created 2011/SEP/07 18:08
+ */
+ui.tooltip = function(context, message){
+	// if no contexts is sent trigger error.
+	if (!context instanceof jQuery) return ui.error('A context is expected.');
+	if (!message || !message.length) return ui.error('A message is expected.');
+	// if there is two or more whitespaces after a dot, transform'em to newline.
+	message = message.replace(/(?:([\.\:\;\>])|\s+\-)\s{2,}/g,"$1\n");
+
+	var show = function(e){
+		var o = $(this);
+		console.dir(o);
+		show.to = window.setTimeout(function(){
+			ui.$tooltip
+				.css('opacity',0)
+				.show()
+				.html(message)
+				.css({
+					top:e.clientY  + (o.height()/2),
+					left:e.clientX + (o.width()/2)
+				})
+				.animate({opacity:1},'fast');
+		},333);
+
+	};
+
+	var hide = function(){
+		window.clearTimeout(show.to);
+		delete show.to;
+		ui.$tooltip.hide().html('');
+	}
+
+	context.mouseover(show);
+	context.mouseout(hide);
+
+	return;
+	//$('<div class="ui-tooltip">'+title+'</div>');
+
 };
 
 /**
@@ -94,6 +140,19 @@ ui.textinput = function(context){
 		// does this element has a label?
 		var label = self.siblings('.ui-label').last();
 		if (!label.length) return;
+		// a label should only contain a text element, make sure that's the case.
+		var cont = label.contents()
+			.filter(function(){ return this.nodeType == 3; })
+			.first().get(0).nodeValue;
+		label.html('<span>'+cont+'</span>');
+		// if a title element is present, enable tooltip.
+		var title = null;
+		var help  = null;
+		if ((title = label.attr('title'))){
+			label.removeAttr('title');
+			help  = $('<span class="ui-label-help">?</span>').appendTo(label);
+			ui.tooltip(help, title);
+		}
 		// sete  character limitier, if existent.
 		var regex = null;
 		if ((regex = label.attr('data-limit'))) regex = new RegExp('['+regex+']','g');
@@ -106,6 +165,8 @@ ui.textinput = function(context){
 		if (regex || maxch){
 			var count = label.find('.ui-label-count').last();
 			self.keypress(function(e){
+				// allow non printable keys
+				if (e.charCode === 0) return true;
 				var key = String.fromCharCode(e.charCode);
 				// if a regex exists, limit keys.
 				if (regex && !key.match(regex)) return false;
@@ -245,6 +306,7 @@ ui.globalsettings = function(settings){
 
 $.ui    = ui.globalsettings;
 $.fn.ui = ui.init;
+
 
 })(jQuery);
 

@@ -51,6 +51,16 @@
 .ui-label-count-warn { color:rgba(128,128,0,.75) !important; }
 .ui-label-count-halt { color:rgba(128,  0,0,.75) !important; }
 
+.ui-label-help {
+    background:rgba(0,0,0,.15);
+    text-shadow:none;
+    color:#FFF;
+}
+
+.ui-label-help:hover{
+    background:#06C;
+}
+
 .ui-input[type="text"],
 .ui-input[type="password"],
 .ui-textarea
@@ -95,6 +105,16 @@
     border: 1px solid #999;
     border-radius:.25em;
 }
+
+.ui-tooltip {
+    background:rgba(222,222,222,.88);
+    border:1px solid #fff;
+    border-right-color:#f0f0f0;
+    border-bottom-color:#f0f0f0;
+    border-radius:.5em;
+    box-shadow:.125em .125em .25em rgba(0,0,0,.5);
+}
+
 
 /*******************************************************************************
  * OVERLAY                                                                     *

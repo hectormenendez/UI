@@ -4,6 +4,9 @@
  */
 
 (function($,undefined){
+
+if (console === undefined) console = {};
+
 var ui = {};
 
 ui.settings = {
@@ -81,27 +84,24 @@ ui.tooltip = function(context, message){
 
 	var show = function(e){
 		var o = $(this);
-		console.dir(o);
+		var f = o.offset();
 		show.to = window.setTimeout(function(){
 			ui.$tooltip
 				.css('opacity',0)
 				.show()
 				.html(message)
 				.css({
-					top:e.clientY  + (o.height()/2),
-					left:e.clientX + (o.width()/2)
+					top: f.top  + (o.height()/2),
+					left: f.left + (o.width()/2)
 				})
 				.animate({opacity:1},'fast');
 		},333);
-
 	};
-
 	var hide = function(){
 		window.clearTimeout(show.to);
 		delete show.to;
 		ui.$tooltip.hide().html('');
-	}
-
+	};
 	context.mouseover(show);
 	context.mouseout(hide);
 

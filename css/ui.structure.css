@@ -56,9 +56,14 @@ fieldset.ui-inset > legend {
     display:block;
     line-height:1em;
     padding:0 1em;
-    top:-2.0em;
+    top:-.75em;
     right:3.33em;
 }
+
+/*  mozilla only */
+@-moz-document url-prefix() { fieldset.ui-inset > legend  {
+    top:-1.88em;
+} }
 
 /*******************************************************************************
  * OVERLAY Structure                                                           *

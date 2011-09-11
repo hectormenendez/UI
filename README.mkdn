@@ -1,6 +1,6 @@
 #     UI
 ##### A minimalist alternative for jQuery-UI
-###   v0.1r10
+###   v0.1r21
 
 ## Usage
 http://hectormenendez.github.com/UI/ for examples. [v0.1r2]
@@ -17,3 +17,13 @@ http://hectormenendez.github.com/UI/ for examples. [v0.1r2]
 - Cursor consistency in .ui-menubar.
 - Added ui-inset
 - Small fixes to ui-textarea and ui-inset.
+- More small fixes to ui-label.
+- Modal now corrects padding and width of textinputs inside it.
+- More small fixes to ui-label.
+- Modal now corrects padding and width of textinputs inside it.
+- Enabled 'ui-label-count' functionality.
+- 'ui-label' no longer needs to declare an 'ui-label-count' element.
+- Added 'ui-tooltip'.
+- Fixed a bug on tooltip.
+- Added cursor:pointer to 'ui-input'
+- Added console fallback.

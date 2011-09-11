@@ -182,7 +182,7 @@ fn.textinput = function(context){
 		var fontsize = parseInt($this.css('font-size'),10);
 		if (!fontsize) fontsize = self.core.fontsize;
 		// we only need two decimal digits, get rid of everything else.
-		var pad = (fontsize*100)/width;
+		var pad = ((fontsize*100)/width)/2;
 		    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
 		// set css padding and width.
 		$this.css({

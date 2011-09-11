@@ -1,156 +1,245 @@
 /**
- * Merge two objects.
- * @created 2011/AUG/31 10:52
+ * @author Hector Menendez <h@cun.mx>
+ *
+ * @bug     2011/SEP/09 04:34   Chrome doesn't allow loading local scripts
+ *                              in offline mode.
+ *
+ * @updated 2011/SEP/10 17:30   Complete Rewrite.
+ * @created 2011/AUG/31 04:10
  */
-
 (function($,undefined){
 
-var ui = {};
+//  Benchmark
+var BMK = new Date();
+    BMK = BMK.getTime();
 
-ui.settings = {
-	debug:false
+/**
+ * Constructor
+ * @author Hector Menendez <h@cun.mx>
+ * @created 2011/SEP/01 09:02
+ */
+var ui = function(name, element, settings, callback){
+
+	var self = this;
+
+	/**
+	 * Actual instacing, merging an calling.
+	 * This is called last.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/09 08:34
+	 */
+	var run  = function(fn){
+		// merge user-sent settings with defaults;
+		settings = $.extend(true, {}, fn.prototype.defaults, settings);
+		// pass on, core prototype.
+		var instance = fn;
+		instance.prototype.core = ui.core;
+		instance.prototype.settings = settings;
+		instance.prototype.element  = element;
+		instance = new instance(element, settings);
+		self.log('Constructed.',name);
+		// enable callback, preserving scope.
+		if (typeof callback == 'function') {
+			callback.call(instance);
+			self.log('Calledback.', name);
+		}
+	};
+
+	/**
+	 * Load plugin if not yet available.
+	 * This is called second.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/09 08:34
+	 */
+	var init = function(){
+		// no need to reload if plugin is already loaded.
+		if (self.fn[name] !== undefined) return run(self.fn[name]);
+		// is it even a valid plugin?
+		if (!self.isplugin(name)) return;
+		self.loader.show();
+		self.load(name);
+		if (
+			typeof fn            != 'object'   ||
+			typeof fn[name]      != 'function' ||
+			(
+				typeof fn[name].settings != 'undefined' &&
+				typeof fn[name].settings != 'object'
+			)
+		) self.error('Bad plugin declaration.', name);
+		// merge to core.
+		ui.core.fn[name] = fn[name];
+		self.log('Loaded.',name);
+		self.loader.hide();
+		run(fn[name]);
+	};
+
+	/**
+	 * Base Construction
+	 */
+	if (ui.core.enabled) return init();
+	// these cannot be set by the user.
+	$('.ui-overlay, .ui-hider, .ui-tooltip').remove();
+	// obtain the base url where this file is located
+	$('script').each(function(){
+		var pos;
+		if ((pos = this.src.indexOf('/ui.js')) === -1) return;
+		ui.core.baseurl = this.src.substr(0, pos+1);
+		self.log('Setting '+ ui.core.baseurl + ' as baseurl.');
+	});
+	// Cache Common jQuery elements (and show the loader).
+	ui.core.$body    = $('body');
+	ui.core.$overlay = $('<div class="ui-overlay">').prependTo(ui.core.$body).show();
+	ui.core.$loader  = $('<div class="ui-loader">').prependTo(ui.core.$body).show();
+	ui.core.$tooltip = $('<div class="ui-tooltip">').prependTo(ui.core.$body);
+	// obtain overlay base opacity
+	ui.core.$overlay.opacity = ui.core.$overlay.css('opacity');
+	// load base components
+	if (!self.isplugin('base')) self.error('Base missing.');
+	self.load('base');
+	// instantiate'em
+	for (var f in fn){
+		fn[f].prototype.core = ui.core;
+		ui.core[f] = new fn[f]();
+	}
+	ui.core.enabled = true;
+	self.loader.hide();
+	self.log('Loaded.', 'base');
+	init();
+};
+// shorthand.
+ui.core = ui.prototype = {
+	constructor:ui,
+
+	fn:{},
+
+	defaults:{
+		debug : false
+	},
+
+	enabled:false,
+
+	/**
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/10 17:50
+	 */
+	benchmark:function(){
+		var ms = new Date();
+		return ms.getTime() - BMK;
+	},
+
+	fontsize:(function(){return parseInt(
+		$('<div class="ui-fontsize">H</div>').appendTo('body').css('font-size'),10
+	);})(),
+
+	/**
+	 * Error shorthand.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/AUG/31 04:11
+	 */
+	error:function(msg, caller){
+		if (!this.defaults.debug || console === undefined) return false;
+		caller = typeof caller != 'string'? '' : '-' + caller;
+		if (typeof msg != 'string') msg = 'Error.';
+		throw 'ui' + caller + ': ' + msg;
+	},
+
+	/**
+	 * Log Shorthand.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/09 03:57
+	 */
+	log:function(msg, caller){
+		if (!this.defaults.debug || console === undefined) return false;
+		var ms = this.benchmark();
+		console.log(ms +"ms\t" + 'ui' + (caller!==undefined?'-'+caller:'') + ": " + msg);
+	},
+
+	/**
+	 * Load plugin script.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/09 04:14
+	 */
+	load:function(name, callback){
+		var url = this.baseurl + 'js/ui.' + name + '.js';
+		$(document).ajaxError(function(e, jqxhr, settings, exception){
+			// errors are not being thrown while in syncronich mode.
+			msg = 'ui-'+name +': ' + exception;
+			alert(msg);
+			throw msg; // halt execution
+		});
+
+		$.ajax({
+			type       : 'GET',
+			'url'      : url,
+			cache      : this.defaults.debug? false : true,
+			async      : false,
+			data       : null,
+			dataType   : 'script',
+			// get around a firefox 3 bug
+			beforeSend : function(data){ if (data.overrideMimeType) data.overrideMimeType('text/plain'); }
+			// when using async, throwing errors doesn't seem to work, hence the alert.
+			/*
+			error      : function(data){
+				alert('[ui] Script load failed : ' + data.statusText);
+				throw data.statusText;
+			}
+			*/
+		});
+	},
+
+	/**
+	 * checks if given name is a plugin.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/09 05:55
+	 */
+	isplugin:function(name){
+		var http = new XMLHttpRequest();
+		http.open('HEAD', this.baseurl + 'js/ui.' + name + '.js', false);
+		http.send();
+		http = http.status == 200;
+		this.log('Plugin "'+ name + '" ' + (http? 'exists.' : 'does not exist.'));
+		return http;
+	},
+
+
+	/**
+	 * Traverses jQuery selector and adds ui-* classes to allowed elements.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/09 06:42
+	 */
+	uify:function(jQ){
+		if (!jQ instanceof jQuery)
+			this.error('You must provide a valid jQuery instance');
+		allow = ' button fieldset input label legend select textarea ';
+		return jQ.each(function(){
+			var node = this.nodeName.toLowerCase();
+			if (allow.indexOf(' ' + node +' ') === -1) return;
+			$(this).addClass('ui-'+node);
+		});
+	}
+
 };
 
 /**
- * Redirect all calls to widget counterparts according to classname.
+ * @author Hector Menendez <h@cun.mx>
  *
- * @param opt object settings   widget-specific settings.
- * @param opt object     core   global settings.
+ * @param opt object   settings   widget-specific settings.
+ * @param opt function callback   what to do after plugin constructed.
  *
- * @working 2011/AUG/31 04:57
+ * @updated 2011/SEP/10 17:18     Complete Rewrite, splitted into two local
+ *                                functions declared on the constructor.
  * @created 2011/AUG/31 04:15
  */
-ui.init = function(settings, core){
-	// if core settings are sent, merge'em.
-	if (typeof core == 'object')
-		for (var i in core) if (core.hasOwnProperty(i)) ui.settings[i] = core[i];
-	var c, pos;
-	// obtain ui-class first.
-	c = this.attr('class');
-	if ((pos=c.indexOf('ui-')) == -1)
-		return ui.error('Provide valid ui-object');
-	c = c.substring(pos+3);
-	c = c.substring(0,c.search(/\s|$/gm));
-	// extend settings with class-specific [if available]
-	var sets = new Object;
-	sets[c] = settings;
-	if (!ui.extend(sets)) return this;
-	// update settings.
-	ui[c].settings = ui.settings[c];
-	// construct, instance and return.
-	ui[c].__construct(this);
-	var $this  = this;
-	$this[c] = ui[c];
-	delete $this[c].__construct;
-	return $this;
+$.fn.ui = function(settings, callback){
+	this.each(function(i){
+		var $this = $(this);
+		// extract ui-elements
+		var cls =  $this.attr('class');
+		if (!cls || cls.indexOf('ui-') === -1) return ui.core.error('No UI element found in selector.');
+		// an instance for each ui class encountered.
+		names = cls.match(/ui-\S+/g);
+		for (var j in names) new ui(names[j].substr(3), $(this), settings, callback);
+	});
 };
 
-/**
- * Allow the user to  define class-specific settings.
- * @created 2011/AUG/31 04:25
- */
-ui.extend = function(settings){
-	for (var i in settings) {
-		if (settings[i] !== undefined && typeof settings[i] != 'object')
-			return ui.error('Settings object is expected.');
-		// if nothing set, don't trigger errors.
-		else if (settings[i] === undefined) return true;
-		// extend core settings
-		for (var j in settings[i]){
-			if (ui.settings[i] === undefined) ui.settings[i] = new Object;
-			ui.settings[i][j] = settings[i][j];
-		}
-		return ui.settings[i];
-	}
-};
-
-/**
- * Throws error to console, depending on ui.settings.debug
- * @working 2011/AUG/31 04:20
- * @created 2011/AUG/31 04:11
- */
-ui.error = function(msg){
-	if (!ui.settings.debug || console === undefined) return false;
-	console.error('ui: '+msg);
-};
-
-ui.children = function(parent){
-	allow = ' button fieldset input label legend select textarea ';
-	parent.find('*').each(function(){
-		var node = this.nodeName.toLowerCase();
-		if (allow.indexOf(' '+node+' ') == -1) return;
-		$(this).addClass('ui-'+node);
-	})
-}
-
-/**
- * Modal Dialog.
- *
- * Requirements: .ui-overlay as direct child of body.
- **/
- 
-ui.modal = {
-
-	// set defaults.
-	settings:ui.extend({modal:{
-		auto  : false,
-		speed : 0,  // 0=instant, int=miliseconds 'slow','fast','normal'
-	}}),
-
-	$overlay:null,
-	$element:null,
-
-	/**
-	 * Construct modal.
-	 */
-	__construct:function(element){
-		ui.modal.$element = element;
-		if (!ui.modal.$overlay) ui.modal.$overlay = $('.ui-overlay');
-		if (!ui.modal.$overlay.length) return ui.error('An .ui-overlay element is required.');
-		if (!ui.modal.$overlay.length>1) return ui.error('Only one .ui-overlay element is needed');
-		ui.modal.hide();
-		// begin processing.
-		// contens should be inside a section elememt
-		var html = element.html();
-		var $s = element.html('').append('<section>'+html+'</section');
-		// add ui-classes to children.
-		ui.children($s);
-		// obtain title. {TODO} what happens if it doesn't exist?
-		var t = element.attr('title');
-		// filter out subnmit or reset buttons, if existent they will replace ours.
-		var $b = element.find('input[type="submit"],input[type="reset"]').remove();
-		// Create footer and header
-		var $h = $('<header></header>').prependTo(element).append('<h2>'+t+'<h2>');
-		var $f = $('<footer></footer>').appendTo(element).append($b);
-		if (ui.settings.modal.auto) ui.modal.show();
-	},
-
-	hide:function(){
-		this.$overlay.hide();
-		this.$element.hide();
-		return this.$element
-	},
-
-	/**
-	 * Show Modal.
-	 */
-	show:function(){
-		var $o = this.$overlay;
-		var $e = this.$element;
-		// get opacity for overlay from css.
-		var o = $o.css('opacity');
-		$e.css('opacity',0).show().animate({opacity:1},this.settings.speed);
-		$o.css('opacity',0).show().animate({opacity:o},this.settings.speed);
-		// center on screen
-		$e.css({
-			marginLeft : -1*($e.width() /2),
-			marginTop  : -1*($e.height()/2)
-		});
-		return $e;
-	}
-};
-
-$.fn.ui = ui.init;
-
-})(jQuery)
-
+})(jQuery);

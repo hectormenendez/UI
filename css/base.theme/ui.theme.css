@@ -1,31 +1,80 @@
 /*******************************************************************************
  * BASE THEME                                                                  *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/AUG/31 14:24                                                  *
  *                                                                             *
- ******************************************************************************* 
+ *******************************************************************************
  * COMMON                                                                      *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/AUG/31 15:12                                                  *
  *******************************************************************************/
 
 .ui-disabled,
 .ui-disabled:hover,
-.ui-disabled:focus 
+.ui-disabled:focus,
+.ui-menubar-current,
+.ui-menubar-current > *
 {
-	background:none !important;
-	border:none     !important;
-	cursor:default  !important;
-	color:#666      !important;
+	background:none    !important;
+	border:none        !important;
+	cursor:default     !important;
+	color:#666         !important;
+	text-shadow:none   !important;
+	font-weight:normal !important;
 }
 
 .ui-modal header h2,
-.ui-menubar > li > a
+.ui-menubar > li > a,
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
 {
+	font-weight:bold;
 	color:#333;
 	text-shadow: 0 1px 0 #CCC;
 }
 
+.ui-label {
+	color:#777;
+	font-weight:bold;
+	font-size:.85em;
+	text-shadow: #FFF 1px 1px;
+}
+
+.ui-label-count {
+    color:#CCC;
+    font-size:1.1em;
+}
+
+.ui-label-count-warn { color:rgba(128,128,0,.75) !important; }
+.ui-label-count-halt { color:rgba(128,  0,0,.75) !important; }
+
+.ui-label-help {
+    background:rgba(0,0,0,.15);
+    text-shadow:none;
+    color:#FFF;
+}
+
+.ui-label-help:hover{
+    background:#06C;
+}
+
+.ui-input[type="text"],
+.ui-input[type="password"],
+.ui-textarea
+{
+	color:#555;
+	font-size:1.3em;
+}
+
 .ui-modal header,
-.ui-menubar
+.ui-menubar,
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
 {
 	border-bottom:1px solid #666;
 	background-color:                               #888;
@@ -37,11 +86,77 @@
 	background:-moz-linear-gradient(center top,#CCC,#888) repeat scroll 0 0 transparent;
 }
 
+.ui-modal header,
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
+{
+   -moz-box-shadow:0 1px 0 #FFF inset;
+-webkit-box-shadow:0 1px 0 #FFF inset;
+        box-shadow:0 1px 0 #FFF inset;
+}
 
-/******************************************************************************* 
+.ui-input,
+.ui-button,
+.ui-textarea,
+.ui-select
+{
+    border: 1px solid #999;
+    border-radius:.25em;
+}
+
+.ui-tooltip {
+    background:rgba(222,222,222,.88);
+    border:1px solid #fff;
+    border-right-color:#f0f0f0;
+    border-bottom-color:#f0f0f0;
+    border-radius:.5em;
+    box-shadow:.125em .125em .25em rgba(0,0,0,.5);
+}
+
+
+/*******************************************************************************
  * OVERLAY                                                                     *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @created 2011/AUG/30 00:16                                                  *
  *******************************************************************************/
 
 .ui-overlay { background-color:#000C16; }
+
+/*******************************************************************************
+ * INSET                                                                       *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/05 01:25                                                  *
+ *******************************************************************************/
+
+fieldset.ui-inset > legend {
+    font-size:0.85em;
+    font-weight:bold;
+}
+
+/*******************************************************************************
+ * LOADER                                                                      *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 11:23                                                  *
+ *******************************************************************************/
+
+.ui-loader{
+    background:transparent;
+    background-image:     -o-linear-gradient(rgba(0,11,21,0), #CCC 80%),      -o-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:   -moz-linear-gradient(rgba(0,11,21,0), #CCC 80%),    -moz-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:    -ms-linear-gradient(rgba(0,11,21,0), #CCC 80%),     -ms-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:-webkit-linear-gradient(rgba(0,11,21,0), #CCC 80%), -webkit-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:        linear-gradient(rgba(0,11,21,0), #CCC 80%),         linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+}
+
+.ui-loader:before {
+    background:-webkit-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+    background:   -moz-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+    background:     -o-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+    background:        radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
+}
 

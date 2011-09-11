@@ -5,8 +5,9 @@
  * @created 2011/AUG/31 14:15                                                  *
  *******************************************************************************/
 
-.ui-modal { 
-	z-index:1001;
+.ui-modal {
+	max-width:50%;
+	display:none;
 	position:absolute;
 	left:50%;
 	top:50%;
@@ -26,11 +27,11 @@
 }
 
 .ui-modal section{
-	padding:1em;
+	padding:1em 1.1em 1em 1em;
 }
 
 .ui-modal footer {
 	text-align:right;
-	padding:.5em;
+	padding:.95em;
 	border-radius:0 0 .25em .25em;
 }

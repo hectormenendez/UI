@@ -1,4 +1,4 @@
-/******************************************************************************* 
+/*******************************************************************************
  * MENUBAR                                                                     *
  * @created 2011/AUG/31 00:46                                                  *
  *******************************************************************************/
@@ -7,11 +7,11 @@
 .ui-menubar                 a { color:#333; }
 .ui-menubar      li:hover > a { color:#FFF; text-shadow: 0 1px 0 #06C; }
 .ui-menubar ul > li:hover > a { font-weight:bold; }
-/* Box elements */
+/* Main Shadow */
 .ui-menubar   {
-   -moz-box-shadow:0 0 8px #999, 0 1px 0 #FFF inset; 
--webkit-box-shadow:0 0 8px #999, 0 1px 0 #FFF inset;
-        box-shadow:0 0 8px #999, 0 1px 0 #FFF inset;
+   -moz-box-shadow:0 5px 15px rgba(0,0,0,.15), 0 1px 0 #FFF inset;
+-webkit-box-shadow:0 5px 15px rgba(0,0,0,.15), 0 1px 0 #FFF inset;
+        box-shadow:0 5px 15px rgba(0,0,0,.15), 0 1px 0 #FFF inset;
 }
 /* main menu items only */
 .ui-menubar > li:hover {
@@ -20,8 +20,8 @@
 }
 /* second level onwards, hover */
 .ui-menubar ul > li:hover {
-	border-top   :1px solid #06A;
-	border-bottom:1px solid #039;
+	border-top   :1px solid #3399EE;
+	border-bottom:1px solid #005C9C;
 }
 /* all li elements hover */
 .ui-menubar li:hover {
@@ -41,14 +41,35 @@
 -webkit-border-radius:0 0 .25em .25em;
  -khtml-border-radius:0 0 .25em .25em;
 	    border-radius:0 0 .25em .25em;
-   -moz-box-shadow:0 0 8px #9AD, 0 1px 0 #FFF inset; 
--webkit-box-shadow:0 0 8px #9AD, 0 1px 0 #FFF inset;
-	    box-shadow:0 0 8px #9AD, 0 1px 0 #FFF inset;
+   -moz-box-shadow:-.25em .25em 1em rgba(0,0,0,.15);
+-webkit-box-shadow:-.25em .25em 1em rgba(0,0,0,.15);
+        box-shadow:-.25em .25em 1em rgba(0,0,0,.15);
 -webkit-transition:-webkit-box-shadow 0.5s ease-in-out;
    -moz-transition:   -moz-box-shadow 0.5s ease-in-out;
      -o-transition:     -o-box-shadow 0.5s ease-in-out;
 }
+
 /* menus, second level onwards*/
 .ui-menubar ul > li ul {
 	border-radius:0 .25em .25em .25em;
+}
+
+/* exit buttton */
+.ui-menubar > li.ui-menubar-exit:after {
+    color:#AAA;
+    text-shadow:-1px -1px #222;
+    font-weight:bold;
+	font-size:12px;
+}
+.ui-menubar > li.ui-menubar-exit {
+	background:#444;
+    box-shadow:-1px -1px #CCC inset;
+	border-radius:.25em;
+}
+.ui-menubar > li.ui-menubar-exit:hover {
+	background:#633;
+    box-shadow:-1px -1px #D6CCCC inset;
+}
+.ui-menubar > li.ui-menubar-exit:hover:after {
+	color:#D6CCCC;
 }

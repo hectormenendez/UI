@@ -1,10 +1,10 @@
-/******************************************************************************* 
+/*******************************************************************************
  * MODAL                                                                       *
  * @created 2011/AUG/31 15:16                                                  *
  *******************************************************************************/
 
-.ui-modal section { 
-	background-color:#F6F6F6; 
+.ui-modal section {
+	background-color:#F6F6F6;
 }
 
 .ui-modal {
@@ -13,12 +13,6 @@
    -moz-box-shadow:.5em .5em 2em rgba(0,0,0,0.33);
 -webkit-box-shadow:.5em .5em 2em rgba(0,0,0,0.33);
         box-shadow:.5em .5em 2em rgba(0,0,0,0.33);
-}
-
-.ui-modal header {
-   -moz-box-shadow:0 1px 0 #FFF inset;
--webkit-box-shadow:0 1px 0 #FFF inset;
-        box-shadow:0 1px 0 #FFF inset;
 }
 
 .ui-modal footer {

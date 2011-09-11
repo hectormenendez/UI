@@ -15,35 +15,120 @@
 	<link rel='stylesheet' href='external/normalize.css'>
 	<link rel='stylesheet' href='./ui.css'>
 	<style>
-		body { color:#444; font-family:serif; }
+		body { color:#444; background:#EEE; }
 		a { color:#06F; text-decoration:none; }
 		a:hover { color:#F60; }
+		.textinput { width:33%; margin-bottom:1em; margin-left:1em; }
 	</style>
-	<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
-	<script src='./ui.js'></script>
-	<script>
-		$(document).ready(function(){
-			$('#am').click(function(){
-				$('p').addClass('ui-modal').ui({auto:true});
-				return false;
-			})
-		})
-	</script>
 </head>
 <body class="ui">
-	<div class="ui-overlay"></div>
 	<h1><a href="http://github.com/hectormenendez/UI">UI</a>. A minimalist alternative to <a href="http://jqueryui.com/">jQuery's UI</a></h1>
 	<h3>by <a href="http://plus.google.com/115038010350699164110">Héctor Menéndez</a></h3>
-	<h4>Fork me in <a href="http://github.com/hectormenendez/UI">GitHUb</a></h4>
+	<h4>Fork me in <a href="http://github.com/hectormenendez/UI">github</a></h4>
 	<h4>Examples:</h4>
-	<ul>
-		<li><a href="menubar.html">Menubar</li>
-		<li><a id="am" href="modal.html">Modal Dialog</a></li>
-	</ul>
-	<div id="modal">
-		<p title="this is a title">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		</p>
+	<h5>Menubar:</h5>
+	<nav><ul class="ui-menubar">
+		<li>
+			<a href="#File">File</a>
+			<ul>
+				<li><a href="#Open">Open...</a></li>
+				<li class="ui-disabled">Open recent...</li>
+				<li><a href="#Save">Save</a></li>
+				<li><a href="#SaveAs">Save as...</a></li>
+				<li><a href="#Close">Close</a></li>
+				<li><a href="#Quit">Quit</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="#Edit">Edit</a>
+			<ul>
+				<li><a href="#Copy">Copy</a></li>
+				<li><a href="#Cut">Cut</a></li>
+				<li class="ui-disabled">Paste</li>
+			</ul>
+		</li>
+		<li>
+			<a href="#View">View</a>
+			<ul>
+				<li><a href="#Fullscreen">Fullscreen</a></li>
+				<li><a href="#Fitintoview">Fit into view</a></li>
+				<li>
+					<a href="#Encoding">Encoding</a>
+					<ul>
+						<li><a href="#Auto-detect">Auto-detect</a></li>
+						<li><a href="#UTF-8">UTF-8</a></li>
+						<li>
+						  <a href="#UTF-16">UTF-16</a>
+					      <ul>
+					         <li><a href="#Option1">Option 1</a></li>
+					         <li><a href="#Option2">Option 2</a></li>
+					         <li><a href="#Option3">Option 3</a></li>
+					         <li><a href="#Option4">Option 4</a></li>
+					      </ul>
+					   </li>
+					</ul>
+				</li>
+				<li><a href="#Customize">Customize...</a></li>
+			</ul>
+		</li>
+	</ul></nav>
+
+	<h5><a href="#" class="modal">Click me for a still-in-development modal dialog...</a></h5>
+	<div class="modal" title="Hello World!">
+		<p>This text will be inside a modal dialog.</p>
+		<p></p>
 	</div>
+
+	<h5>TextInput & Tooltip</h5>
+	<div class="textinput">
+		<label
+			class      = "ui-label"
+			for        = "es_name"
+			data-count = "60"
+			data-limit = "a-zA-Z0-9 -"
+			title      =
+			"<b>Nombre del producto.</b><br>
+			 Acepta caracteres A-Z, dígitos del 0-9 y el caracter '-' (guión)."
+			>Nombre</label>
+		<textarea class="name ui-textarea" id="es_name"></textarea>
+	</div>
+	<div class="textinput">
+		<label class="ui-label" for="test" data-count="15" title="Hello World!">Test</label>
+		<input class="name ui-input" id="test" type="text">
+	</div>
+
+
+	<div>
+		<h1 class="ui-inset">Inset Text</h1>
+	</div>
+
+
+	<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
+	<script type="text/javascript" src='./ui.js'></script>
+	<script>$(document).ready(function(){
+		var b;
+		$('a.modal').click(function(){
+			$('div.modal').addClass('ui-modal').ui({ speed:500 },function(){
+				var modal = this;
+				modal.show();
+				modal.core.$overlay.click(function(){
+					modal.hide(100);
+				});
+			});
+			return false;
+		})
+
+		$('.ui-inset').ui(false, function(){
+			var color = ['#CCC','#D99','#99C','#9DD','#9D9','#99D'];
+			var self = this.element;
+			// callback example
+			self.css('font-size','4em');
+			setInterval(function(){
+				c = color[Math.floor(Math.random()*color.length)];
+				self.parent().css('background-color', c).end().ui();
+			},3000);
+		});
+
+	})</script>
 </body>
 </html>

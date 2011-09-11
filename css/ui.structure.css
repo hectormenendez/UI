@@ -1,13 +1,94 @@
 /*******************************************************************************
+ * COMMON                                                                      *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 17:02                                                  *
+ *******************************************************************************/
+
+/* layer position */
+
+.ui-loader  { z-index:999; }
+.ui-modal   { z-index:999; }
+.ui-overlay { z-index:998; }
+.ui-menubar { z-index:997; }
+.ui-tooltip { z-index:996; }
+
+/* disable selection */
+/*
+.ui-loader,
+.ui-modal > header,
+.ui-modal > footer,
+.ui-label,
+.ui-menubar,
+.ui-inset
+{
+    cursor:default;
+-webkit-user-select:none;
+   -moz-user-select:none;
+        user-select:none;
+ }
+*/
+
+/* disable default browser outline on focus */
+.ui-input:focus,
+.ui-button:focus,
+.ui-textarea:focus,
+.ui-select:focus
+{
+    outline:none !important;
+}
+
+/*******************************************************************************
+ * FONTSIZE                                                                    *
+ * This is used to find a value of 1em for the document                        *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/10 23:57                                                  *
+ *******************************************************************************/
+.ui-fontsize {
+    position:absolute;
+    font-size:1em;
+    line-height:1;
+    padding:0;
+    visibility:hidden;
+}
+
+/*******************************************************************************
+ * INSET Structure                                                             *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/05 00:35                                                  *
+ *******************************************************************************/
+
+fieldset.ui-inset {
+    display:block;
+    position:relative;
+    padding:1em 1.5em 1.5em 1.3em;
+    border-radius:.25em;
+}
+
+fieldset.ui-inset > legend {
+    position:absolute;
+    display:block;
+    line-height:1em;
+    padding:0 1em;
+    top:-.75em;
+    right:3.33em;
+}
+
+/*  mozilla only */
+@-moz-document url-prefix() { fieldset.ui-inset > legend  {
+    top:-1.88em;
+} }
+
+/*******************************************************************************
  * OVERLAY Structure                                                           *
  *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
  * @working 2011/AUG/31 15:26 Chrome, FF5                                      *
  * @created 2011/AUG/31 15:16                                                  *
  *******************************************************************************/
 
 .ui-overlay {
 	display:none;
-	z-index:1000;
 	position:fixed;
 	top:0;
 	left:0;
@@ -15,3 +96,147 @@
 	height:100%;
 	opacity:.8;
 }
+
+/*******************************************************************************
+ * LOADER Structure                                                            *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 11:21                                                  *
+ *******************************************************************************/
+
+ .ui-loader {
+        display:none;
+        position:absolute;
+        overflow:hidden;
+        white-space:nowrap;
+        top          : 50%;
+        left         : 50%;
+        text-indent  : 2em;
+        width        : 2em;
+        height       : 2em;
+        margin-top   :-1em;
+        margin-left  :-1em;
+        border-radius: 2em;
+-webkit-animation: uiloader 2s linear infinite;
+   -moz-animation: uiloader 2s linear infinite;
+        animation: uiloader 2s linear infinite;
+}
+
+@-webkit-keyframes uiloader { 0% { -webkit-transform:rotate(-360deg); } }
+   @-moz-keyframes uiloader { 0% {    -moz-transform:rotate(-360deg); } }
+        @keyframes uiloader { 0% {         transform:rotate(-360deg); } }
+
+.ui-loader:before {
+    position:absolute;
+    border-radius:2em;
+    content:"";
+    top   :0;
+    left  :0;
+    bottom:0;
+    right :0;
+}
+
+/*******************************************************************************
+ * TEXT INPUTS & LABELS                                                        *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 17:49                                                  *
+ *******************************************************************************/
+
+.ui-input[type="text"],
+.ui-input[type="password"],
+.ui-textarea
+{
+    text-indent:.5em !important;
+    padding:.15em 0 .25em 0 !important;
+    display:block;
+    position:relative;
+}
+
+.ui-textarea {
+    resize:vertical;
+}
+
+.ui-label {
+    line-height:15px;
+    width:100%;
+    overflow:hidden;
+    position:relative;
+    display:block;
+}
+
+.ui-label > span:first-child {
+    top:-1px;
+}
+
+.ui-label > span {
+    position:relative;
+    display:block;
+    float:left;
+    margin-left:.5em;
+}
+
+.ui-label > span:first-child {
+    margin-left:0;
+}
+
+.ui-label-count {
+    float:right !important;
+}
+
+.ui-label-help {
+    cursor:help;
+    overflow:hidden;
+    width:13px;
+    height:12px;
+    line-height:11px;
+    text-align:center;
+    border-radius:6px;
+}
+
+.ui-tooltip {
+    display:none;
+    position:absolute;
+    padding:1em;
+    white-space:pre;
+    font-size:.85em;
+}
+
+.ui-tooltip pre,
+.ui-tooltip code {
+    font-size:.9em;
+}
+
+.ui-tooltip pre ul,
+.ui-tooltip code ul {
+    display:inline-block !important;
+    margin:0; padding:0;
+    margin-left:13px;
+}
+/*******************************************************************************
+ * BUTTONS                                                                     *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @created 2011/SEP/01 16:56                                                  *
+ *******************************************************************************/
+
+.ui-input[type="button"],
+.ui-input[type="reset"],
+.ui-input[type="submit"],
+.ui-button
+{
+    cursor: pointer;
+    display:inline-block;
+    position:relative;
+    padding:.25em .5em .35em;
+}
+
+.ie-lt8 .ui-input[type="button"],
+.ie-lt8 .ui-input[type="reset"],
+.ie-lt8 .ui-input[type="submit"],
+.ie-lt8 .ui-button
+{
+    zoom:1;
+    display:inline;
+}
+
+
+

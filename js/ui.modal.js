@@ -14,7 +14,9 @@ fn.modal = function(){
 	var html = this.element.html();
 	var sect = this.element.html('').append('<section>'+html+'</section');
 	// enable UI for child elems
-	this.core.uify(sect.find('*'));
+	var context = sect.find('*');
+	this.core.uify(context);
+	this.core.textinput.enable(sect.find('*'));
 	// obtain title. {TODO} what happens if it doesn't exist?
 	var title = this.element.attr('title');
 	// save submit or reset elems and move'em to the footer.

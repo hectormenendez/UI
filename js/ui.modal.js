@@ -2,14 +2,6 @@ var fn = {};
 
 /**
  * @author Hector Menendez <h@cun.mx>
- *
- * @note   Each element will have these elements cached:
- *         $submit  = submit button (if existent)
- *         $reset   = reset  button (if existent)
- *         $header  = Modal Header
- *         $footer  = Modal Footer
- *         $section = Original Content.
- *
  * @updated 2011/SEP/10 00:13   Moved to new format.
  * @created 2011/SEP/09 06:29
  */
@@ -22,9 +14,7 @@ fn.modal = function(){
 	var html = this.element.html();
 	var sect = this.element.html('').append('<section>'+html+'</section');
 	// enable UI for child elems
-	context = sect.find('*');
-	this.core.uify(context);
-	this.core.textinput.enable(context);
+	this.core.uify(sect.find('*'));
 	// obtain title. {TODO} what happens if it doesn't exist?
 	var title = this.element.attr('title');
 	// save submit or reset elems and move'em to the footer.

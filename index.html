@@ -20,6 +20,33 @@
 		a:hover { color:#F60; }
 		.textinput { width:33%; margin-bottom:1em; margin-left:1em; }
 	</style>
+	<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
+	<script type="text/javascript" src='./ui.js'></script>
+	<script>$(document).ready(function(){
+
+		var b;
+		$('a.modal').click(function(){
+			$('div.modal').addClass('ui-modal').ui({ speed:500 },function(){
+				var modal = this;
+				modal.show();
+				modal.core.$overlay.click(function(){
+					modal.hide(100);
+				});
+			});
+			return false;
+		})
+
+		$('.ui-inset').ui(false, function(){
+			var color = ['#CCC','#D99','#99C','#9DD','#9D9','#99D'];
+			var self = this.element;
+			// callback example
+			self.css('font-size','4em');
+			setInterval(function(){
+				c = color[Math.floor(Math.random()*color.length)];
+				self.parent().css('background-color', c).end().ui();
+			},3000);
+		});
+	})</script>
 </head>
 <body class="ui">
 	<h1><a href="http://github.com/hectormenendez/UI">UI</a>. A minimalist alternative to <a href="http://jqueryui.com/">jQuery's UI</a></h1>
@@ -101,34 +128,5 @@
 	<div>
 		<h1 class="ui-inset">Inset Text</h1>
 	</div>
-
-
-	<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
-	<script type="text/javascript" src='./ui.js'></script>
-	<script>$(document).ready(function(){
-		var b;
-		$('a.modal').click(function(){
-			$('div.modal').addClass('ui-modal').ui({ speed:500 },function(){
-				var modal = this;
-				modal.show();
-				modal.core.$overlay.click(function(){
-					modal.hide(100);
-				});
-			});
-			return false;
-		})
-
-		$('.ui-inset').ui(false, function(){
-			var color = ['#CCC','#D99','#99C','#9DD','#9D9','#99D'];
-			var self = this.element;
-			// callback example
-			self.css('font-size','4em');
-			setInterval(function(){
-				c = color[Math.floor(Math.random()*color.length)];
-				self.parent().css('background-color', c).end().ui();
-			},3000);
-		});
-
-	})</script>
 </body>
 </html>

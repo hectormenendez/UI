@@ -9,6 +9,8 @@
  */
 (function($,undefined){
 
+if (!$ instanceof jQuery) throw "ui: jQuery is required.";
+
 //  Benchmark
 var BMK = new Date();
     BMK = BMK.getTime();
@@ -96,14 +98,16 @@ var ui = function(name, element, settings, callback){
 	// load base components
 	if (!self.isplugin('base')) self.error('Base missing.');
 	self.load('base');
+	self.log('Loaded.', 'base');
 	// instantiate'em
 	for (var f in fn){
 		fn[f].prototype.core = ui.core;
 		ui.core[f] = new fn[f]();
+		self.log('Constructed "'+ f + '".','base');
 	}
 	ui.core.enabled = true;
 	self.loader.hide();
-	self.log('Loaded.', 'base');
+
 	init();
 };
 // shorthand.
@@ -219,6 +223,8 @@ ui.core = ui.prototype = {
 	}
 
 };
+
+$.ui = ui.core;
 
 /**
  * @author Hector Menendez <h@cun.mx>

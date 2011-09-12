@@ -62,7 +62,8 @@ fn.inset = function(){
 		};
 		$this.css(css);
 	});
-	this.core.log('Enabled for "'+ this.element.text() + '".', 'inset');
+	var tag = this.element.get(0).nodeName.toLowerCase();
+	this.core.log('Constructed for "'+ tag + '".', 'inset');
 };
 
 fn.inset.prototype = {

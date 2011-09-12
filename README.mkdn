@@ -1,6 +1,6 @@
 #     UI
 ##### A minimalist alternative for jQuery-UI
-###   v1.r2
+###   v1.r4
 
 ## Usage
 http://hectormenendez.github.com/UI/ for examples. [v1.0]
@@ -8,3 +8,5 @@ http://hectormenendez.github.com/UI/ for examples. [v1.0]
 ## Changelog
 - Rewritten from v0.1r21; Added modularity.
 - Enhanced construction methodology.
+- ui.log() now shows seconds and miliseconds.
+- Added ui.fileupload

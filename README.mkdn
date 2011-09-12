@@ -1,19 +1,12 @@
 #     UI
 ##### A minimalist alternative for jQuery-UI
-###   v0.1r10
+###   v1.r4
 
 ## Usage
-http://hectormenendez.github.com/UI/ for examples. [v0.1r2]
+http://hectormenendez.github.com/UI/ for examples. [v1.0]
 
 ## Changelog
-- First Commit
-- Menubar & Modal css working; Modal javascript triggers no error, but it's not complete.
-- Modal was not being hidden by default
-- Added pure CSS3 loader
-- Syncronic loading of elements enabled.
-- base styles for inputs, buttons and labels
-- Added callback support.
-- Added .ui-menubar-exit button.
-- Cursor consistency in .ui-menubar.
-- Added ui-inset
-- Small fixes to ui-textarea and ui-inset.
+- Rewritten from v0.1r21; Added modularity.
+- Enhanced construction methodology.
+- ui.log() now shows seconds and miliseconds.
+- Added ui.fileupload

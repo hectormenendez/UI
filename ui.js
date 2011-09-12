@@ -95,12 +95,15 @@ ui.core = ui.prototype = {
 	/**
 	 * Log Shorthand.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @updated 2011/SEP/12 08:33   it now shows XXXs XXXms
 	 * @created 2011/SEP/09 03:57
 	 */
 	log:function(msg, caller){
 		if (!this.defaults.debug || console === undefined) return false;
-		var ms = this.benchmark();
-		console.log(ms +"ms\t" + 'ui' + (caller!==undefined?'-'+caller:'') + ": " + msg);
+		var bmk = this.benchmark();
+		bmk = (bmk/1000).toString().split('.').map(function(a){ return parseInt(a,10); });
+		bmk = bmk[0] + 's ' + bmk[1] + "ms \t";
+		console.log(bmk + 'ui' + (caller!==undefined?'-'+caller:'') + ": " + msg);
 	},
 
 	/**
@@ -143,8 +146,10 @@ ui.core = ui.prototype = {
 	 */
 	isplugin:function(name){
 		var http = new XMLHttpRequest();
-		http.open('HEAD', this.baseurl + 'js/ui.' + name + '.js', false);
-		http.send();
+		try {
+			http.open('HEAD', this.baseurl + 'js/ui.' + name + '.js', false);
+			http.send();
+		} catch (e) { }
 		http = http.status == 200;
 		this.log('Plugin "'+ name + '" ' + (http? 'exists.' : 'does not exist.'));
 		return http;
@@ -194,7 +199,6 @@ ui.core = ui.prototype = {
 			instance.prototype.settings = settings;
 			instance.prototype.element  = element;
 			instance = new instance(element, settings);
-			//self.log('Constructed.',name);
 			// enable callback, preserving scope.
 			if (typeof callback == 'function') {
 				callback.call(instance);

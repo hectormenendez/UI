@@ -13,7 +13,7 @@ fn.loader.prototype = {
 	},
 
 
-	enabled:true,
+	enabled:true, // ui starts with loader shown.
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
@@ -64,7 +64,7 @@ fn.overlay.prototype = {
 		speed:0
 	},
 
-	enabled: false,
+	enabled: true,  // ui starts with overlay shown.
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
@@ -152,7 +152,7 @@ fn.tooltip.prototype = {
 		// bind events
 		context.bind('mouseover', show);
 		context.bind('mouseout',  hide);
-		this.core.log('Enabled tooltip: "'+ message.substr(0,25) + '…".','tooltip');
+		this.core.log('Enabled "'+ message.substr(0,25) + '…".','tooltip');
 	}
 
 };

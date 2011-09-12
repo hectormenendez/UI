@@ -20,65 +20,11 @@ var BMK = new Date();
  * @author Hector Menendez <h@cun.mx>
  * @created 2011/SEP/01 09:02
  */
-var ui = function(name, element, settings, callback){
+var ui = function(){
 
 	var self = this;
 
-	/**
-	 * Actual instacing, merging an calling.
-	 * This is called last.
-	 * @author Hector Menendez <h@cun.mx>
-	 * @created 2011/SEP/09 08:34
-	 */
-	var run  = function(fn){
-		// merge user-sent settings with defaults;
-		settings = $.extend(true, {}, fn.prototype.defaults, settings);
-		// pass on, core prototype.
-		var instance = fn;
-		instance.prototype.core = ui.core;
-		instance.prototype.settings = settings;
-		instance.prototype.element  = element;
-		instance = new instance(element, settings);
-		self.log('Constructed.',name);
-		// enable callback, preserving scope.
-		if (typeof callback == 'function') {
-			callback.call(instance);
-			self.log('Calledback.', name);
-		}
-	};
-
-	/**
-	 * Load plugin if not yet available.
-	 * This is called second.
-	 * @author Hector Menendez <h@cun.mx>
-	 * @created 2011/SEP/09 08:34
-	 */
-	var init = function(){
-		// no need to reload if plugin is already loaded.
-		if (self.fn[name] !== undefined) return run(self.fn[name]);
-		// is it even a valid plugin?
-		if (!self.isplugin(name)) return;
-		self.loader.show();
-		self.load(name);
-		if (
-			typeof fn            != 'object'   ||
-			typeof fn[name]      != 'function' ||
-			(
-				typeof fn[name].settings != 'undefined' &&
-				typeof fn[name].settings != 'object'
-			)
-		) self.error('Bad plugin declaration.', name);
-		// merge to core.
-		ui.core.fn[name] = fn[name];
-		self.log('Loaded.',name);
-		self.loader.hide();
-		run(fn[name]);
-	};
-
-	/**
-	 * Base Construction
-	 */
-	if (ui.core.enabled) return init();
+	if (ui.core.enabled) return ui;
 	// these cannot be set by the user.
 	$('.ui-overlay, .ui-hider, .ui-tooltip').remove();
 	// obtain the base url where this file is located
@@ -103,13 +49,12 @@ var ui = function(name, element, settings, callback){
 	for (var f in fn){
 		fn[f].prototype.core = ui.core;
 		ui.core[f] = new fn[f]();
-		self.log('Constructed "'+ f + '".','base');
 	}
 	ui.core.enabled = true;
 	self.loader.hide();
-
-	init();
 };
+
+
 // shorthand.
 ui.core = ui.prototype = {
 	constructor:ui,
@@ -220,32 +165,97 @@ ui.core = ui.prototype = {
 			if (allow.indexOf(' ' + node +' ') === -1) return;
 			$(this).addClass('ui-'+node);
 		});
+	},
+
+	/**
+	 * Enables plugin for jquery element.
+	 * @author Hector Menendez <h@cun.mx>
+	 *
+	 * @param req string         name    Name of the plugin.
+	 * @param req jQuery      element    Target jQuery Element.
+	 * @param opt object     settings    Default overrides.
+	 * @param opt function   callback    Run this after a succesful construction
+	 *
+	 * @updated 2011/SEP/12 01:45        This was originally part of UI
+	 *                                   constructor, I know, stupid.
+	 * @created 2011/SEP/09 08:34
+	 */
+	element:function(name, element, settings, callback){
+
+		var self = this;
+
+		// element instancing;
+		var run  = function(fn){
+			// merge user-sent settings with defaults;
+			settings = $.extend(true, {}, fn.prototype.defaults, settings);
+			// pass on, core prototype.
+			var instance = fn;
+			instance.prototype.core = ui.core;
+			instance.prototype.settings = settings;
+			instance.prototype.element  = element;
+			instance = new instance(element, settings);
+			//self.log('Constructed.',name);
+			// enable callback, preserving scope.
+			if (typeof callback == 'function') {
+				callback.call(instance);
+				self.log('Calledback.', name);
+			}
+		};
+		if (typeof name != 'string') this.error('Invalid Name.');
+		// no need to reload if plugin is already loaded.
+		if (self.fn[name] !== undefined) return run(self.fn[name]);
+		// is it even a valid plugin?
+		if (!self.isplugin(name)) return;
+		// start loading plugin.
+		self.loader.show();
+		self.load(name);
+		if (
+			typeof fn            != 'object'   ||
+			typeof fn[name]      != 'function' ||
+			(
+				typeof fn[name].settings != 'undefined' &&
+				typeof fn[name].settings != 'object'
+			)
+		) self.error('Bad plugin declaration.', name);
+		// merge to core.
+		ui.core.fn[name] = fn[name];
+		self.log('Loaded.', name);
+		self.loader.hide();
+		run(fn[name]);
 	}
-
 };
-
-$.ui = ui.core;
 
 /**
- * @author Hector Menendez <h@cun.mx>
- *
- * @param opt object   settings   widget-specific settings.
- * @param opt function callback   what to do after plugin constructed.
- *
- * @updated 2011/SEP/10 17:18     Complete Rewrite, splitted into two local
- *                                functions declared on the constructor.
- * @created 2011/AUG/31 04:15
+ * @created 2011/SEP/12 02:08
  */
-$.fn.ui = function(settings, callback){
-	this.each(function(i){
-		var $this = $(this);
-		// extract ui-elements
-		var cls =  $this.attr('class');
-		if (!cls || cls.indexOf('ui-') === -1) return ui.core.error('No UI element found in selector.');
-		// an instance for each ui class encountered.
-		names = cls.match(/ui-\S+/g);
-		for (var j in names) new ui(names[j].substr(3), $(this), settings, callback);
-	});
-};
+$(document).ready(function(){
+
+	$.ui = new ui();
+
+	/**
+	 * @author Hector Menendez <h@cun.mx>
+	 *
+	 * @param opt object   settings   widget-specific settings.
+	 * @param opt function callback   what to do after plugin constructed.
+	 *
+	 * @updated 2011/SEP/12 01:42     Instead of instancing UI directly,
+	 *                                it now uses instanced ui via the "element" method.
+	 * @updated 2011/SEP/10 17:18     Complete Rewrite, splitted into two local
+	 *                                functions declared on the constructor.
+	 * @created 2011/AUG/31 04:15
+	 */
+	$.fn.ui = function(settings, callback){
+		this.each(function(i){
+			var $this = $(this);
+			// extract ui-elements
+			var cls =  $this.attr('class');
+			if (!cls || cls.indexOf('ui-') === -1) return ui.core.error('No UI element found in selector.');
+			// an instance for each ui class encountered.
+			names = cls.match(/ui-\S+/g);
+			for (var j in names) $.ui.element(names[j].substr(3), $(this), settings, callback);
+		});
+	};
+
+});
 
 })(jQuery);

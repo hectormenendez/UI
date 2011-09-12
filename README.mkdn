@@ -1,9 +1,10 @@
 #     UI
 ##### A minimalist alternative for jQuery-UI
-###   v1.0
+###   v1.r2
 
 ## Usage
 http://hectormenendez.github.com/UI/ for examples. [v1.0]
 
 ## Changelog
 - Rewritten from v0.1r21; Added modularity.
+- Enhanced construction methodology.

@@ -15,14 +15,21 @@
 	<link rel='stylesheet' href='external/normalize.css'>
 	<link rel='stylesheet' href='./ui.css'>
 	<style>
-		body { color:#444; background:#EEE; }
+		body { color:#444; background:#EEE }
 		a { color:#06F; text-decoration:none; }
 		a:hover { color:#F60; }
 		.textinput { width:33%; margin-bottom:1em; margin-left:1em; }
+		div > h1 { padding-left:.25em; }
+		.ui-button { margin-left:1em; }
+		#pbar { width:50%; height:2em;  margin-bottom:3em; margin-left:1em;}
 	</style>
 	<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
 	<script type="text/javascript" src='./ui.js'></script>
-	<script>$(document).ready(function(){
+	<script>
+	// enable debug mode
+	$.ui.core.defaults.debug = false;
+
+	$(document).ready(function(){
 
 		var b;
 		$('a.modal').click(function(){
@@ -45,6 +52,30 @@
 				c = color[Math.floor(Math.random()*color.length)];
 				self.parent().css('background-color', c).end().ui();
 			},3000);
+		});
+
+		$('.ui-fileupload').ui({
+			url : 'test',
+			complete : function(){
+				alert('completed');
+			},
+			error : function(){
+				alert('error');
+			}
+		})
+
+		$.ui.enable('progressbar', $('#pbar'), false, function(){
+			var load = 0;
+			var self = this;
+			this.element.mouseover(function(){
+				this.interval = setInterval(function(){
+					self.update(load++);
+					if (load>100) load = 0;
+				}, 10);
+			});
+			this.element.mouseout(function(){
+				clearInterval(this.interval);
+			});
 		});
 	})</script>
 </head>
@@ -124,9 +155,17 @@
 		<input class="name ui-input" id="test" type="text">
 	</div>
 
-
 	<div>
 		<h1 class="ui-inset">Inset Text</h1>
 	</div>
+
+	<h5>Simulated Button & File upload</h5>
+	<div class="ui-fileupload ui-button">
+		<img src="external/camera.png" alt="custom button with fileupload demo">
+	</div>
+
+	<h5>Progress Bar (onmouseover)</h5>
+	<div id="pbar"></div>
+
 </body>
 </html>

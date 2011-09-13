@@ -63,8 +63,8 @@ fn.modal.prototype = {
 			.show()
 			.animate({opacity:1}, speed)
 			.css({
-				marginLeft : -1*(this.element.outerWidth()/2),
-				marginTop  : -1*(this.element.outerHeight()/2)
+				marginLeft : -1*(this.element.outerWidth()/2) + this.core.$document.scrollLeft(),
+				marginTop  : -1*(this.element.outerHeight()/2) + this.core.$document.scrollTop()
 			});
 		this.core.log('Shown.','modal');
 		return this;

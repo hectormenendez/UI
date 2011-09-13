@@ -35,10 +35,11 @@ var ui = function(){
 		self.log('Setting '+ ui.core.baseurl + ' as baseurl.');
 	});
 	// Cache Common jQuery elements (and show the loader).
-	ui.core.$body    = $('body');
-	ui.core.$overlay = $('<div class="ui-overlay">').prependTo(ui.core.$body).show();
-	ui.core.$loader  = $('<div class="ui-loader">').prependTo(ui.core.$body).show();
-	ui.core.$tooltip = $('<div class="ui-tooltip">').prependTo(ui.core.$body);
+	ui.core.$document = $(document);
+	ui.core.$body     = $('body');
+	ui.core.$overlay  = $('<div class="ui-overlay">').prependTo(ui.core.$body).show();
+	ui.core.$loader   = $('<div class="ui-loader">').prependTo(ui.core.$body).show();
+	ui.core.$tooltip  = $('<div class="ui-tooltip">').prependTo(ui.core.$body);
 	// obtain overlay base opacity
 	ui.core.$overlay.opacity = ui.core.$overlay.css('opacity');
 	// load base components

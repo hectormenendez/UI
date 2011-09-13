@@ -6,8 +6,6 @@ var fn = {};
  * @created 2011/SEP/09 06:29
  */
 fn.modal = function(){
-	// been processed already, ignore.
-	if (this.element.hasClass('ui_modal-enabled')) return;
 	// move element so it's a direct child of body;
 	this.element.remove().prependTo(this.core.$body);
 	// process html
@@ -18,13 +16,13 @@ fn.modal = function(){
 	this.core.uify(context);
 	this.core.textinput.enable(sect.find('*'));
 	// obtain title. {TODO} what happens if it doesn't exist?
-	var title = this.element.attr('title');
+	this.title = this.element.attr('title');
 	// save submit or reset elems and move'em to the footer.
 	var $button = this.element.find('input[type="submit"],input[type="reset"]').remove();
 	// Create footer and header
 	this.$header  = $('<header></header>')
 		.prependTo(this.element)
-		.append('<h2>'+title+'<h2>');
+		.append('<h2>'+this.title+'<h2>');
 	this.$footer  = $('<footer></footer>')
 		.appendTo(this.element)
 		.append($button);
@@ -33,9 +31,7 @@ fn.modal = function(){
 	// they won't work so we mimic their original behaviour.
 	this.$submit = $button.filter('[type="submit"]');//.bind('click', this.submit);
 	this.$reset  = $button.filter('[type="reset"]');//.bind('click', this.reset);
-	// mark this element as enabled.
-	this.element.addClass('ui_modal-enabled');
-	if (this.settings.auto) this.show();
+	if (this.settings.auto === true) this.show();
 };
 
 fn.modal.prototype = {
@@ -52,12 +48,15 @@ fn.modal.prototype = {
 	 * @created 2011/SEP/01 14:49
 	 */
 	show:function(speed){
-		// each modal comes from different instance.
-		// so all shared properties will be set on
-		// the master template.
-		if (this.core.fn.modal.enabled) return this.element;
+		// we don't want to show modals when other modals are opened,
+		// so we check on the master prototype to know if there's one active.
+		// TODO: Create a queue for these modals to show after enabled closes.
+		if (this.core.fn.modal.enabled) return this;
 		this.core.fn.modal.enabled = true;
 		if (!parseInt(speed,10)) speed = this.settings.speed;
+		// reset title
+		this.$header.find('h2').html(this.title);
+		// show it.
 		this.core.overlay.show(speed);
 		this.element
 			.css('opacity',0)
@@ -68,7 +67,7 @@ fn.modal.prototype = {
 				marginTop  : -1*(this.element.outerHeight()/2)
 			});
 		this.core.log('Shown.','modal');
-		return this.element;
+		return this;
 	},
 
 	/**

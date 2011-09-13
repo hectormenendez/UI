@@ -5,8 +5,6 @@ var me = 'fileupload';
  * @created 2011/SEP/12 02:42
  */
 fn.fileupload = function(){
-	if (!this.core.iselement(this.element))
-		this.core.error('Invalid Element.',me);
 	if (typeof this.settings.url != 'string')
 		this.core.error('Must specify an URL.',me);
 	if (typeof this.settings.data != 'object')

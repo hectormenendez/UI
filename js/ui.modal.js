@@ -20,9 +20,8 @@ fn.modal = function(){
 	// save submit or reset elems and move'em to the footer.
 	var $button = this.element.find('input[type="submit"],input[type="reset"]').remove();
 	// Create footer and header
-	this.$header  = $('<header></header>')
-		.prependTo(this.element)
-		.append('<h2>'+this.title+'<h2>');
+	this.$header  = $('<header></header>').prependTo(this.element);
+	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
 	this.$footer  = $('<footer></footer>')
 		.appendTo(this.element)
 		.append($button);
@@ -38,8 +37,9 @@ fn.modal.prototype = {
 	constructor:fn.modal,
 
 	defaults:{
-		auto  : false,
-		speed : 0 // 0=instant, int=miliseconds 'slow','fast','normal'
+		auto   : false,
+		speed  : 0, // 0=instant, int=miliseconds 'slow','fast','normal'
+		footer : true
 	},
 
 	/**
@@ -55,7 +55,15 @@ fn.modal.prototype = {
 		this.core.fn.modal.enabled = true;
 		if (!parseInt(speed,10)) speed = this.settings.speed;
 		// reset title
-		this.$header.find('h2').html(this.title);
+		this.$title.html(this.title);
+		// show or hide the footer.
+		if (!this.settings.footer) {
+			this.$footer.hide();
+			this.element.addClass('ui_modal_hidden_footer');
+		} else {
+			this.$footer.show();
+			this.element.removeClass('ui_modal_hidden_footer');
+		}
 		// show it.
 		this.core.overlay.show(speed);
 		this.element

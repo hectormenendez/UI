@@ -32,7 +32,7 @@ fn.progressbar = function(){
 	});
 	//if (!value) this.$bar.hide();
 	this.$val = $('<div class="ui_progress_val">').appendTo(this.element).css({
-		'line-height' : this.$bar.height() + 'px'
+		'line-height' : this.element.height() + 'px'
 	});
 	this.$val.html(value + ' %');
 

@@ -20,14 +20,17 @@
 .ui-modal header h2 {
 	cursor:default;
 	margin:0;
-	padding:0;
+	padding:0 1em;
 	font-size:1em;
 	line-height:2em;
-	text-indent:1em;
 }
 
 .ui-modal section{
 	padding:1em 1.1em 1em 1em;
+}
+
+.ui-modal.ui_modal_hidden_footer section {
+	border-radius:0 0 .25em .25em;
 }
 
 .ui-modal footer {

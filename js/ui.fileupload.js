@@ -5,10 +5,12 @@ var me = 'fileupload';
  * @created 2011/SEP/12 02:42
  */
 fn.fileupload = function(){
+	if (!this.core.iselement(this.element))
+		this.core.error('Invalid Element.',me);
 	if (typeof this.settings.url != 'string')
-		this.core.error('Must specify an URL.','fileupload');
+		this.core.error('Must specify an URL.',me);
 	if (typeof this.settings.data != 'object')
-		this.core.error('Data must be an object.','fileupload');
+		this.core.error('Data must be an object.',me);
 	// the element must be either absolute, relative or fixed positioned.
 	if (!this.element.css('position').match('/relative|absolute|fixed/i'))
 		 this.element.css('position','relative');
@@ -28,10 +30,10 @@ fn.fileupload = function(){
 	this.$hidden = {};
 	for (var i in this.settings.data) this.$hidden[name](
 		$('<input type="hidden" name="' + name + '" value="' + this.settings.data[name] + '">')
-		.appendTo($form)
+		.appendTo(this.$form)
 	);
 	// insert the form element to DOM and catch submit events.
-	this.$form.appendTo(this.element).submit(function(e){ e.stopPropagation(); });
+	this.$form.submit(function(e){ e.stopPropagation(); }).appendTo(this.element);
 	// Adjust file input's dimentions.
 	// forrce input to fill the void by increasing the font size. [FF]
 	var size = this.element.outerHeight();
@@ -111,15 +113,20 @@ fn.fileupload.prototype = {
 	change:function(){
 		// this listener must only run once.
 		this.$file.unbind('change', this.proxychange);
+		this.hasfile = true;
 		// run user callback if available
 		if (typeof this.settings.change == 'function'){
 			var cb = this.settings.change.call(this);
-			if (cb !== null) return cb;
+			var msg = 'User\'s "change" calledback';
+			if (cb !== null && cb !== undefined){
+				this.core.log(msg + ', returning "' + cb + '".', me);
+				return cb;
+			}
+			this.core.log(msg + '.', me);
 		}
 		// we've a file, make sure everyone knows and trigger submit.
-		this.hasfile = true;
-		this.$form.submit();
 		this.core.log('File selected, loading : ' + this.settings.url, me);
+		this.$form.submit();
 		// add a listener on the iFrame.
 		if (!this.proxyload) this.proxyload = $.proxy(this.load, this);
 		this.$frame.bind('load', this.proxyload);
@@ -135,12 +142,17 @@ fn.fileupload.prototype = {
 		// this listener must only run once.
 		$(window).unbind('focus', this.proxyfocus);
 		if (!this.hasfile){
-			this.core.log('Cancelled.', me);
 			// run user callback if available
 			if (typeof this.settings.cancel == 'function'){
 				var cb = this.settings.cancel.call(this);
-				if (cb !== null) return cb;
+				var msg = 'User\'s "cancel" calledback';
+				if (cb !== null && cb !== undefined){
+					this.core.log(msg + ', returning "' + cb + '".', me);
+					return cb;
+				}
+				this.core.log(msg + '.', me);
 			}
+			this.core.log('Cancelled.', me);
 		}
 		return true;
 	},
@@ -151,29 +163,47 @@ fn.fileupload.prototype = {
 	 * @created 2011/SEP/12 07:49
 	 */
 	load:function(){
-		var cb, json;
+		var cb, json, msg;
 		// again, this can only run once.
 		this.$frame.unbind('load', this.proxyload);
 		// get data.
 		var data = this.$frame.contents().find('body').html();
 		// run user callback if available
 		if (typeof this.settings.complete == 'function'){
-			cb = this.settings.complete.call(this, data);
-			if (cb !== null) return cb;
+			cb = this.settings.complete.call(this);
+			msg = 'User\'s "complete" calledback';
+			if (cb !== null && cb !== undefined){
+				this.core.log(msg + ', returning "' + cb + '".', me);
+				return cb;
+			}
+			this.core.log(msg + '.', me);
 		}
 		// Server must return valid JSON, if not, treat it as error.
 		try{ if (!(json = $.parseJSON(data))) throw new Error(); }
 		catch(e){
-			this.core.log('Error.', me);
 			// run user callback if available
-			if (typeof this.settings.error == 'function')
-				return (cb = this.settings.error.call(this, data));
+			if (typeof this.settings.error == 'function'){
+				cb = this.settings.error.call(this);
+				msg = 'User\'s "error" calledback';
+				if (cb !== null && cb !== undefined){
+					this.core.log(msg + ', returning "' + cb + '".', me);
+					return cb;
+				}
+				this.core.log(msg + '.', me);
+			}
+			this.core.log('Error:' + data, me);
 			return false;
 		}
-		this.core.log('Success.', me);
+		// run user callback if available
 		if (typeof this.settings.success == 'function'){
-			cb = this.settings.success.call(this, data);
-			if (cb !== null) return cb;
+			cb = this.settings.success.call(this);
+			msg = 'User\'s "success" calledback';
+			if (cb !== null && cb !== undefined){
+				this.core.log(msg + ', returning "' + cb + '".', me);
+				return cb;
+			}
+			this.core.log(msg + '.', me);
 		}
+		this.core.log('Success.' + json, me);
 	}
 };

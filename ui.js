@@ -241,6 +241,7 @@ ui.core = ui.prototype = {
 				callback.call(instance);
 				self.log('Calledback.', name);
 			}
+			return instance;
 		};
 		if (typeof name != 'string') this.error('Invalid Name.');
 		// no need to reload if plugin is already loaded.
@@ -262,7 +263,7 @@ ui.core = ui.prototype = {
 		ui.core.fn[name] = fn[name];
 		self.log('Loaded.', name);
 		self.loader.hide();
-		run(fn[name]);
+		return run(fn[name]);
 	}
 };
 

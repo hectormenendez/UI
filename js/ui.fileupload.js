@@ -167,7 +167,7 @@ fn.fileupload.prototype = {
 			this.core.log('Error.', me);
 			// run user callback if available
 			if (typeof this.settings.error == 'function')
-				return (cb = this.settings.error.call(this,data));
+				return (cb = this.settings.error.call(this, data));
 			return false;
 		}
 		this.core.log('Success.', me);

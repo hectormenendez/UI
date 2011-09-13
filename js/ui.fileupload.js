@@ -61,15 +61,20 @@ fn.fileupload.prototype = {
 	defaults:{
 		url      : window.location.href,
 		data     : {},
-		progress : null, // if location provided, will poll it every second
-		                 // untill 100 is returned.
 		// callbacks
 		change   : null, // file selected
-		cancel   : null, // dialog clos
+		cancel   : null, // dialog closed
+		progress : null, // transfer progress
 		complete : null, // transfer completed
 		success  : null, // JSON received.
 		error    : null  // any other data received.
 	},
+
+	// check for XHR support and instantiate it at the same time.
+	xhr:(function(){
+		var xhr = new XMLHttpRequest();
+		return (xhr.upload !== undefined && xhr.onprogress !== undefined)? xhr : false;
+	})(),
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
@@ -122,13 +127,82 @@ fn.fileupload.prototype = {
 			}
 			this.core.log(msg + '.', me);
 		}
-		// we've a file, make sure everyone knows and trigger submit.
-		this.core.log('File selected, loading : ' + this.settings.url, me);
-		this.$form.submit();
-		// add a listener on the iFrame.
-		if (!this.proxyload) this.proxyload = $.proxy(this.load, this);
-		this.$frame.bind('load', this.proxyload);
-		return false;
+		// if there's no support for XHR-2 upload fallback to a common iframe upload.
+		if (!this.xhr){
+			// we've a file, make sure everyone knows and trigger submit.
+			this.core.log('File selected, XHR not supported, loading : ' + this.settings.url, me);
+			this.$form.submit();
+			// add a listener on the iFrame.
+			if (!this.proxyload) this.proxyload = $.proxy(this.load, this);
+			this.$frame.bind('load', this.proxyload);
+			return false;
+		}
+		// there's XHR support. \o/
+		this.start();
+	},
+
+	/**
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/13 02:39
+	 */
+	start:function(){
+		var file = this.$file.get(0).files[0];
+		var self = this;
+		this.core.log('File selected, XHR supported, starting file upload.', me);
+		// don't check callback on event, save some calls by doing it here.
+		var callback = false;
+		if (typeof this.settings.progress == 'function'){
+			this.core.log('User\'s "progress" callback exists.');
+			callback = this.settings.progress;
+		}
+		// capture progress
+		this.xhr.upload.onprogress = function(e){
+			if (!e.lengthComputable){
+				self.core.log('Length not Computable.', me);
+				return true;
+			}
+			// user callback
+			var percentage = parseInt((e.loaded / e.total) * 100,10);
+			if (callback) return callback.call(self, percentage, e, self.xhr);
+		};
+		// complete transfer
+		this.xhr.upload.onload = function(e){
+			// call complete
+			if (typeof self.settings.complete == 'function'){
+				self.core.log('User\'s "complete" calledback',me);
+				self.settings.complete.call(self, e, self.xhr);
+			}
+			// no need to log this for non callback calls,  it does nothing.
+		};
+		var error = function(e, loaded){
+			// trigger the error.
+			if (typeof self.settings.error == 'function'){
+				self.core.log('User\'s "error" calledback',me);
+				self.settings.error.call(self, e, self.xhr);
+			}
+			self.core.log('Error. ' + (loaded? self.xhr.responseText + '.' : ''), me);
+		};
+		// catch errors
+		this.xhr.upload.onerror = error;
+		// transfer listener?
+		this.xhr.onreadystatechange = function(e){
+			if (self.xhr.readyState !== 4) return false;
+			if (self.xhr.status != 200) return error(e, true);
+			// success
+			if (typeof self.settings.success == 'function'){
+				self.core.log('User\'s "success" calledback',me);
+				self.settings.success.call(self, e, self.xhr);
+			}
+			self.core.log('Success. ' + self.xhr.responseText + '.', me);
+        };
+		// open connection
+		this.xhr.open('POST', this.settings.url);
+		// setup headers
+		this.xhr.setRequestHeader("Cache-Control", "no-cache");
+        this.xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        this.xhr.setRequestHeader("X-File-Name", file.name);
+        // send file.
+        this.xhr.send(file);
 	},
 
 	/**
@@ -156,7 +230,9 @@ fn.fileupload.prototype = {
 	},
 
 	/**
-	 * This will be triggered when the server sends a response to the client.
+	 * This will be triggered when there's no support for XHR's 2 upload
+	 * and  server sends a response to the client on the hidden iFrame.
+	 *
 	 * @author Hector Menendez <h@cun.mx>
 	 * @created 2011/SEP/12 07:49
 	 */

@@ -170,6 +170,7 @@ fn.tooltip.prototype = {
  *
  * @author Hector Menendez <h@cun.mx>
  * @licence http://etor.mx/licence.txt
+ * @updated 2011/SEP/14 16:24    Removed padding, an created a method out of it.
  * @created 2011/SEP/07 00:23
  */
 fn.textinput = function(context){
@@ -179,27 +180,13 @@ fn.textinput = function(context){
 	// make sure we've a correct context.
 	if (typeof context != 'object' || !context instanceof jQuery)
 		context = self.core.$body;
+	this.padding(context);
 	context.find(
 		'.ui-textarea,'+
 		'.ui-input[type="text"],'+
 		'.ui-input[type="password"]'
 	).each(function(){
 		var $this = $(this);
-		$this.width('100%');
-		var width = $this.outerWidth();
-		// Add a padding of .5em without compromising width;
-		var em = parseInt($this.css('font-size'),10);
-		if (!em) em = self.core.em;
-		// we only need two decimal digits, get rid of everything else.
-		var pad = (em*100)/width;
-		    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
-		// set css padding and width.
-		$this.css({
-			'text-indent'   : '0 !important',
-			'width'         : 100-pad + '% !important',
-			'padding-left'  :  pad/2  + '% !important',
-			'padding-right' :  pad/2  + '% !important'
-		});
 		// does this element has a label?
 		var label = $this.siblings('.ui-label').last();
 		if (!label.length) return;
@@ -253,5 +240,40 @@ fn.textinput.prototype = {
 
 	defaults:{},
 
-	enable: fn.textinput
+	enable: fn.textinput,
+
+	/**
+	 * Moved out from constructor, so it can be called externally.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
+	 * @created 2011/SEP/14 16:23
+	 */
+	padding: function(context){
+		this.core.log('Adjusting padding.','textinput');
+		// make sure we've a correct context.
+		if (typeof context != 'object' || !context instanceof jQuery)
+			context = self.core.$body;
+		return context.find(
+			'.ui-textarea,'+
+			'.ui-input[type="text"],'+
+			'.ui-input[type="password"]'
+		).each(function(){
+			var $this = $(this);
+			$this.width('100%');
+			var width = $this.outerWidth();
+			// Add a padding of .5em without compromising width;
+			var em = parseInt($this.css('font-size'),10);
+			if (!em) em = self.core.em;
+			// we only need two decimal digits, get rid of everything else.
+			var pad = (em*100)/width;
+			    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
+			// set css padding and width.
+			$this.css({
+				'text-indent'   : '0 !important',
+				'width'         : 100-pad + '% !important',
+				'padding-left'  :  pad/2  + '% !important',
+				'padding-right' :  pad/2  + '% !important'
+			});
+		});
+	}
 };

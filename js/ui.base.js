@@ -179,10 +179,10 @@ fn.textinput = function(context){
 		$this.width('100%');
 		var width = $this.outerWidth();
 		// Add a padding of .5em without compromising width;
-		var fontsize = parseInt($this.css('font-size'),10);
-		if (!fontsize) fontsize = self.core.fontsize;
+		var em = parseInt($this.css('font-size'),10);
+		if (!em) em = self.core.em;
 		// we only need two decimal digits, get rid of everything else.
-		var pad = (fontsize*100)/width;
+		var pad = (em*100)/width;
 		    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
 		// set css padding and width.
 		$this.css({

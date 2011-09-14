@@ -77,9 +77,7 @@ ui.core = ui.prototype = {
 		return ms.getTime() - BMK;
 	},
 
-	fontsize:(function(){return parseInt(
-		$('<div class="ui-fontsize">H</div>').appendTo('body').css('font-size'),10
-	);})(),
+	em:null, // 1em to pixels.
 
 	/**
 	 * Error shorthand.
@@ -291,6 +289,9 @@ $.ui = ui;
 $(document).ready(function(){
 
 	$.ui = new $.ui();
+
+	// obtain the equivalent in pixels for an EM.
+	ui.core.em = parseInt($('<div class="ui-fontsize">H</div>').appendTo('body').css('font-size'),10);
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>

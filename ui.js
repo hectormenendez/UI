@@ -80,7 +80,9 @@ ui.core = ui.prototype = {
 		return ms.getTime() - BMK;
 	},
 
-	em:null, // 1em to pixels.
+	em:null,         // 1em in pixels.
+
+	scrollbar:null,  // scrollbar width in pixels.
 
 	/**
 	 * Error shorthand.
@@ -303,6 +305,17 @@ $(document).ready(function(){
 
 	// obtain the equivalent in pixels for an EM.
 	ui.core.em = parseInt($('<div class="ui-em">H</div>').appendTo('body').css('font-size'),10);
+
+	// obtain the scrollbar width in pixels
+	ui.core.scrollbar = (function(self){
+		var ovflow = self.$body.css('overflow');
+		var hidden = self.$body.css('overflow','hidden').width();
+		var scroll = self.$body.css('overflow','scroll').width();
+		// Watch out for IE.
+		var width  = (hidden==scroll)? scroll - self.$body.get(0).clientWidth : hidden-scroll;
+		self.$body.css('overflow', ovflow); // restore
+		return width;
+	})($.ui);
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>

@@ -2,6 +2,7 @@ var fn = {};
 var me = 'progressbar';
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/12 15:39
  */
 fn.progressbar = function(){

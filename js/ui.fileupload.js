@@ -2,6 +2,7 @@ var fn = {};
 var me = 'fileupload';
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/12 02:42
  */
 fn.fileupload = function(){
@@ -80,6 +81,7 @@ fn.fileupload.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 06:27
 	 */
 	trigger:function(){
@@ -97,6 +99,7 @@ fn.fileupload.prototype = {
 	/**
 	 * This will be triggered right after the user opens the dialog.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 06:56
 	 */
 	blur:function(){
@@ -113,6 +116,7 @@ fn.fileupload.prototype = {
 	/**
 	 * This will be triggered when file dialog closes and window gains focus.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 07:11
 	 */
 	focus:function(e){
@@ -140,6 +144,7 @@ fn.fileupload.prototype = {
 	/**
 	 * This will be triggered just after the user selects a file.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 06:56
 	 */
 	change:function(){
@@ -174,6 +179,7 @@ fn.fileupload.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/13 21:13
 	 */
 	start:function(){
@@ -188,6 +194,7 @@ fn.fileupload.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/13 02:39
 	 */
 	startXHR:function(){
@@ -255,6 +262,7 @@ fn.fileupload.prototype = {
 	 * and  server sends a response to the client on the hidden iFrame.
 	 *
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 07:49
 	 */
 	load:function(){

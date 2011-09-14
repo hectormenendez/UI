@@ -2,6 +2,7 @@ var fn = {};
 
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/11 04:39
  */
 fn.inset = function(){

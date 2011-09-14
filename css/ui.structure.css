@@ -1,6 +1,7 @@
 /*******************************************************************************
  * COMMON                                                                      *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 17:02                                                  *
  *******************************************************************************/
 
@@ -67,9 +68,10 @@
 
 
 /*******************************************************************************
- * EM                                                                    *
+ * EM                                                                          *
  * This is used to find a value of 1em for the document                        *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
  * @created 2011/SEP/10 23:57                                                  *
  *******************************************************************************/
 
@@ -82,8 +84,9 @@
 }
 
 /*******************************************************************************
- * PROGRESS BAR                                                                 *
+ * PROGRESS BAR                                                                *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
  * @created 2011/SEP/12 14:56                                                  *
  *******************************************************************************/
 
@@ -107,6 +110,7 @@
 /*******************************************************************************
  * FILEUPLOAD                                                                  *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/10 23:57                                                  *
  *******************************************************************************/
 
@@ -148,6 +152,7 @@
  * INSET Structure                                                             *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/05 00:35                                                  *
  *******************************************************************************/
 
@@ -176,6 +181,7 @@ fieldset.ui-inset > legend {
  * OVERLAY Structure                                                           *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @working 2011/AUG/31 15:26 Chrome, FF5                                      *
  * @created 2011/AUG/31 15:16                                                  *
  *******************************************************************************/
@@ -194,6 +200,7 @@ fieldset.ui-inset > legend {
  * LOADER Structure                                                            *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 11:21                                                  *
  *******************************************************************************/
 
@@ -232,6 +239,7 @@ fieldset.ui-inset > legend {
 /*******************************************************************************
  * TEXT INPUTS & LABELS                                                        *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 17:49                                                  *
  *******************************************************************************/
 
@@ -308,6 +316,7 @@ fieldset.ui-inset > legend {
 /*******************************************************************************
  * BUTTONS                                                                     *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 16:56                                                  *
  *******************************************************************************/
 

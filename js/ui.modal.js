@@ -2,6 +2,7 @@ var fn = {};
 
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @updated 2011/SEP/10 00:13   Moved to new format.
  * @created 2011/SEP/09 06:29
  */
@@ -51,6 +52,7 @@ fn.modal.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/11 04:12    Adapted to new format.
 	 * @created 2011/SEP/01 14:49
 	 */
@@ -90,6 +92,7 @@ fn.modal.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/11 04:12    Adapted to new format.
 	 * @created 2011/SEP/01 14:48
 	 */

@@ -2,6 +2,7 @@ var fn = {};
 
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 13:50
  */
 fn.loader = function(){};
@@ -17,6 +18,7 @@ fn.loader.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/10 16:53   Overlay moved to its own method.
 	 * @updated 2011/SEP/10 05:15   Using prototype now.
 	 * @updated 2011/SEP/09 05:15   Moved to ui.base.js
@@ -34,6 +36,7 @@ fn.loader.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/10 16:59   Overlay moved to its own method.
 	 * @updated 2011/SEP/10 01:58   Using prototype now.
 	 * @updated 2011/SEP/09 05:16   Moved to ui.base.js
@@ -54,6 +57,7 @@ fn.loader.prototype = {
 
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/10 16:47
  */
 fn.overlay = function(){};
@@ -68,6 +72,7 @@ fn.overlay.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/10 16:49
 	 */
 	show:function(speed){
@@ -81,6 +86,7 @@ fn.overlay.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/10 16:55
 	 */
 	hide:function(speed){
@@ -99,6 +105,7 @@ fn.overlay.prototype = {
 
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/07 18:08
  */
 
@@ -114,6 +121,7 @@ fn.tooltip.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/11 02:12
 	 */
 	enable:function(context, message){
@@ -161,6 +169,7 @@ fn.tooltip.prototype = {
  * Prepare Text Inputs and Textareas.
  *
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/07 00:23
  */
 fn.textinput = function(context){

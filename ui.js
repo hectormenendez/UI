@@ -1,5 +1,6 @@
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  *
  * @bug     2011/SEP/09 04:34   Chrome doesn't allow loading local scripts
  *                              in offline mode.
@@ -18,6 +19,7 @@ var BMK = new Date();
 /**
  * Constructor
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 09:02
  */
 var ui = function(){
@@ -70,6 +72,7 @@ ui.core = ui.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/10 17:50
 	 */
 	benchmark:function(){
@@ -82,6 +85,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Error shorthand.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/AUG/31 04:11
 	 */
 	error:function(msg, caller){
@@ -94,6 +98,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Log Shorthand.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/12 08:33   it now shows XXXs XXXms
 	 * @created 2011/SEP/09 03:57
 	 */
@@ -114,6 +119,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Load plugin script.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 04:14
 	 */
 	load:function(name, callback){
@@ -147,6 +153,7 @@ ui.core = ui.prototype = {
 	/**
 	 * checks if given name is a plugin.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 05:55
 	 */
 	isplugin:function(name){
@@ -163,6 +170,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Returns wether an object  is an object containing an jQuery element.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 15:56
 	 */
 	iselement:function(jQ){
@@ -177,6 +185,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Traverses jQuery selector and adds ui-* classes to allowed elements.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 06:42
 	 */
 	uify:function(jQ){
@@ -192,6 +201,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Finds the first background-color up in the chain.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/12 15:35    Moved from ui.inset.js
 	 * @created 2011/SEP/11 04:49
 	 */
@@ -211,6 +221,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Enables plugin for jquery element.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 *
 	 * @param req string         name    Name of the plugin.
 	 * @param req jQuery      element    Target jQuery Element.
@@ -295,6 +306,7 @@ $(document).ready(function(){
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 *
 	 * @param opt object   settings   widget-specific settings.
 	 * @param opt function callback   what to do after plugin constructed.

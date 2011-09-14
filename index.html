@@ -27,7 +27,7 @@
 	<script type="text/javascript" src='./ui.js'></script>
 	<script>
 	// enable debug mode
-	$.ui.core.defaults.debug = false;
+	$.ui.core.defaults.debug = true;
 
 	$(document).ready(function(){
 
@@ -45,12 +45,13 @@
 
 		$('.ui-inset').ui(false, function(){
 			var color = ['#CCC','#D99','#99C','#9DD','#9D9','#99D'];
-			var self = this.element;
+			var self = this;
 			// callback example
-			self.css('font-size','4em');
+			self.element.css('font-size','4em');
 			setInterval(function(){
 				c = color[Math.floor(Math.random()*color.length)];
-				self.parent().css('background-color', c).end().ui();
+				self.element.parent().css('background-color', c);
+				self.update();
 			},3000);
 		});
 

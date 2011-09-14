@@ -52,15 +52,19 @@ fn.inset = function(){
 		$this.css(css);
 	});
 	var tag = this.element.get(0).nodeName.toLowerCase();
-	this.core.log('Constructed for "'+ tag + '".', 'inset');
+	this.core.log((this.constructed? 'Updated' : 'Constructed') + ' "'+ tag + '".', 'inset');
+	if (!this.constructed) this.constructed = true;
 };
 
 fn.inset.prototype = {
 	constructor:fn.inset,
+	constructed:false,
 
 	defaults:{
 		high : 1.15, // highlights
 		base : 0.90, // base color
 		low  : 0.65  // shadows
-	}
+	},
+
+	update:fn.inset
 };

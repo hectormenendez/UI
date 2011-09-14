@@ -35,10 +35,11 @@ var ui = function(){
 		self.log('Setting '+ ui.core.baseurl + ' as baseurl.');
 	});
 	// Cache Common jQuery elements (and show the loader).
-	ui.core.$body    = $('body');
-	ui.core.$overlay = $('<div class="ui-overlay">').prependTo(ui.core.$body).show();
-	ui.core.$loader  = $('<div class="ui-loader">').prependTo(ui.core.$body).show();
-	ui.core.$tooltip = $('<div class="ui-tooltip">').prependTo(ui.core.$body);
+	ui.core.$document = $(document);
+	ui.core.$body     = $('body');
+	ui.core.$overlay  = $('<div class="ui-overlay">').prependTo(ui.core.$body).show();
+	ui.core.$loader   = $('<div class="ui-loader">').prependTo(ui.core.$body).show();
+	ui.core.$tooltip  = $('<div class="ui-tooltip">').prependTo(ui.core.$body);
 	// obtain overlay base opacity
 	ui.core.$overlay.opacity = ui.core.$overlay.css('opacity');
 	// load base components
@@ -102,7 +103,7 @@ ui.core = ui.prototype = {
 		if (!this.defaults.debug || console === undefined) return false;
 		// pad zeroes when needed.
 		var pad = function(num, length){
-			num = num.toString();
+			num = parseInt(num,10).toString();
 			while(num.length < length) num = '0' + num;
 			return num;
 		};
@@ -228,6 +229,18 @@ ui.core = ui.prototype = {
 
 		// element instancing;
 		var run  = function(fn){
+			// make sure a valid element is being sent.
+			if (!self.iselement(element)) self.error('Invalid Element.', name);
+			var dom = element.get(0);
+			// make sure an element is constructed only once
+			var tagname = dom.tagName.toLowerCase();
+			if (element.hasClass('ui_' + name + '_enabled')){
+				self.log('Element "'+tagname+'" already constructed, returning cached instance.', name);
+				return dom.ui[name];
+			}
+			// make sure element has ui-tag
+			// after all, $.ui.enable does not require the element to have it.
+			if (!element.hasClass('ui-'+ name)) element.addClass('ui-'+name);
 			// merge user-sent settings with defaults;
 			settings = $.extend(true, {}, fn.prototype.defaults, settings);
 			// pass on, core prototype.
@@ -236,11 +249,16 @@ ui.core = ui.prototype = {
 			instance.prototype.settings = settings;
 			instance.prototype.element  = element;
 			instance = new instance(element, settings);
+			// Identify this element in the future as already enabled.
+			element.addClass('ui_' + name + '_enabled');
+			if (typeof dom.ui != 'object') dom.ui = {};
+			dom.ui[name] = instance;
 			// enable callback, preserving scope.
 			if (typeof callback == 'function') {
 				callback.call(instance);
 				self.log('Calledback.', name);
 			}
+			return instance;
 		};
 		if (typeof name != 'string') this.error('Invalid Name.');
 		// no need to reload if plugin is already loaded.
@@ -262,7 +280,7 @@ ui.core = ui.prototype = {
 		ui.core.fn[name] = fn[name];
 		self.log('Loaded.', name);
 		self.loader.hide();
-		run(fn[name]);
+		return run(fn[name]);
 	}
 };
 

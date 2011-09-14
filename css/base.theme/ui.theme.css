@@ -117,6 +117,34 @@
     box-shadow:.125em .125em .25em rgba(0,0,0,.5);
 }
 
+.ui-modal header .ui_modal_header_item,
+.ui-menubar > li.ui-menubar-exit
+{
+    background:#444;
+    box-shadow:-1px -1px #CCC inset;
+    border-radius:.25em;
+}
+
+
+/* exit buttton */
+.ui-modal header .ui_modal_header_item:after,
+.ui-menubar > li.ui-menubar-exit:after
+{
+    color:#AAA;
+    text-shadow:-1px -1px #222;
+}
+
+.ui-modal header .ui_modal_close:hover,
+.ui-menubar > li.ui-menubar-exit:hover {
+    background:#633;
+    box-shadow:-1px -1px #D6CCCC inset;
+}
+
+.ui-modal header .ui_modal_close:hover:after,
+.ui-menubar > li.ui-menubar-exit:hover:after {
+    color:#D6CCCC;
+}
+
 /*******************************************************************************
  * PROGRESS BAR                                                                *
  * @author Hector Menendez <h@cun.mx>                                          *

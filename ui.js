@@ -291,7 +291,7 @@ $(document).ready(function(){
 	$.ui = new $.ui();
 
 	// obtain the equivalent in pixels for an EM.
-	ui.core.em = parseInt($('<div class="ui-fontsize">H</div>').appendTo('body').css('font-size'),10);
+	ui.core.em = parseInt($('<div class="ui-em">H</div>').appendTo('body').css('font-size'),10);
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>

@@ -103,7 +103,7 @@ ui.core = ui.prototype = {
 		if (!this.defaults.debug || console === undefined) return false;
 		// pad zeroes when needed.
 		var pad = function(num, length){
-			num = num.toString();
+			num = parseInt(num,10).toString();
 			while(num.length < length) num = '0' + num;
 			return num;
 		};

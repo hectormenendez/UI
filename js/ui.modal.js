@@ -6,6 +6,9 @@ var fn = {};
  * @created 2011/SEP/09 06:29
  */
 fn.modal = function(){
+
+	var self = this;
+
 	// move element so it's a direct child of body;
 	this.element.remove().prependTo(this.core.$body);
 	// process html
@@ -15,13 +18,16 @@ fn.modal = function(){
 	var context = sect.find('*');
 	this.core.uify(context);
 	this.core.textinput.enable(sect.find('*'));
-	// obtain title. {TODO} what happens if it doesn't exist?
-	this.title = this.element.attr('title');
-	// save submit or reset elems and move'em to the footer.
+	// obtain title.
+	this.title = this.element.attr('title') || '';
+	this.element.removeAttr('title');
+	// create elements
 	var $button = this.element.find('input[type="submit"],input[type="reset"]').remove();
-	// Create footer and header
 	this.$header  = $('<header></header>').prependTo(this.element);
 	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
+	this.$close   = $('<div class="ui_modal_header_item ui_modal_close">')
+		.click(function(){ self.hide(); })
+		.prependTo(this.$header);
 	this.$footer  = $('<footer></footer>')
 		.appendTo(this.element)
 		.append($button);
@@ -39,7 +45,8 @@ fn.modal.prototype = {
 	defaults:{
 		auto   : false,
 		speed  : 0, // 0=instant, int=miliseconds 'slow','fast','normal'
-		footer : true
+		footer : true,
+		close  : true
 	},
 
 	/**
@@ -56,6 +63,9 @@ fn.modal.prototype = {
 		if (!parseInt(speed,10)) speed = this.settings.speed;
 		// reset title
 		this.$title.html(this.title);
+		// show or hide the close button
+		if (!this.settings.close) this.$close.hide();
+		else                      this.$close.show();
 		// show or hide the footer.
 		if (!this.settings.footer) {
 			this.$footer.hide();

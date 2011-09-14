@@ -37,6 +37,35 @@
     outline:none !important;
 }
 
+.ui-modal header .ui_modal_close:hover,
+.ui-menubar > li.ui-menubar-exit:hover {
+    cursor:pointer;
+}
+
+.ui-menubar > li.ui-menubar-exit:after,
+.ui-modal header .ui_modal_close:after
+{
+    content:"x";
+}
+
+.ui-menubar > li.ui-menubar-exit:after ,
+.ui-modal header .ui_modal_header_item:after
+{
+    z-index:0;
+    display:block;
+    position:absolute;
+    width:1.35em;
+    line-height:1em;
+    top:0;
+    left:0;
+    text-align:center;
+    padding:0;
+    margin:0;
+    font-weight:bold;
+    font-size:12px;
+}
+
+
 /*******************************************************************************
  * FONTSIZE                                                                    *
  * This is used to find a value of 1em for the document                        *

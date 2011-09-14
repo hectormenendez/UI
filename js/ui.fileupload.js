@@ -61,6 +61,7 @@ fn.fileupload.prototype = {
 	defaults:{
 		url      : window.location.href,
 		data     : {},
+		auto     : false, // Auto start upload.
 		// callbacks
 		change   : null, // file selected
 		cancel   : null, // dialog closed
@@ -109,6 +110,33 @@ fn.fileupload.prototype = {
 	},
 
 	/**
+	 * This will be triggered when file dialog closes and window gains focus.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/12 07:11
+	 */
+	focus:function(e){
+		// this listener must only run once.
+		$(window).unbind('focus', this.proxyfocus);
+		if (!this.hasfile){
+			// run user callback if available
+			if (typeof this.settings.cancel == 'function'){
+				var cb = this.settings.cancel.call(this);
+				var msg = 'User\'s "cancel" calledback';
+				if (cb !== null && cb !== undefined){
+					this.core.log(msg + ', returning "' + cb + '".', me);
+					return cb;
+				}
+				this.core.log(msg + '.', me);
+			}
+			this.core.log('Cancelled.', me);
+			return true;
+		}
+		// restore hasfile
+		this.hasfile = false;
+		return true;
+	},
+
+	/**
 	 * This will be triggered just after the user selects a file.
 	 * @author Hector Menendez <h@cun.mx>
 	 * @created 2011/SEP/12 06:56
@@ -131,24 +159,39 @@ fn.fileupload.prototype = {
 		if (!this.xhr){
 			// we've a file, make sure everyone knows and trigger submit.
 			this.core.log('File selected, XHR not supported, loading : ' + this.settings.url, me);
-			this.$form.submit();
-			// add a listener on the iFrame.
-			if (!this.proxyload) this.proxyload = $.proxy(this.load, this);
-			this.$frame.bind('load', this.proxyload);
-			return false;
+			return this.start();
 		}
 		// there's XHR support. \o/
-		this.start();
+		this.core.log('File selected, XHR supported.', me);
+		// start upload if auto is enabled
+		if (this.settings.auto === true) return this.start();
+		if (typeof this.settings.ready == 'function'){
+			this.core.log('User\'s "ready" calleback.',me);
+			return this.settings.ready.call(this);
+		}
+	},
+
+	/**
+	 * @author Hector Menendez <h@cun.mx>
+	 * @created 2011/SEP/13 21:13
+	 */
+	start:function(){
+		if (this.xhr instanceof XMLHttpRequest)	return this.startXHR();
+		// initiate transfer
+		this.$form.submit();
+		// add a listener on the iFrame.
+		if (!this.proxyload) this.proxyload = $.proxy(this.load, this);
+		this.$frame.bind('load', this.proxyload);
+		return false;
 	},
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
 	 * @created 2011/SEP/13 02:39
 	 */
-	start:function(){
+	startXHR:function(){
 		var file = this.$file.get(0).files[0];
 		var self = this;
-		this.core.log('File selected, XHR supported, starting file upload.', me);
 		// don't check callback on event, save some calls by doing it here.
 		var callback = false;
 		if (typeof this.settings.progress == 'function'){
@@ -172,7 +215,8 @@ fn.fileupload.prototype = {
 				self.core.log('User\'s "complete" calledback',me);
 				self.settings.complete.call(self, e, self.xhr);
 			}
-			// no need to log this for non callback calls,  it does nothing.
+			//self.core.log('Completed transfer, renewing XHR.', me);
+			//this.xhr = new XMLHttpRequest();
 		};
 		var error = function(e, loaded){
 			// trigger the error.
@@ -203,30 +247,6 @@ fn.fileupload.prototype = {
         this.xhr.setRequestHeader("X-File-Name", file.name);
         // send file.
         this.xhr.send(file);
-	},
-
-	/**
-	 * This will be triggered when file dialog closes and window gains focus.
-	 * @author Hector Menendez <h@cun.mx>
-	 * @created 2011/SEP/12 07:11
-	 */
-	focus:function(e){
-		// this listener must only run once.
-		$(window).unbind('focus', this.proxyfocus);
-		if (!this.hasfile){
-			// run user callback if available
-			if (typeof this.settings.cancel == 'function'){
-				var cb = this.settings.cancel.call(this);
-				var msg = 'User\'s "cancel" calledback';
-				if (cb !== null && cb !== undefined){
-					this.core.log(msg + ', returning "' + cb + '".', me);
-					return cb;
-				}
-				this.core.log(msg + '.', me);
-			}
-			this.core.log('Cancelled.', me);
-		}
-		return true;
 	},
 
 	/**

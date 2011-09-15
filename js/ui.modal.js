@@ -1,8 +1,9 @@
 var fn = {};
-
+var me = 'modal';
 /**
  * @author Hector Menendez <h@cun.mx>
  * @licence http://etor.mx/licence.txt
+ * @updated 2011/SEP/14 21:19   Moved button declaration to  modal.update()
  * @updated 2011/SEP/10 00:13   Moved to new format.
  * @created 2011/SEP/09 06:29
  */
@@ -19,24 +20,18 @@ fn.modal = function(){
 	var context = sect.find('*');
 	this.core.uify(context);
 	this.core.textinput.enable(sect.find('*'));
-	// obtain title.
+	// set main sub-elements-
+	this.$header  = $('<header></header>').prependTo(this.element);
+	this.$footer  = $('<footer></footer>').appendTo(this.element);
+	this.$section = this.element.find('section');
+	// set title.
 	this.title = this.element.attr('title') || '';
 	this.element.removeAttr('title');
-	// create elements
-	var $button = this.element.find('input[type="submit"],input[type="reset"]').remove();
-	this.$header  = $('<header></header>').prependTo(this.element);
 	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
+	// set closer
 	this.$close   = $('<div class="ui_modal_header_item ui_modal_close">')
 		.click(function(){ self.hide(); })
 		.prependTo(this.$header);
-	this.$footer  = $('<footer></footer>')
-		.appendTo(this.element)
-		.append($button);
-	this.$section = this.element.find('section'); // won't have buttons.
-	// if there was a form, and we moved the submit and/or reset buttons,
-	// they won't work so we mimic their original behaviour.
-	this.$submit = $button.filter('[type="submit"]');//.bind('click', this.submit);
-	this.$reset  = $button.filter('[type="reset"]');//.bind('click', this.reset);
 	if (this.settings.auto === true) this.show();
 };
 
@@ -47,7 +42,10 @@ fn.modal.prototype = {
 		auto   : false,
 		speed  : 0, // 0=instant, int=miliseconds 'slow','fast','normal'
 		footer : true,
-		close  : true
+		close  : true,
+		// callbacks
+		submit : null,  // user pressed submit
+		cancel : null   // user pressed cancel
 	},
 
 	/**
@@ -62,20 +60,8 @@ fn.modal.prototype = {
 		// TODO: Create a queue for these modals to show after enabled closes.
 		if (this.core.fn.modal.enabled) return this;
 		this.core.fn.modal.enabled = true;
+		this.update();
 		if (!parseInt(speed,10)) speed = this.settings.speed;
-		// reset title
-		this.$title.html(this.title);
-		// show or hide the close button
-		if (!this.settings.close) this.$close.hide();
-		else                      this.$close.show();
-		// show or hide the footer.
-		if (!this.settings.footer) {
-			this.$footer.hide();
-			this.element.addClass('ui_modal_hidden_footer');
-		} else {
-			this.$footer.show();
-			this.element.removeClass('ui_modal_hidden_footer');
-		}
 		// show it.
 		this.core.overlay.show(speed);
 		this.element
@@ -104,5 +90,49 @@ fn.modal.prototype = {
 		this.element.animate({opacity:0}, speed, this.element.hide);
 		this.core.log('Hidden.','modal');
 		return this.element;
+	},
+
+	/**
+	 * Make sure modal is up-to-date.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
+	 * @created 2011/SEP/14 20:44
+	 */
+	update:function(){
+		var self = this;
+		// reset title
+		this.$title.html(this.title);
+		// show or hide the close button
+		if (!this.settings.close) this.$close.hide();
+		else                      this.$close.show();
+		this.$cancel = {};
+		this.$submit = {};
+		// all submit and cancel elements found in content will
+		// be moved down to footer and get modal's events.
+		// well, at least the first one of each.
+		var $b = this.element.find('input[type="submit"],input[type="reset"]').remove();
+		// enable buttons depending on settings callbacks visibility.
+		if (typeof this.settings.cancel == 'function'){
+			this.$cancel = $b.filter('[type="reset"]').first().appendTo(this.$footer)
+			.click(function(){
+				self.core.log('User\'s "cancel" calledback.',me);
+				self.settings.cancel.call(self);
+			});
+		}
+		if (typeof this.settings.submit == 'function'){
+			this.$submit =  $b.filter('[type="submit"]').first().appendTo(this.$footer)
+			.click(function(){
+				self.core.log('User\'s "submit" calledback.',me);
+				self.settings.submit.call(self);
+			});
+		}
+		// if there are no buttons, do not enable footer even though settings say the opposite.
+		if (this.settings.footer && (this.$submit.length || this.$cancel.length)) {
+			this.$footer.show();
+			this.element.removeClass('ui_modal_hidden_footer');
+			return;
+		}
+		this.$footer.hide();
+		this.element.addClass('ui_modal_hidden_footer');
 	}
 };

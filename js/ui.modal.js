@@ -113,18 +113,20 @@ fn.modal.prototype = {
 		// all submit and cancel elements found in content will
 		// be moved down to footer and get modal's events.
 		// well, at least the first one of each.
-		var $b = this.element.find('input[type="submit"],input[type="reset"]').remove();
+		var $b = this.element.find('[type="submit"],[type="reset"]').remove();
 		// enable buttons depending on settings callbacks visibility.
 		if (typeof this.settings.cancel == 'function'){
-			this.$cancel = $b.filter('[type="reset"]').first().appendTo(this.$footer)
-			.click(function(){
+			var  $cancel = $b.filter('[type="reset"]').first();
+			if (!$cancel.length) $cancel = $('<input class="ui-button" type="reset" value="NO">');
+			this.$cancel = $cancel.appendTo(this.$footer).click(function(){
 				self.core.log('User\'s "cancel" calledback.',me);
 				self.settings.cancel.call(self);
 			});
 		}
 		if (typeof this.settings.submit == 'function'){
-			this.$submit =  $b.filter('[type="submit"]').first().appendTo(this.$footer)
-			.click(function(){
+			var  $submit = $b.filter('[type="submit"]').first();
+			if (!$submit.length) $submit = $('<input class="ui-button" type="submit" value="OK">');
+			this.$submit = $submit.appendTo(this.$footer).click(function(){
 				self.core.log('User\'s "submit" calledback.',me);
 				self.settings.submit.call(self);
 			});

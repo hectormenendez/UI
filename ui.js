@@ -130,29 +130,23 @@ ui.core = ui.prototype = {
 	 */
 	load:function(name, callback){
 		var url = this.baseurl + 'js/ui.' + name + '.js';
-		$(document).ajaxError(function(e, jqxhr, settings, exception){
-			// errors are not being thrown while in syncronich mode.
-			msg = 'ui-'+name +': ' + exception;
-			alert(msg);
-			throw msg; // halt execution
-		});
-
+		//$(document).ajaxError();
 		$.ajax({
-			type       : 'GET',
-			'url'      : url,
-			cache      : this.defaults.debug? false : true,
-			async      : false,
-			data       : null,
-			dataType   : 'script',
+			type    : 'GET',
+			'url'   : url,
+			cache   : this.defaults.debug? false : true,
+			async   : false,
+			data    : null,
+			dataType: 'script',
 			// get around a firefox 3 bug
-			beforeSend : function(data){ if (data.overrideMimeType) data.overrideMimeType('text/plain'); }
+			beforeSend: function(data){ if (data.overrideMimeType) data.overrideMimeType('text/plain'); },
 			// when using async, throwing errors doesn't seem to work, hence the alert.
-			/*
-			error      : function(data){
-				alert('[ui] Script load failed : ' + data.statusText);
-				throw data.statusText;
+			error: function(e, jqxhr, settings, exception){
+				msg = 'ui-load-'+name +': ' + exception;
+				// throw this error after execution, otherwise, it won't be shown.
+				// at least not in synchronic mode.
+				setTimeout(function(){ throw msg; },10);
 			}
-			*/
 		});
 	},
 

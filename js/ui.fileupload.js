@@ -2,6 +2,7 @@ var fn = {};
 var me = 'fileupload';
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/12 02:42
  */
 fn.fileupload = function(){
@@ -62,6 +63,7 @@ fn.fileupload.prototype = {
 		url      : window.location.href,
 		data     : {},
 		auto     : false, // Auto start upload.
+		size     : false, // limit file size [bytes]
 		// callbacks
 		change   : null, // file selected
 		cancel   : null, // dialog closed
@@ -79,6 +81,7 @@ fn.fileupload.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 06:27
 	 */
 	trigger:function(){
@@ -96,6 +99,7 @@ fn.fileupload.prototype = {
 	/**
 	 * This will be triggered right after the user opens the dialog.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 06:56
 	 */
 	blur:function(){
@@ -112,6 +116,7 @@ fn.fileupload.prototype = {
 	/**
 	 * This will be triggered when file dialog closes and window gains focus.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 07:11
 	 */
 	focus:function(e){
@@ -139,6 +144,7 @@ fn.fileupload.prototype = {
 	/**
 	 * This will be triggered just after the user selects a file.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 06:56
 	 */
 	change:function(){
@@ -173,6 +179,7 @@ fn.fileupload.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/13 21:13
 	 */
 	start:function(){
@@ -187,17 +194,24 @@ fn.fileupload.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/13 02:39
 	 */
 	startXHR:function(){
 		var file = this.$file.get(0).files[0];
 		var self = this;
-		// don't check callback on event, save some calls by doing it here.
-		var callback = false;
-		if (typeof this.settings.progress == 'function'){
-			this.core.log('User\'s "progress" callback exists.');
-			callback = this.settings.progress;
-		}
+		var size;
+		var error = function(e, completed, msg){
+			// trigger the error.
+			if (typeof self.settings.error == 'function'){
+				self.core.log('User\'s "error" calledback.', me);
+				self.settings.error.call(self, e, completed, msg, self.xhr);
+			}
+			self.core.log('Error. ' + (completed? self.xhr.responseText + '.' : msg), me);
+		};
+		// check filesize
+		if ((size = parseInt(this.settings.size,10)) && file.size > size)
+			return error({}, false, 'size');
 		// capture progress
 		this.xhr.upload.onprogress = function(e){
 			if (!e.lengthComputable){
@@ -205,8 +219,12 @@ fn.fileupload.prototype = {
 				return true;
 			}
 			// user callback
-			var percentage = parseInt((e.loaded / e.total) * 100,10);
-			if (callback) return callback.call(self, percentage, e, self.xhr);
+			if (typeof self.settings.progress == 'function'){
+				var percentage = parseInt((e.loaded / e.total) * 100,10);
+				self.core.log('User\'s "progress" calledback.', me);
+				return self.settings.progress.call(self, percentage, e, self.xhr);
+			}
+			self.core.log('Upload in progress.', me);
 		};
 		// complete transfer
 		this.xhr.upload.onload = function(e){
@@ -215,16 +233,6 @@ fn.fileupload.prototype = {
 				self.core.log('User\'s "complete" calledback',me);
 				self.settings.complete.call(self, e, self.xhr);
 			}
-			//self.core.log('Completed transfer, renewing XHR.', me);
-			//this.xhr = new XMLHttpRequest();
-		};
-		var error = function(e, loaded){
-			// trigger the error.
-			if (typeof self.settings.error == 'function'){
-				self.core.log('User\'s "error" calledback',me);
-				self.settings.error.call(self, e, self.xhr);
-			}
-			self.core.log('Error. ' + (loaded? self.xhr.responseText + '.' : ''), me);
 		};
 		// catch errors
 		this.xhr.upload.onerror = error;
@@ -234,7 +242,7 @@ fn.fileupload.prototype = {
 			if (self.xhr.status != 200) return error(e, true);
 			// success
 			if (typeof self.settings.success == 'function'){
-				self.core.log('User\'s "success" calledback',me);
+				self.core.log('User\'s "success" calledback.',me);
 				self.settings.success.call(self, e, self.xhr);
 			}
 			self.core.log('Success. ' + self.xhr.responseText + '.', me);
@@ -254,6 +262,7 @@ fn.fileupload.prototype = {
 	 * and  server sends a response to the client on the hidden iFrame.
 	 *
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 07:49
 	 */
 	load:function(){

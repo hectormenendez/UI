@@ -2,11 +2,13 @@
  * BASE THEME                                                                  *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
  * @created 2011/AUG/31 14:24                                                  *
  *                                                                             *
  *******************************************************************************
  * COMMON                                                                      *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
  * @created 2011/AUG/31 15:12                                                  *
  *******************************************************************************/
 
@@ -148,6 +150,7 @@
 /*******************************************************************************
  * PROGRESS BAR                                                                *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
  * @created 2011/SEP/12 14:56                                                  *
  *******************************************************************************/
 
@@ -174,6 +177,7 @@
  * OVERLAY                                                                     *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/AUG/30 00:16                                                  *
  *******************************************************************************/
 
@@ -183,6 +187,7 @@
  * INSET                                                                       *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/05 01:25                                                  *
  *******************************************************************************/
 
@@ -195,6 +200,7 @@ fieldset.ui-inset > legend {
  * LOADER                                                                      *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 11:23                                                  *
  *******************************************************************************/
 

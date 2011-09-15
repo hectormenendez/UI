@@ -2,6 +2,7 @@ var fn = {};
 var me = 'progressbar';
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/12 15:39
  */
 fn.progressbar = function(){
@@ -46,7 +47,7 @@ fn.progressbar.prototype = {
 		value: 0
 	},
 
-	update:function(value){
+	value:function(value){
 		value = parseInt(value,10);
 
 		this.$bar.css('width',value +'% !important');

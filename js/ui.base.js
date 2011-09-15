@@ -1,12 +1,54 @@
+// base methods for element handling.
 var fn = {};
 
 /**
+ * Make an element appear to say no.
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
+ * @adapted 2011/SEP/14 16:46  It was a standalone jQuery plugin.
+ * @created 2011/MAY/01 00:00
+ */
+fn.sayno = function(){
+	var ml = parseInt(this.element.css('margin-left'),10);
+	// target distances
+	var td = [ml - this.settings.distance, ml + this.settings.distance];
+	// callback
+	var self = this;
+	var cb = function(d){
+		self.element.animate({ 'margin-left' : d }, self.settings.speed);
+	};
+	var i;
+	// alternate calling cb.
+	for (i=0; i < ((this.settings.times*2)-1); i++)  cb(td[i%2]);
+	// restore original margin.
+	cb(ml);
+	this.core.log('No.','sayno');
+};
+fn.sayno.prototype = {
+	constructor:fn.sayno,
+
+	defaults:{
+		speed    : 100, // speed of movement in ms.
+		times    : 3,   // how many times?
+		distance : 10   // how many pixels to move the object?
+	},
+
+	update: fn.sayno    // this will be automatically called when the plugin
+	                    // targets an element that's already been constructed.
+};
+
+
+
+// methods available in core scope (core functionality);
+var core = {};
+/**
+ * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 13:50
  */
-fn.loader = function(){};
-fn.loader.prototype = {
-	constructor: fn.loader,
+core.loader = function(){};
+core.loader.prototype = {
+	constructor: core.loader,
 
 	defaults:{
 		speed:0
@@ -17,6 +59,7 @@ fn.loader.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/10 16:53   Overlay moved to its own method.
 	 * @updated 2011/SEP/10 05:15   Using prototype now.
 	 * @updated 2011/SEP/09 05:15   Moved to ui.base.js
@@ -34,6 +77,7 @@ fn.loader.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/10 16:59   Overlay moved to its own method.
 	 * @updated 2011/SEP/10 01:58   Using prototype now.
 	 * @updated 2011/SEP/09 05:16   Moved to ui.base.js
@@ -54,11 +98,12 @@ fn.loader.prototype = {
 
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/10 16:47
  */
-fn.overlay = function(){};
-fn.overlay.prototype = {
-	constructor:fn.overlay,
+core.overlay = function(){};
+core.overlay.prototype = {
+	constructor:core.overlay,
 
 	defaults:{
 		speed:0
@@ -68,6 +113,7 @@ fn.overlay.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/10 16:49
 	 */
 	show:function(speed){
@@ -81,6 +127,7 @@ fn.overlay.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/10 16:55
 	 */
 	hide:function(speed){
@@ -96,17 +143,15 @@ fn.overlay.prototype = {
 	}
 };
 
-
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/07 18:08
  */
+core.tooltip = function(){};
+core.tooltip.prototype = {
 
-fn.tooltip = function(){};
-
-fn.tooltip.prototype = {
-
-	constructor:fn.tooltip,
+	constructor:core.tooltip,
 
 	defaults:{
 		time:333
@@ -114,6 +159,7 @@ fn.tooltip.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/11 02:12
 	 */
 	enable:function(context, message){
@@ -161,36 +207,24 @@ fn.tooltip.prototype = {
  * Prepare Text Inputs and Textareas.
  *
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
+ * @updated 2011/SEP/14 16:24    Removed padding, an created a method out of it.
  * @created 2011/SEP/07 00:23
  */
-fn.textinput = function(context){
+core.textinput = function(context){
 
 	var self = this;
 
 	// make sure we've a correct context.
 	if (typeof context != 'object' || !context instanceof jQuery)
 		context = self.core.$body;
+	this.padding(context);
 	context.find(
 		'.ui-textarea,'+
 		'.ui-input[type="text"],'+
 		'.ui-input[type="password"]'
 	).each(function(){
 		var $this = $(this);
-		$this.width('100%');
-		var width = $this.outerWidth();
-		// Add a padding of .5em without compromising width;
-		var fontsize = parseInt($this.css('font-size'),10);
-		if (!fontsize) fontsize = self.core.fontsize;
-		// we only need two decimal digits, get rid of everything else.
-		var pad = (fontsize*100)/width;
-		    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
-		// set css padding and width.
-		$this.css({
-			'text-indent'   : '0 !important',
-			'width'         : 100-pad + '% !important',
-			'padding-left'  :  pad/2  + '% !important',
-			'padding-right' :  pad/2  + '% !important'
-		});
 		// does this element has a label?
 		var label = $this.siblings('.ui-label').last();
 		if (!label.length) return;
@@ -239,10 +273,45 @@ fn.textinput = function(context){
 	});
 	this.core.log('Enabled using "' + context.selector + '" as context.','textinput');
 };
-fn.textinput.prototype = {
-	constructor: fn.textinput,
+core.textinput.prototype = {
+	constructor: core.textinput,
 
 	defaults:{},
 
-	enable: fn.textinput
+	enable: core.textinput,
+
+	/**
+	 * Moved out from constructor, so it can be called externally.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
+	 * @created 2011/SEP/14 16:23
+	 */
+	padding: function(context){
+		this.core.log('Adjusting padding.','textinput');
+		// make sure we've a correct context.
+		if (typeof context != 'object' || !context instanceof jQuery)
+			context = self.core.$body;
+		return context.find(
+			'.ui-textarea,'+
+			'.ui-input[type="text"],'+
+			'.ui-input[type="password"]'
+		).each(function(){
+			var $this = $(this);
+			$this.width('100%');
+			var width = $this.outerWidth();
+			// Add a padding of .5em without compromising width;
+			var em = parseInt($this.css('font-size'),10);
+			if (!em) em = self.core.em;
+			// we only need two decimal digits, get rid of everything else.
+			var pad = (em*100)/width;
+			    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
+			// set css padding and width.
+			$this.css({
+				'text-indent'   : '0 !important',
+				'width'         : 100-pad + '% !important',
+				'padding-left'  :  pad/2  + '% !important',
+				'padding-right' :  pad/2  + '% !important'
+			});
+		});
+	}
 };

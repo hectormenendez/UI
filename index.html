@@ -31,6 +31,10 @@
 
 	$(document).ready(function(){
 
+		/*
+			THERE ARE SEVERAL WAYS OF ENABLING UI
+		*/
+
 		var b;
 		$('a.modal').click(function(){
 			$('div.modal').addClass('ui-modal').ui({ speed:500 },function(){
@@ -43,6 +47,7 @@
 			return false;
 		})
 
+
 		$('.ui-inset').ui(false, function(){
 			var color = ['#CCC','#D99','#99C','#9DD','#9D9','#99D'];
 			var self = this;
@@ -51,7 +56,7 @@
 			setInterval(function(){
 				c = color[Math.floor(Math.random()*color.length)];
 				self.element.parent().css('background-color', c);
-				self.update();
+				self.element.ui('inset');
 			},3000);
 		});
 
@@ -65,12 +70,70 @@
 			}
 		})
 
-		$.ui.enable('progressbar', $('#pbar'), false, function(){
+		/*
+		WORKING EXAMPLE OF FILEUPLOAD
+
+		var modal = $(modal).ui('modal');
+		var upbar = $(upbar).ui('progressbar');
+		var upload = $(element).ui('fileupload', {
+			url:'../../test',
+			auto:true, // auto starts upload.
+			size:3*1024*1024, // maximum size [3Mb]
+			change:function(){
+				modal.settings.footer = false;
+				modal.settings.close  = false;
+				modal.title = 'Uploading Image…';
+				modal.show();
+			},
+			progress:function(percentage){
+				ø.upbar.value(percentage)
+			},
+			complete:function(){ ø.modal.hide(); },
+			success :function(){
+				// remove all existing images
+				$ph.find('img').remove();
+				var self = this;
+				// show new image and adjust its size.
+				var fr = new FileReader();
+				fr.file = this.$file.get(0).files[0];
+				fr.onloadend = function(e){
+					var img = new Image();
+					img.src = e.target.result;
+					$img = $(img).appendTo($ph);
+					img.onload = function(){
+						$('html, body').animate({ scrollTop : 0 });
+					};
+				}
+				fr.readAsDataURL(fr.file);
+			},
+			error:function(e, complete, message){
+				// remove all existing images
+				$ph.find('img').remove();
+				ø.modal.settings.footer = false;
+				ø.modal.settings.close  = true;
+				if (!complete) {
+					ø.modal.hide();
+					ø.modal.title = 'Error';
+					message = (message == 'size')?
+						'El archivo excede el tamaño ḿáximo permitido.' :
+						'Error desconocido, contacte a soporte técnico.';
+					ø.modal.$section.html(message);
+					ø.modal.show();
+					return;
+				}
+				ø.modal.title = 'La Transferencia Falló';
+				ø.modal.$section.html(this.xhr.responseText)
+				ø.modal.show();
+			}
+		});
+		*/
+
+		$('#pbar').ui('progressbar', false, function(){
 			var load = 0;
 			var self = this;
 			this.element.mouseover(function(){
 				this.interval = setInterval(function(){
-					self.update(load++);
+					self.value(load++);
 					if (load>100) load = 0;
 				}, 10);
 			});
@@ -160,7 +223,7 @@
 		<h1 class="ui-inset">Inset Text</h1>
 	</div>
 
-	<h5>Simulated Button & File upload</h5>
+	<h5>Simulated Button & File upload (see source code for a working example)</h5>
 	<div class="ui-fileupload ui-button">
 		<img src="external/camera.png" alt="custom button with fileupload demo">
 	</div>

@@ -1,5 +1,6 @@
 /**
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  *
  * @bug     2011/SEP/09 04:34   Chrome doesn't allow loading local scripts
  *                              in offline mode.
@@ -18,6 +19,7 @@ var BMK = new Date();
 /**
  * Constructor
  * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
  * @created 2011/SEP/01 09:02
  */
 var ui = function(){
@@ -46,11 +48,15 @@ var ui = function(){
 	if (!self.isplugin('base')) self.error('Base missing.');
 	self.load('base');
 	self.log('Loaded.', 'base');
-	// instantiate'em
-	for (var f in fn){
-		fn[f].prototype.core = ui.core;
-		ui.core[f] = new fn[f]();
+	var f;
+	// instantiate methods ment to be on core scope.
+	for (f in core){
+		core[f].prototype.core = ui.core;
+		ui.core[f] = new core[f]();
 	}
+	// add element handlers to prototype.
+	for (f in fn) ui.core.fn[f] = fn[f];
+	// mark core as enabled.
 	ui.core.enabled = true;
 	self.loader.hide();
 };
@@ -70,6 +76,7 @@ ui.core = ui.prototype = {
 
 	/**
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/10 17:50
 	 */
 	benchmark:function(){
@@ -77,13 +84,14 @@ ui.core = ui.prototype = {
 		return ms.getTime() - BMK;
 	},
 
-	fontsize:(function(){return parseInt(
-		$('<div class="ui-fontsize">H</div>').appendTo('body').css('font-size'),10
-	);})(),
+	em:null,         // 1em in pixels.
+
+	scrollbar:null,  // scrollbar width in pixels.
 
 	/**
 	 * Error shorthand.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/AUG/31 04:11
 	 */
 	error:function(msg, caller){
@@ -96,6 +104,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Log Shorthand.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/12 08:33   it now shows XXXs XXXms
 	 * @created 2011/SEP/09 03:57
 	 */
@@ -116,6 +125,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Load plugin script.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 04:14
 	 */
 	load:function(name, callback){
@@ -149,6 +159,7 @@ ui.core = ui.prototype = {
 	/**
 	 * checks if given name is a plugin.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 05:55
 	 */
 	isplugin:function(name){
@@ -165,6 +176,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Returns wether an object  is an object containing an jQuery element.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/12 15:56
 	 */
 	iselement:function(jQ){
@@ -179,6 +191,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Traverses jQuery selector and adds ui-* classes to allowed elements.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 06:42
 	 */
 	uify:function(jQ){
@@ -194,6 +207,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Finds the first background-color up in the chain.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 * @updated 2011/SEP/12 15:35    Moved from ui.inset.js
 	 * @created 2011/SEP/11 04:49
 	 */
@@ -213,6 +227,7 @@ ui.core = ui.prototype = {
 	/**
 	 * Enables plugin for jquery element.
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 *
 	 * @param req string         name    Name of the plugin.
 	 * @param req jQuery      element    Target jQuery Element.
@@ -235,6 +250,9 @@ ui.core = ui.prototype = {
 			// make sure an element is constructed only once
 			var tagname = dom.tagName.toLowerCase();
 			if (element.hasClass('ui_' + name + '_enabled')){
+				// if existent, call the update method for plugin.
+				if (typeof dom.ui[name].update == 'function')
+					dom.ui[name].update();
 				self.log('Element "'+tagname+'" already constructed, returning cached instance.', name);
 				return dom.ui[name];
 			}
@@ -292,27 +310,67 @@ $(document).ready(function(){
 
 	$.ui = new $.ui();
 
+	// obtain the equivalent in pixels for an EM.
+	ui.core.em = parseInt($('<div class="ui-em">H</div>').appendTo('body').css('font-size'),10);
+
+	// obtain the scrollbar width in pixels
+	ui.core.scrollbar = (function(self){
+		var ovflow = self.$body.css('overflow');
+		var hidden = self.$body.css('overflow','hidden').width();
+		var scroll = self.$body.css('overflow','scroll').width();
+		// Watch out for IE.
+		var width  = (hidden==scroll)? scroll - self.$body.get(0).clientWidth : hidden-scroll;
+		self.$body.css('overflow', ovflow); // restore
+		return width;
+	})($.ui);
+
 	/**
+	 * Element initializer.
+	 * If a string is given as first parameter this method will work as shorthand
+	 * of $.ui.element(), if is not a string, it will traverse class names looking
+	 * for a ui-class and then construct that element.
+	 *
 	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
 	 *
-	 * @param opt object   settings   widget-specific settings.
-	 * @param opt function callback   what to do after plugin constructed.
+	 * @param opt mixed    settings_or_name       string or object
+	 * @param opt mixed    callback_or_settings   param1 == string? object   : function
+	 * @param opt function          or_callback   param1 == string? function : undefined
 	 *
+	 * @updated 2011/SEP/14 17:37     If a string is sent as first parameter
+	 *                                this function will be only a shorthand of
+	 *                                $.ui.element();
 	 * @updated 2011/SEP/12 01:42     Instead of instancing UI directly,
 	 *                                it now uses instanced ui via the "element" method.
 	 * @updated 2011/SEP/10 17:18     Complete Rewrite, splitted into two local
 	 *                                functions declared on the constructor.
 	 * @created 2011/AUG/31 04:15
 	 */
-	$.fn.ui = function(settings, callback){
+	$.fn.ui = function(settings_or_name, callback_or_settings, or_callback){
+		var name, settings, callback, clase;
 		return this.each(function(i){
 			var $this = $(this);
-			// extract ui-elements
-			var cls =  $this.attr('class');
-			if (!cls || cls.indexOf('ui-') === -1) return ui.core.error('No UI element found in selector.');
-			// an instance for each ui class encountered.
-			names = cls.match(/ui-\S+/g);
-			for (var j in names) $.ui.enable(names[j].substr(3), $(this), settings, callback);
+			// if no name given, extract names from current element's class.
+			if (typeof settings_or_name != 'string'){
+				settings = settings_or_name;
+				callback = callback_or_settings;
+				clase = $this.attr('class');
+				if (!clase || clase.indexOf('ui-') === -1)
+					return ui.core.error('No UI element found.');
+				// generate instance for each ui-class found.
+				name = clase.match(/ui-\S+/g);
+				for (var j in name){
+					ui.core.log('Detected "' + name + '" element, enabling it...');
+					$.ui.enable(name[j].substr(3), $this, settings, callback);
+				}
+				return;
+			}
+			// a name was given, run that plugin on current element.
+			name     = settings_or_name;
+			settings = callback_or_settings;
+			callback = or_callback;
+			ui.core.log('Using shorthand for "'+ name +'".');
+			$.ui.enable(name, $this, settings, callback);
 		});
 	};
 

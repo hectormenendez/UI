@@ -253,6 +253,8 @@ fn.fileupload.prototype = {
 		this.xhr.setRequestHeader("Cache-Control", "no-cache");
         this.xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         this.xhr.setRequestHeader("X-File-Name", file.name);
+		this.xhr.setRequestHeader("X-File-Size", file.size);
+		this.xhr.setRequestHeader("X-File-Type", file.type);
         // send file.
         this.xhr.send(file);
 	},

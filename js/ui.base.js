@@ -258,7 +258,10 @@ core.textinput = function(context){
 				if (e.charCode === 0) return true;
 				var key = String.fromCharCode(e.charCode);
 				// if a regex exists, limit keys.
-				if (regex && !key.match(regex)) return false;
+				if (regex && !key.match(regex)) {
+					e.stopImmediatePropagation();
+					return false;
+				}
 				// continue only if a maxch isset.
 				if (!maxch) return true;
 				if (len > -1) {

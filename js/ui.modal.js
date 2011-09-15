@@ -24,6 +24,7 @@ fn.modal = function(){
 	this.$header  = $('<header></header>').prependTo(this.element);
 	this.$footer  = $('<footer></footer>').appendTo(this.element);
 	this.$section = this.element.find('section');
+	this.content = this.$section.html();
 	// set title.
 	this.title = this.element.attr('title') || '';
 	this.element.removeAttr('title');
@@ -102,6 +103,8 @@ fn.modal.prototype = {
 		var self = this;
 		// reset title
 		this.$title.html(this.title);
+		// reset content
+		this.$section.html(this.content);
 		// show or hide the close button
 		if (!this.settings.close) this.$close.hide();
 		else                      this.$close.show();

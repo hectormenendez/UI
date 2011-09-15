@@ -64,6 +64,7 @@ fn.fileupload.prototype = {
 		data     : {},
 		auto     : false, // Auto start upload.
 		size     : false, // limit file size [bytes]
+		type     : false, // Allowed mimetype(s)
 		// callbacks
 		change   : null, // file selected
 		cancel   : null, // dialog closed
@@ -212,6 +213,13 @@ fn.fileupload.prototype = {
 		// check filesize
 		if ((size = parseInt(this.settings.size,10)) && file.size > size)
 			return error({}, false, 'size');
+		// check mime types (if defined);;
+		var bool = false;
+		var type = this.settings.type;
+		if (type instanceof Array || (bool = (typeof type == 'string'))){
+			if (bool) type = [type];
+			if ($.inArray(file.type, type) == -1) return error({}, false, 'type');
+		}
 		// capture progress
 		this.xhr.upload.onprogress = function(e){
 			if (!e.lengthComputable){

@@ -67,5 +67,6 @@ fn.inset.prototype = {
 		low  : 0.65  // shadows
 	},
 
-	update:fn.inset
+	update:fn.inset  // this will be automatically called when the plugin
+	                 // targets an element that's already been constructed.
 };

@@ -250,6 +250,9 @@ ui.core = ui.prototype = {
 			// make sure an element is constructed only once
 			var tagname = dom.tagName.toLowerCase();
 			if (element.hasClass('ui_' + name + '_enabled')){
+				// if existent, call the update method for plugin.
+				if (typeof dom.ui[name].update == 'function')
+					dom.ui[name].update();
 				self.log('Element "'+tagname+'" already constructed, returning cached instance.', name);
 				return dom.ui[name];
 			}

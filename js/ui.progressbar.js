@@ -47,7 +47,7 @@ fn.progressbar.prototype = {
 		value: 0
 	},
 
-	update:function(value){
+	value:function(value){
 		value = parseInt(value,10);
 
 		this.$bar.css('width',value +'% !important');

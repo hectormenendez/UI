@@ -20,6 +20,8 @@ fn.sayno = function(){
 	var i;
 	// alternate calling cb.
 	for (i=0; i < ((this.settings.times*2)-1); i++)  cb(td[i%2]);
+	// restore original margin.
+	cb(ml);
 	this.core.log('No.','sayno');
 };
 fn.sayno.prototype = {
@@ -29,7 +31,10 @@ fn.sayno.prototype = {
 		speed    : 100, // speed of movement in ms.
 		times    : 3,   // how many times?
 		distance : 10   // how many pixels to move the object?
-	}
+	},
+
+	update: fn.sayno    // this will be automatically called when the plugin
+	                    // targets an element that's already been constructed.
 };
 
 

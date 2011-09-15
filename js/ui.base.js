@@ -242,7 +242,7 @@ core.textinput = function(context){
 			self.core.tooltip.enable(help, title);
 		}
 		var regex = null;
-		if ((regex = label.attr('data-limit'))) regex = new RegExp('['+regex+']','g');
+		if ((regex = label.attr('data-limit'))) regex = new RegExp(regex,'g');
 		// if the element has a character maxcount, generate it and set its event.
 		var maxch;
 		if ((maxch = parseInt(label.attr('data-count'),10))){

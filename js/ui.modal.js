@@ -97,6 +97,7 @@ fn.modal.prototype = {
 	 * Make sure modal is up-to-date.
 	 * @author Hector Menendez <h@cun.mx>
 	 * @licence http://etor.mx/licence.txt
+	 * @updated 2011/SEP/16 04:43  Modal was not showing footers when settings said so.
 	 * @created 2011/SEP/14 20:44
 	 */
 	update:function(){
@@ -108,11 +109,11 @@ fn.modal.prototype = {
 		// show or hide the close button
 		if (!this.settings.close) this.$close.hide();
 		else                      this.$close.show();
-		this.$cancel = {};
-		this.$submit = {};
 		// all submit and cancel elements found in content will
 		// be moved down to footer and get modal's events.
 		// well, at least the first one of each.
+		if (this.$cancel && this.$cancel.length) this.$cancel.remove();
+		if (this.$cancel && this.$submit.length) this.$submit.remove();
 		var $b = this.element.find('[type="submit"],[type="reset"]').remove();
 		// enable buttons depending on settings callbacks visibility.
 		if (typeof this.settings.cancel == 'function'){
@@ -131,8 +132,11 @@ fn.modal.prototype = {
 				self.settings.submit.call(self);
 			});
 		}
-		// if there are no buttons, do not enable footer even though settings say the opposite.
-		if (this.settings.footer && (this.$submit.length || this.$cancel.length)) {
+		// enable footer if the settings say it, or if there are butttons to show.
+		if ( this.settings.footer                 || 
+			(this.$submit && this.$submit.length) || 
+			(this.$cancel && this.$cancel.length)
+		) {
 			this.$footer.show();
 			this.element.removeClass('ui_modal_hidden_footer');
 			return;

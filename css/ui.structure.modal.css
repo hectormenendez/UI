@@ -53,3 +53,5 @@
 	padding:.95em;
 	border-radius:0 0 .25em .25em;
 }
+
+.ui-modal footer > *:first-child { margin-right:1em; }

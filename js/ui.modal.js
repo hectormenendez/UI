@@ -115,6 +115,14 @@ fn.modal.prototype = {
 		if (this.$cancel && this.$cancel.length) this.$cancel.remove();
 		if (this.$cancel && this.$submit.length) this.$submit.remove();
 		var $b = this.element.find('[type="submit"],[type="reset"]').remove();
+		if (typeof this.settings.submit == 'function'){
+			var  $submit = $b.filter('[type="submit"]').first();
+			if (!$submit.length) $submit = $('<input class="ui-button" type="submit" value="OK">');
+			this.$submit = $submit.appendTo(this.$footer).click(function(){
+				self.core.log('User\'s "submit" calledback.',me);
+				self.settings.submit.call(self);
+			});
+		}
 		// enable buttons depending on settings callbacks visibility.
 		if (typeof this.settings.cancel == 'function'){
 			var  $cancel = $b.filter('[type="reset"]').first();
@@ -122,14 +130,6 @@ fn.modal.prototype = {
 			this.$cancel = $cancel.appendTo(this.$footer).click(function(){
 				self.core.log('User\'s "cancel" calledback.',me);
 				self.settings.cancel.call(self);
-			});
-		}
-		if (typeof this.settings.submit == 'function'){
-			var  $submit = $b.filter('[type="submit"]').first();
-			if (!$submit.length) $submit = $('<input class="ui-button" type="submit" value="OK">');
-			this.$submit = $submit.appendTo(this.$footer).click(function(){
-				self.core.log('User\'s "submit" calledback.',me);
-				self.settings.submit.call(self);
 			});
 		}
 		// enable footer if the settings say it, or if there are butttons to show.

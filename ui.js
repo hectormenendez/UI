@@ -95,7 +95,7 @@ ui.core = ui.prototype = {
 	 * @created 2011/AUG/31 04:11
 	 */
 	error:function(msg, caller){
-		if (!this.defaults.debug || console === undefined) return false;
+		if (!this.defaults.debug || typeof console == 'undefined') return false;
 		caller = typeof caller != 'string'? '' : '-' + caller;
 		if (typeof msg != 'string') msg = 'Error.';
 		throw 'ui' + caller + ': ' + msg;
@@ -109,7 +109,7 @@ ui.core = ui.prototype = {
 	 * @created 2011/SEP/09 03:57
 	 */
 	log:function(msg, caller){
-		if (!this.defaults.debug || console === undefined) return false;
+		if (!this.defaults.debug || typeof console === 'undefined') return false;
 		// pad zeroes when needed.
 		var pad = function(num, length){
 			num = parseInt(num,10).toString();

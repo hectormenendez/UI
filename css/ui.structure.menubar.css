@@ -74,3 +74,4 @@
   color:transparent !important;
   text-shadow:none  !important;
 }
+.ui-menubar-current ul { display:none !important; }

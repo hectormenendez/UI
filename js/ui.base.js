@@ -290,6 +290,7 @@ core.textinput.prototype = {
 	 * @created 2011/SEP/14 16:23
 	 */
 	padding: function(context){
+		var self = this;
 		this.core.log('Adjusting padding.','textinput');
 		// make sure we've a correct context.
 		if (typeof context != 'object' || !context instanceof jQuery)
@@ -299,22 +300,24 @@ core.textinput.prototype = {
 			'.ui-input[type="text"],'+
 			'.ui-input[type="password"]'
 		).each(function(){
-			var $this = $(this);
-			$this.width('100%');
-			var width = $this.outerWidth();
-			// Add a padding of .5em without compromising width;
-			var em = parseInt($this.css('font-size'),10);
-			if (!em) em = self.core.em;
-			// we only need two decimal digits, get rid of everything else.
-			var pad = (em*100)/width;
+			var $this = $(this).width('100%');
+			// allow a couple ms to the property so the width populates
+			setTimeout(function(){
+				var width = $this.outerWidth();
+				// Add a padding of .5em without compromising width;
+				var em = parseInt($this.css('font-size'),10);
+				if (!em) em = self.core.em;
+				var pad = (em*100)/width;
+				// we only need two decimal digits, get rid of everything else.
 			    pad = Math.round(pad*100+((pad*1000)%10>4?1:0))/100;
-			// set css padding and width.
-			$this.css({
-				'text-indent'   : '0 !important',
-				'width'         : 100-pad + '% !important',
-				'padding-left'  :  pad/2  + '% !important',
-				'padding-right' :  pad/2  + '% !important'
-			});
+				$this.css({
+					'text-indent'   : '0 !important',
+					'width'         : 100-pad + '% !important',
+					'padding-left'  :  pad/2  + '% !important',
+					'padding-right' :  pad/2  + '% !important'
+				});
+			},25);
+			return;
 		});
 	}
 };

@@ -16,23 +16,21 @@ fn.modal = function(){
 	// process html
 	var html = this.element.html();
 	var sect = this.element.html('').append('<section>'+html+'</section');
-	// enable UI for child elems
-	var context = sect.find('*');
-	this.core.uify(context);
-	this.core.textinput.enable(sect.find('*'));
 	// set main sub-elements-
 	this.$header  = $('<header></header>').prependTo(this.element);
 	this.$footer  = $('<footer></footer>').appendTo(this.element);
-	this.$section = this.element.find('section');
-	this.content = this.$section.html();
-	// set title.
-	this.title = this.element.attr('title') || '';
-	this.element.removeAttr('title');
-	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
 	// set closer
 	this.$close   = $('<div class="ui_modal_header_item ui_modal_close">')
 		.click(function(){ self.hide(); })
 		.prependTo(this.$header);
+	// default content
+	this.$content = this.element.find('section');
+	this.content = this.$content.html();
+	// default title
+	this.title = this.element.attr('title') || '';
+	this.element.removeAttr('title');
+	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
+	//  show now if settings say so.
 	if (this.settings.auto === true) this.show();
 };
 
@@ -104,8 +102,13 @@ fn.modal.prototype = {
 		var self = this;
 		// reset title
 		this.$title.html(this.title);
-		// reset content
-		this.$section.html(this.content);
+		// reset and renable content
+		this.$content.html(this.content);
+		var context = this.$content.find('*');
+		if (context.length){
+			this.core.uify(context);
+			this.core.textinput.enable(context);
+		}
 		// show or hide the close button
 		if (!this.settings.close) this.$close.hide();
 		else                      this.$close.show();
@@ -132,16 +135,14 @@ fn.modal.prototype = {
 				self.settings.cancel.call(self);
 			});
 		}
-		// enable footer if the settings say it, or if there are butttons to show.
-		if ( this.settings.footer                 || 
-			(this.$submit && this.$submit.length) || 
+		// show footer only when setting is enabled and there's something to show.
+		if ( this.settings.footer && (
+			(this.$submit && this.$submit.length) ||  
 			(this.$cancel && this.$cancel.length)
-		) {
-			this.$footer.show();
+		)) {
 			this.element.removeClass('ui_modal_hidden_footer');
 			return;
 		}
-		this.$footer.hide();
 		this.element.addClass('ui_modal_hidden_footer');
 	}
 };

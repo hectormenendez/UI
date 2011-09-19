@@ -41,11 +41,12 @@
 }
 
 .ui-modal section{
-	padding:1em 1.1em 1em 1em;
+	padding:1em 1em 0 1em;
 }
 
 .ui-modal.ui_modal_hidden_footer section {
 	border-radius:0 0 .25em .25em;
+	padding-bottom:1em;
 }
 
 .ui-modal footer {
@@ -54,4 +55,9 @@
 	border-radius:0 0 .25em .25em;
 }
 
+.ui-modal.ui_modal_hidden_footer footer {
+	display:none;
+}
+
 .ui-modal footer > *:first-child { margin-right:1em; }
+.ui-modal footer > *:last-child  { margin-right:0em; }

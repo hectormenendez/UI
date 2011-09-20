@@ -85,6 +85,8 @@ ui.core = ui.prototype = {
 	},
 
 	em:null,         // 1em in pixels.
+	cm:null,		 // 1cm in pixels.
+	inch:null,		 // 1inch in pixels.
 
 	scrollbar:null,  // scrollbar width in pixels.
 
@@ -219,6 +221,16 @@ ui.core = ui.prototype = {
 	},
 
 	/**
+	 * if float given, limits the number of decimals to two by rounding correctly.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
+	 * @created 2011/SEP/05 13:11
+	 */
+	twodec:function(dec){
+		return Math.round(dec*100+((dec*1000)%10>4?1:0))/100;
+	},
+
+	/**
 	 * Enables plugin for jquery element.
 	 * @author Hector Menendez <h@cun.mx>
 	 * @licence http://etor.mx/licence.txt
@@ -304,8 +316,12 @@ $(document).ready(function(){
 
 	$.ui = new $.ui();
 
-	// obtain the equivalent in pixels for an EM.
-	ui.core.em = parseInt($('<div class="ui-em">H</div>').appendTo('body').css('font-size'),10);
+	// obtain measurument units in pixels;
+	var $measure = $('<div id="ui-measure">H</div>').appendTo('body');
+	ui.core.em   = parseInt($measure.css('font-size'),10);
+	ui.core.inch = parseInt($measure.width(),10);
+	ui.core.cm   = ui.core.twodec(ui.core.inch / 2.54);
+	$measure.remove();
 
 	// obtain the scrollbar width in pixels
 	ui.core.scrollbar = (function(self){

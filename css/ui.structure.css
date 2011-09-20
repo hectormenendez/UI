@@ -68,19 +68,26 @@
 
 
 /*******************************************************************************
- * EM                                                                          *
- * This is used to find a value of 1em for the document                        *
+ * MEASURE                                                                     *
+ * This is used to find values of different units                              *
  * @author Hector Menendez <h@cun.mx>                                          *
  * @licence http://etor.mx/licence.txt                                         *
+ * @updated 2011/SEP/20 00:58   Originally only targetted EMs                  *
  * @created 2011/SEP/10 23:57                                                  *
  *******************************************************************************/
 
-.ui-em {
+#ui-measure {
     position:absolute;
-    font-size:1em;
-    line-height:1;
+    overflow:hidden;
+    top:0; left:0;
+    margin:0;
     padding:0;
-    visibility:hidden;
+    display:block;
+    line-height:1;
+    font-size:1em;
+    opacity:0;
+    width:1in;
+    height:1in;
 }
 
 /*******************************************************************************

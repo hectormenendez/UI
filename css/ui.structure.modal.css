@@ -42,6 +42,7 @@
 
 .ui-modal section{
 	padding:1em 1em 0 1em;
+	overflow:hidden;
 }
 
 .ui-modal.ui_modal_hidden_footer section {

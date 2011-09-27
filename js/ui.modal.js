@@ -101,6 +101,8 @@ fn.modal.prototype = {
 	update:function(){
 		var self = this;
 		// reset title
+		this.title = $.trim(this.title);
+		if (!this.title.length) this.title = '&nbsp;';
 		this.$title.html(this.title);
 		// reset and renable content
 		this.$content.html(this.content);

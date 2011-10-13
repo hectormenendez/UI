@@ -91,6 +91,17 @@
 }
 
 /*******************************************************************************
+ * CONTENT EDITABLE                                                            *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
+ * @created 2011/SEP/29 09:31                                                  *
+ *******************************************************************************/
+
+.ui-editable p:first-child { -webkit-margin-before:0em !important; }
+.ui-editable p:last-child  { -webkit-margin-after:0em !important; }
+
+
+/*******************************************************************************
  * PROGRESS BAR                                                                *
  * @author Hector Menendez <h@cun.mx>                                          *
  * @licence http://etor.mx/licence.txt                                         *

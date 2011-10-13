@@ -19,7 +19,11 @@ fn.editable = function(){
 		.bind('blur',    $.proxy(this.blur.outer , this))
 		.bind('keydown', $.proxy(this.key.down   , this))
 		.bind('keyup',   $.proxy(this.key.up     , this));
-
+	this.element.each(function(){
+		var $this = $(this);
+		if (!$this.find('p').length)
+			$this.html('<p>'+  $this.html() +'</p>');
+	});
 	this.core.log('Constructed.', me);
 };
 
@@ -40,7 +44,7 @@ fn.editable.prototype = {
 		 * @created 2011/SEP/28 10:53
 		 */
 		inner:function(e){
-			var $this   = $(e.target);
+			var $this   = $(e.currentTarget);
 			var lastext = $this.contents().last().get(0);
 			var keycode = $.data($this.get(0), 'keycode');
 			var range;
@@ -69,17 +73,13 @@ fn.editable.prototype = {
 		 * @created 2011/SEP/28 10:21
 		 */
 		outer:function(e){
-			var $this = $(e.target);
+			var $this = $(e.currentTarget);
 			$this.attr('contentEditable',true);
 			dom = $this.get(0);
 			var range;
 			// select text.
 			if (typeof window.getSelection != 'undefined' ){
 				var sel = window.getSelection();
-				if (typeof sel.setBaseAndExtent != 'undefined'){
-					sel.setBaseAndExtent(dom, 0, dom, 1);
-					return;
-				}
 				range = document.createRange();
 				range.selectNodeContents(dom);
 				sel.removeAllRanges();
@@ -103,7 +103,7 @@ fn.editable.prototype = {
 		 * @created 2011/SEP/28 10:21
 		 */
 		outer:function(e){
-			$(e.target).removeAttr('contentEditable');
+			$(e.currentTarget).removeAttr('contentEditable');
 		}
 	},
 
@@ -113,7 +113,7 @@ fn.editable.prototype = {
 		 * @created 2011/SEP/28 10:09
 		 */
 		down:function(e){
-			var $this = $(e.target);
+			var $this = $(e.currentTarget);
 			var html = $this.html();
 			$this.unbind ('focus', this.focus.outer);
 			$this.unbind ('blur',   this.blur.outer);
@@ -134,7 +134,7 @@ fn.editable.prototype = {
 		 * @created 2011/SEP/28 10:24
 		 */
 		up:function(e){
-			var $this = $(e.target);
+			var $this = $(e.currentTarget);
 			$this.unbind ('focus', this.focus.inner);
 			$this.unbind ('blur',   this.blur.inner);
 			$this.bind   ('focus', $.proxy(this.focus.outer, this));

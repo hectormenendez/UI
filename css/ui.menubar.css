@@ -22,7 +22,7 @@
 	font-size:13px; /* restores from font:0 */
 	display:inline-block;
 	vertical-align:bottom;
-	padding:.55em .75em .35em .75em;
+	padding:.45em .75em .35em .75em;
 }
 /* first main item must have a little bit more spacing */
 .ui-menubar > li:first-child { margin-left:.5em }
@@ -61,7 +61,7 @@
 	height:16px;
 	padding:0;
 	margin:0;
-	margin-top:.5em;
+	margin-top:.35em;
 	margin-right:.4em;
 	border:0 !important;
 }

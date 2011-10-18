@@ -1,1 +1,17 @@
+#     UI
+##### A minimalist alternative for jQuery-UI
+###   v1.0r9 [alpha]
 
+## Usage
+http://hectormenendez.github.com/UI/ for examples. [v1.0]
+
+## Changelog
+- Rewritten from v0.1r21; Added modularity.
+- Enhanced construction methodology.
+- ui.log() now shows seconds and miliseconds.
+- Added ui.fileupload
+- Added ui.progressbar
+- Improved element caching.
+- Fixed modal centering.
+- Enabled XHR level 2 uploads. Multiple files possible, but not yet enabled.
+- Modals now have close button by default; Bugfixes for fileupload.

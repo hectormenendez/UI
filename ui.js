@@ -47,6 +47,8 @@ var ui = function(){
 	// load base components
 	if (!self.isplugin('base')) self.error('Base missing.');
 	self.load('base');
+	// show page contents now.
+	$('#ui-hide').remove();
 	self.log('Loaded.', 'base');
 	var f;
 	// instantiate methods ment to be on core scope.
@@ -69,7 +71,8 @@ ui.core = ui.prototype = {
 	fn:{},
 
 	defaults:{
-		debug : false
+		debug : false,
+		theme : 'default'
 	},
 
 	enabled:false,
@@ -85,6 +88,8 @@ ui.core = ui.prototype = {
 	},
 
 	em:null,         // 1em in pixels.
+	cm:null,		 // 1cm in pixels.
+	inch:null,		 // 1inch in pixels.
 
 	scrollbar:null,  // scrollbar width in pixels.
 
@@ -95,7 +100,7 @@ ui.core = ui.prototype = {
 	 * @created 2011/AUG/31 04:11
 	 */
 	error:function(msg, caller){
-		if (!this.defaults.debug || console === undefined) return false;
+		if (!this.defaults.debug || typeof console == 'undefined') return false;
 		caller = typeof caller != 'string'? '' : '-' + caller;
 		if (typeof msg != 'string') msg = 'Error.';
 		throw 'ui' + caller + ': ' + msg;
@@ -109,7 +114,7 @@ ui.core = ui.prototype = {
 	 * @created 2011/SEP/09 03:57
 	 */
 	log:function(msg, caller){
-		if (!this.defaults.debug || console === undefined) return false;
+		if (!this.defaults.debug || typeof console === 'undefined') return false;
 		// pad zeroes when needed.
 		var pad = function(num, length){
 			num = parseInt(num,10).toString();
@@ -127,32 +132,30 @@ ui.core = ui.prototype = {
 	 * @author Hector Menendez <h@cun.mx>
 	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 04:14
+	 * @updated 2011/OCT/13 14:28 It now adds css.
 	 */
 	load:function(name, callback){
 		var url = this.baseurl + 'js/ui.' + name + '.js';
-		$(document).ajaxError(function(e, jqxhr, settings, exception){
-			// errors are not being thrown while in syncronich mode.
-			msg = 'ui-'+name +': ' + exception;
-			alert(msg);
-			throw msg; // halt execution
-		});
-
+		$('head > script').first().before(
+			'<link rel="stylesheet" type="text/css" href="'+this.baseurl+'css/ui.'+name+'.css'+'">' +
+			'<link rel="stylesheet" type="text/css" href="'+this.baseurl+'css/theme.'+this.defaults.theme+'/ui.'+name+'.css'+'">'
+		);
+		//$(document).ajaxError();
 		$.ajax({
-			type       : 'GET',
-			'url'      : url,
-			cache      : this.defaults.debug? false : true,
-			async      : false,
-			data       : null,
-			dataType   : 'script',
+			type    : 'GET',
+			'url'   : url,
+			cache   : this.defaults.debug? false : true,
+			async   : false,
+			data    : null,
+			dataType: 'script',
 			// get around a firefox 3 bug
-			beforeSend : function(data){ if (data.overrideMimeType) data.overrideMimeType('text/plain'); }
-			// when using async, throwing errors doesn't seem to work, hence the alert.
-			/*
-			error      : function(data){
-				alert('[ui] Script load failed : ' + data.statusText);
-				throw data.statusText;
+			beforeSend: function(data){ if (data.overrideMimeType) data.overrideMimeType('text/plain'); },
+			error: function(e, jqxhr, settings, exception){
+				msg = 'ui-load-'+name +': ' + exception;
+				// throw this error after execution, otherwise, it won't be shown.
+				// at least not in synchronic mode.
+				setTimeout(function(){ throw msg; },10);
 			}
-			*/
 		});
 	},
 
@@ -161,16 +164,24 @@ ui.core = ui.prototype = {
 	 * @author Hector Menendez <h@cun.mx>
 	 * @licence http://etor.mx/licence.txt
 	 * @created 2011/SEP/09 05:55
+	 * @updated 2011/OCT/13 14:20  it now searches for css.
 	 */
 	isplugin:function(name){
-		var http = new XMLHttpRequest();
-		try {
-			http.open('HEAD', this.baseurl + 'js/ui.' + name + '.js', false);
-			http.send();
-		} catch (e) { }
-		http = http.status == 200;
-		this.log('Plugin "'+ name + '" ' + (http? 'exists.' : 'does not exist.'));
-		return http;
+		var http, passed = true, required = [
+			this.baseurl +  'js/ui.' + name + '.js',
+			this.baseurl + 'css/ui.' + name + '.css',
+			this.baseurl + 'css/theme.' + this.defaults.theme + '/ui.' + name + '.css'
+		];
+		for (i in required){
+			http = new XMLHttpRequest();
+			try {
+				http.open('HEAD', required[i], false);
+				http.send()
+			} catch(e){}
+			if (!(passed = (http.status == 200))) break;
+		}
+		this.log('Plugin "'+ name + '" ' + (passed? 'is valid.' : 'is invalid or inexistent.'));
+		return passed;
 	},
 
 	/**
@@ -222,6 +233,16 @@ ui.core = ui.prototype = {
 		} while ((jQ = jQ.parent()) && jQ.get(0).tagName.toLowerCase() != 'html');
 		if (!bg) this.error('Background color unavailable.');
 		return bg;
+	},
+
+	/**
+	 * if float given, limits the number of decimals to two by rounding correctly.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
+	 * @created 2011/SEP/05 13:11
+	 */
+	twodec:function(dec){
+		return Math.round(dec*100+((dec*1000)%10>4?1:0))/100;
 	},
 
 	/**
@@ -302,7 +323,62 @@ ui.core = ui.prototype = {
 	}
 };
 
+/**
+ * Element initializer.
+ * If a string is given as first parameter this method will work as shorthand
+ * of $.ui.element(), if is not a string, it will traverse class names looking
+ * for a ui-class and then construct that element.
+ *
+ * @author Hector Menendez <h@cun.mx>
+ * @licence http://etor.mx/licence.txt
+ *
+ * @param opt mixed    settings_or_name       string or object
+ * @param opt mixed    callback_or_settings   param1 == string? object   : function
+ * @param opt function          or_callback   param1 == string? function : undefined
+ *
+ * @updated 2011/SEP/14 17:37     If a string is sent as first parameter
+ *                                this function will be only a shorthand of
+ *                                $.ui.element();
+ * @updated 2011/SEP/12 01:42     Instead of instancing UI directly,
+ *                                it now uses instanced ui via the "element" method.
+ * @updated 2011/SEP/10 17:18     Complete Rewrite, splitted into two local
+ *                                functions declared on the constructor.
+ * @created 2011/AUG/31 04:15
+ */
+$.fn.ui = function(settings_or_name, callback_or_settings, or_callback){
+	var name, settings, callback, clase;
+	return this.each(function(i){
+		var $this = $(this);
+		// if no name given, extract names from current element's class.
+		if (typeof settings_or_name != 'string'){
+			settings = settings_or_name;
+			callback = callback_or_settings;
+			clase = $this.attr('class');
+			if (!clase || clase.indexOf('ui-') === -1)
+				return ui.core.error('No UI element found.');
+			// generate instance for each ui-class found.
+			name = clase.match(/ui-\S+/g);
+			for (var j in name){
+				ui.core.log('Detected "' + name + '" element, enabling it...');
+				$.ui.enable(name[j].substr(3), $this, settings, callback);
+			}
+			return;
+		}
+		// a name was given, run that plugin on current element.
+		name     = settings_or_name;
+		settings = callback_or_settings;
+		callback = or_callback;
+		ui.core.log('Using shorthand for "'+ name +'".');
+		$.ui.enable(name, $this, settings, callback);
+	});
+};
+
+
+// hide page contents until base is loaded.
+document.write('<style id="ui-hide">html {  display:none;  }</style>');
+
 $.ui = ui;
+
 /**
  * @created 2011/SEP/12 02:08
  */
@@ -310,8 +386,12 @@ $(document).ready(function(){
 
 	$.ui = new $.ui();
 
-	// obtain the equivalent in pixels for an EM.
-	ui.core.em = parseInt($('<div class="ui-em">H</div>').appendTo('body').css('font-size'),10);
+	// obtain measurument units in pixels;
+	var $measure = $('<div id="ui-measure">H</div>').appendTo('body');
+	ui.core.em   = parseInt($measure.css('font-size'),10);
+	ui.core.inch = parseInt($measure.width(),10);
+	ui.core.cm   = ui.core.twodec(ui.core.inch / 2.54);
+	$measure.remove();
 
 	// obtain the scrollbar width in pixels
 	ui.core.scrollbar = (function(self){
@@ -324,56 +404,9 @@ $(document).ready(function(){
 		return width;
 	})($.ui);
 
-	/**
-	 * Element initializer.
-	 * If a string is given as first parameter this method will work as shorthand
-	 * of $.ui.element(), if is not a string, it will traverse class names looking
-	 * for a ui-class and then construct that element.
-	 *
-	 * @author Hector Menendez <h@cun.mx>
-	 * @licence http://etor.mx/licence.txt
-	 *
-	 * @param opt mixed    settings_or_name       string or object
-	 * @param opt mixed    callback_or_settings   param1 == string? object   : function
-	 * @param opt function          or_callback   param1 == string? function : undefined
-	 *
-	 * @updated 2011/SEP/14 17:37     If a string is sent as first parameter
-	 *                                this function will be only a shorthand of
-	 *                                $.ui.element();
-	 * @updated 2011/SEP/12 01:42     Instead of instancing UI directly,
-	 *                                it now uses instanced ui via the "element" method.
-	 * @updated 2011/SEP/10 17:18     Complete Rewrite, splitted into two local
-	 *                                functions declared on the constructor.
-	 * @created 2011/AUG/31 04:15
-	 */
-	$.fn.ui = function(settings_or_name, callback_or_settings, or_callback){
-		var name, settings, callback, clase;
-		return this.each(function(i){
-			var $this = $(this);
-			// if no name given, extract names from current element's class.
-			if (typeof settings_or_name != 'string'){
-				settings = settings_or_name;
-				callback = callback_or_settings;
-				clase = $this.attr('class');
-				if (!clase || clase.indexOf('ui-') === -1)
-					return ui.core.error('No UI element found.');
-				// generate instance for each ui-class found.
-				name = clase.match(/ui-\S+/g);
-				for (var j in name){
-					ui.core.log('Detected "' + name + '" element, enabling it...');
-					$.ui.enable(name[j].substr(3), $this, settings, callback);
-				}
-				return;
-			}
-			// a name was given, run that plugin on current element.
-			name     = settings_or_name;
-			settings = callback_or_settings;
-			callback = or_callback;
-			ui.core.log('Using shorthand for "'+ name +'".');
-			$.ui.enable(name, $this, settings, callback);
-		});
-	};
-
+	// enable menubars if available.
+	var tmp = $('.ui-menubar');
+	if (tmp.length) tmp.ui();
 });
 
 })(jQuery);

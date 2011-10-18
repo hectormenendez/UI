@@ -1,8 +1,9 @@
 var fn = {};
-
+var me = 'modal';
 /**
  * @author Hector Menendez <h@cun.mx>
  * @licence http://etor.mx/licence.txt
+ * @updated 2011/SEP/14 21:19   Moved button declaration to  modal.update()
  * @updated 2011/SEP/10 00:13   Moved to new format.
  * @created 2011/SEP/09 06:29
  */
@@ -15,28 +16,21 @@ fn.modal = function(){
 	// process html
 	var html = this.element.html();
 	var sect = this.element.html('').append('<section>'+html+'</section');
-	// enable UI for child elems
-	var context = sect.find('*');
-	this.core.uify(context);
-	this.core.textinput.enable(sect.find('*'));
-	// obtain title.
-	this.title = this.element.attr('title') || '';
-	this.element.removeAttr('title');
-	// create elements
-	var $button = this.element.find('input[type="submit"],input[type="reset"]').remove();
+	// set main sub-elements-
 	this.$header  = $('<header></header>').prependTo(this.element);
-	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
+	this.$footer  = $('<footer></footer>').appendTo(this.element);
+	// set closer
 	this.$close   = $('<div class="ui_modal_header_item ui_modal_close">')
 		.click(function(){ self.hide(); })
 		.prependTo(this.$header);
-	this.$footer  = $('<footer></footer>')
-		.appendTo(this.element)
-		.append($button);
-	this.$section = this.element.find('section'); // won't have buttons.
-	// if there was a form, and we moved the submit and/or reset buttons,
-	// they won't work so we mimic their original behaviour.
-	this.$submit = $button.filter('[type="submit"]');//.bind('click', this.submit);
-	this.$reset  = $button.filter('[type="reset"]');//.bind('click', this.reset);
+	// default content
+	this.$content = this.element.find('section');
+	this.content = this.$content.html();
+	// default title
+	this.title = this.element.attr('title') || '';
+	this.element.removeAttr('title');
+	this.$title   = $('<h2>'+this.title+'</h2>').appendTo(this.$header);
+	//  show now if settings say so.
 	if (this.settings.auto === true) this.show();
 };
 
@@ -47,7 +41,10 @@ fn.modal.prototype = {
 		auto   : false,
 		speed  : 0, // 0=instant, int=miliseconds 'slow','fast','normal'
 		footer : true,
-		close  : true
+		close  : true,
+		// callbacks
+		submit : null,  // user pressed submit
+		cancel : null   // user pressed cancel
 	},
 
 	/**
@@ -62,20 +59,8 @@ fn.modal.prototype = {
 		// TODO: Create a queue for these modals to show after enabled closes.
 		if (this.core.fn.modal.enabled) return this;
 		this.core.fn.modal.enabled = true;
+		this.update();
 		if (!parseInt(speed,10)) speed = this.settings.speed;
-		// reset title
-		this.$title.html(this.title);
-		// show or hide the close button
-		if (!this.settings.close) this.$close.hide();
-		else                      this.$close.show();
-		// show or hide the footer.
-		if (!this.settings.footer) {
-			this.$footer.hide();
-			this.element.addClass('ui_modal_hidden_footer');
-		} else {
-			this.$footer.show();
-			this.element.removeClass('ui_modal_hidden_footer');
-		}
 		// show it.
 		this.core.overlay.show(speed);
 		this.element
@@ -104,5 +89,62 @@ fn.modal.prototype = {
 		this.element.animate({opacity:0}, speed, this.element.hide);
 		this.core.log('Hidden.','modal');
 		return this.element;
+	},
+
+	/**
+	 * Make sure modal is up-to-date.
+	 * @author Hector Menendez <h@cun.mx>
+	 * @licence http://etor.mx/licence.txt
+	 * @updated 2011/SEP/16 04:43  Modal was not showing footers when settings said so.
+	 * @created 2011/SEP/14 20:44
+	 */
+	update:function(){
+		var self = this;
+		// reset title
+		this.title = $.trim(this.title);
+		if (!this.title.length) this.title = '&nbsp;';
+		this.$title.html(this.title);
+		// reset and renable content
+		this.$content.html(this.content);
+		var context = this.$content.find('*');
+		if (context.length){
+			this.core.uify(context);
+			this.core.textinput.enable(context);
+		}
+		// show or hide the close button
+		if (!this.settings.close) this.$close.hide();
+		else                      this.$close.show();
+		// all submit and cancel elements found in content will
+		// be moved down to footer and get modal's events.
+		// well, at least the first one of each.
+		if (this.$cancel && this.$cancel.length) this.$cancel.remove();
+		if (this.$cancel && this.$submit.length) this.$submit.remove();
+		var $b = this.element.find('[type="submit"],[type="reset"]').remove();
+		if (typeof this.settings.submit == 'function'){
+			var  $submit = $b.filter('[type="submit"]').first();
+			if (!$submit.length) $submit = $('<input class="ui-button" type="submit" value="OK">');
+			this.$submit = $submit.appendTo(this.$footer).click(function(){
+				self.core.log('User\'s "submit" calledback.',me);
+				self.settings.submit.call(self);
+			});
+		}
+		// enable buttons depending on settings callbacks visibility.
+		if (typeof this.settings.cancel == 'function'){
+			var  $cancel = $b.filter('[type="reset"]').first();
+			if (!$cancel.length) $cancel = $('<input class="ui-button" type="reset" value="NO">');
+			this.$cancel = $cancel.appendTo(this.$footer).click(function(){
+				self.core.log('User\'s "cancel" calledback.',me);
+				self.settings.cancel.call(self);
+			});
+		}
+		// show footer only when setting is enabled and there's something to show.
+		if ( this.settings.footer && (
+			(this.$submit && this.$submit.length) ||  
+			(this.$cancel && this.$cancel.length)
+		)) {
+			this.element.removeClass('ui_modal_hidden_footer');
+			return;
+		}
+		this.element.addClass('ui_modal_hidden_footer');
 	}
 };

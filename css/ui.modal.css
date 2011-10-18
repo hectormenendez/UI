@@ -1,0 +1,63 @@
+/*******************************************************************************
+ * MODAL Structure                                                             *
+ *                                                                             *
+ * @working 2011/AUG/31 14:25 Chrome, FF5                                      *
+ * @created 2011/AUG/31 14:15                                                  *
+ *******************************************************************************/
+
+.ui-modal {
+max-width:50%;
+display:none;
+position:absolute;
+left:50%;
+top:50%;
+border-radius:.25em;
+}
+
+.ui-modal header {
+	border-radius:.25em .25em 0 0;
+	overflow:hidden;
+}
+.ui-modal header h2 {
+	cursor:default;
+	margin:0;
+	padding:0 1em;
+	font-size:1em;
+	line-height:2em;
+	float:left;
+	z-index:0;
+}
+
+.ui-modal header .ui_modal_header_item {
+	width:16px;
+	height:16px;
+	position:relative;
+	display:block;
+	float:right;
+	margin-top:.5em;
+	margin-right:.5em;
+	z-index:9;
+}
+
+.ui-modal section{
+	padding:1em 1em 0 1em;
+	overflow:hidden;
+}
+
+.ui-modal.ui_modal_hidden_footer section {
+	border-radius:0 0 .25em .25em;
+	padding-bottom:1em;
+}
+
+.ui-modal footer {
+	text-align:right;
+	padding:.95em;
+	border-radius:0 0 .25em .25em;
+}
+
+.ui-modal.ui_modal_hidden_footer footer {
+	display:none;
+}
+
+.ui-modal footer > *:first-child { margin-right:1em; }
+.ui-modal footer > *:last-child  { margin-right:0em; }

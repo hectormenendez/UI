@@ -1,0 +1,88 @@
+/*******************************************************************************
+ * MENUBAR Structure                                                           *
+ *                                                                             *
+ * @working 2011/AUG/31 00:20    Chrome,FF5                                    *
+ *******************************************************************************/
+
+/* blocking beats */
+.ui-menubar,
+.ui-menubar *  { display:block; position:relative;  }
+
+/* main bar, removes spacing left by inline-block */
+.ui-menubar    { font-size:00px; }
+
+/* don't allow word wrapping on all LI elements */
+.ui-menubar li        { white-space:nowrap;   cursor:pointer; }
+.ui-menubar  a        { text-decoration:none; }
+.ui-menubar > li > a  { font-weight:bold; outline:none !important; }
+
+/* Main menu items */
+.ui-menubar > li {
+	cursor:default;
+	font-size:13px; /* restores from font:0 */
+	display:inline-block;
+	vertical-align:bottom;
+	padding:.55em .75em .35em .75em;
+}
+/* first main item must have a little bit more spacing */
+.ui-menubar > li:first-child { margin-left:.5em }
+
+/* menu first-level */
+.ui-menubar > li > ul        { left:-2px; top:101%; }
+
+/* menu all levels, keep hidden until hover */
+.ui-menubar li ul            { position:absolute; display:none; padding:.25em 0; }
+
+/* menu all levels, show on hover */
+.ui-menubar li:hover > ul,
+.ui-menubar li.ui-menubar-hover > ul
+{
+	display:block;
+}
+
+/* currently selected item */
+.ui-menubar li:hover         { }
+
+/* all children items, set up padding */
+.ui-menubar ul > li          {
+	padding:.35em 1em .35em 1em;
+}
+
+/* menus, second, third,fourth... levels */
+.ui-menubar ul > li ul { left:100%; top:-.40em;  }
+
+/* exit button */
+.ui-menubar > li.ui-menubar-exit {
+    overflow:hidden;
+    position:absolute;
+    right:0;
+    top:0;
+	width:16px;
+	height:16px;
+	padding:0;
+	margin:0;
+	margin-top:.5em;
+	margin-right:.4em;
+	border:0 !important;
+}
+
+@-moz-document url-prefix() { .ui-menubar > li.ui-menubar-exit  {
+	margin-top:.45em;
+} }
+
+
+.ui-menubar > li.ui-menubar-exit > *{
+	z-index:1;
+	display:block;
+	position:absolute;
+	top:0; left:0;
+	background:transparent;
+}
+
+.ui-menubar > li.ui-menubar-exit,
+.ui-menubar > li.ui-menubar-exit *
+{
+  color:transparent !important;
+  text-shadow:none  !important;
+}
+.ui-menubar-current ul { display:none !important; }

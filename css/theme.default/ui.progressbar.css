@@ -1,0 +1,25 @@
+/*******************************************************************************
+ * PROGRESS BAR                                                                *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
+ * @created 2011/SEP/12 14:56                                                  *
+ *******************************************************************************/
+
+.ui-progressbar {
+    border-radius:.25em;
+    border-top      : 1px solid transparent;
+    border-left     : 1px solid transparent;
+    border-bottom   : 1px solid transparent;
+    border-right    : 1px solid transparent;
+}
+
+.ui-progressbar,
+.ui-progressbar div.ui_progress_bar {
+    box-shadow:1px 0px 1px rgba(0,0,0, .1);
+    border-right:1px solid rgba(255,255,255,.2);
+    background-image:   -moz-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
+    background-image:-webkit-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
+    background-image:     -o-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
+    background-image:    -ms-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
+    background-image:        linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
+}

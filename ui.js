@@ -136,10 +136,16 @@ ui.core = ui.prototype = {
 	 */
 	load:function(name, callback){
 		var url = this.baseurl + 'js/ui.' + name + '.js';
-		$('head > script').first().before(
+		var link = 
 			'<link rel="stylesheet" type="text/css" href="'+this.baseurl+'css/ui.'+name+'.css'+'">' +
-			'<link rel="stylesheet" type="text/css" href="'+this.baseurl+'css/theme.'+this.defaults.theme+'/ui.'+name+'.css'+'">'
-		);
+			'<link rel="stylesheet" type="text/css" href="'+this.baseurl+'css/theme.'+this.defaults.theme+'/ui.'+name+'.css'+'">';
+		var tmp;
+		// try inserting it before the first stylesheet declaration
+		if ((tmp = $("head > link[rel=stylesheet]")) && tmp.length) tmp.first().before(link);
+		// or before the first script tag
+		else if ((tmp = $("head > script")) && tmp.length) tmp.first().before(link);
+		// or just append it to head
+		else $('head > *').last().before(link);
 		//$(document).ajaxError();
 		$.ajax({
 			type    : 'GET',

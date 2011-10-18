@@ -6,12 +6,12 @@
  *******************************************************************************/
 
 .ui-modal {
-	max-width:50%;
-	display:none;
-	position:absolute;
-	left:50%;
-	top:50%;
-	border-radius:.25em;
+max-width:50%;
+display:none;
+position:absolute;
+left:50%;
+top:50%;
+border-radius:.25em;
 }
 
 .ui-modal header {
@@ -29,7 +29,6 @@
 }
 
 .ui-modal header .ui_modal_header_item {
-	background:red;
 	width:16px;
 	height:16px;
 	position:relative;

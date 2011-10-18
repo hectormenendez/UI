@@ -1,0 +1,40 @@
+/*******************************************************************************
+ * FILEUPLOAD                                                                  *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
+ * @created 2011/SEP/10 23:57                                                  *
+ *******************************************************************************/
+
+.ui-fileupload {
+    overflow:hidden !important;
+}
+
+.ui-fileupload form,
+.ui-fileupload form > *
+{
+    border:0px solid transparent;
+    margin:0;
+    padding:0;
+    z-index:0;
+    display:block;
+    position:absolute;
+    overflow:hidden;
+}
+
+.ui-fileupload form {
+    overflow:visible !important;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+}
+
+.ui-fileupload form,
+.ui-fileupload form input[type="file"]
+{
+    z-index:9999;
+    opacity:0;
+}
+
+.ui-fileupload input[type="file"]{}

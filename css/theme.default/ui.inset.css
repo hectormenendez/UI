@@ -1,0 +1,12 @@
+/*******************************************************************************
+ * INSET                                                                       *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
+ * @created 2011/SEP/05 01:25                                                  *
+ *******************************************************************************/
+
+fieldset.ui-inset > legend {
+    font-size:0.85em;
+    font-weight:bold;
+}

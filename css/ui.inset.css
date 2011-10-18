@@ -1,0 +1,29 @@
+/*******************************************************************************
+ * INSET Structure                                                             *
+ *                                                                             *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt
+ * @created 2011/SEP/05 00:35                                                  *
+ *******************************************************************************/
+
+fieldset.ui-inset {
+    display:block;
+    position:relative;
+    padding:1em 1.5em 1.5em 1.3em;
+    border-radius:.25em;
+}
+
+fieldset.ui-inset > legend {
+    position:absolute;
+    display:block;
+    line-height:1em;
+    padding:0 1em;
+    top:-.75em;
+    right:3.33em;
+}
+
+/*  mozilla only */
+@-moz-document url-prefix() { fieldset.ui-inset > legend  {
+    top:-1.88em;
+} }
+

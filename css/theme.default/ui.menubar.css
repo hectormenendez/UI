@@ -5,26 +5,35 @@
 
 /* Text elements */
 .ui-menubar                 a { color:#333; }
-.ui-menubar      li:hover > a { color:#FFF; text-shadow: 0 1px 0 #06C; }
 .ui-menubar ul > li:hover > a { font-weight:bold; }
+
+.ui-menubar li:hover > a,
+.ui-menubar li.ui-menubar-hover > a 
+{
+	color:#FFF; text-shadow: 0 1px 0 #06C; 
+}
+
 /* Main Shadow */
 .ui-menubar   {
    -moz-box-shadow:0 5px 15px rgba(0,0,0,.15), 0 1px 0 #FFF inset;
 -webkit-box-shadow:0 5px 15px rgba(0,0,0,.15), 0 1px 0 #FFF inset;
         box-shadow:0 5px 15px rgba(0,0,0,.15), 0 1px 0 #FFF inset;
 }
+
 /* main menu items only */
 .ui-menubar > li:hover {
 	border-left :1px solid #06C;
 	border-right:1px solid #06C;
 }
+
 /* second level onwards, hover */
 .ui-menubar ul > li:hover {
-	border-top   :1px solid #3399EE;
-	border-bottom:1px solid #005C9C;
 }
+
 /* all li elements hover */
-.ui-menubar li:hover {
+.ui-menubar li:hover,
+.ui-menubar li.ui-menubar-hover
+{
 	background-color:                                 #06C;
 	background-image:    -moz-linear-gradient (90deg, #06C, #9CF 100%);
 	background-image: -webkit-linear-gradient (90deg, #06C, #9CF 100%);
@@ -33,6 +42,7 @@
 	background-image:         linear-gradient (90deg, #06C, #9CF 100%);
 	background: -moz-linear-gradient(center top,#9CF, #06C) repeat scroll 0 0 transparent;
 }
+
 /*  all menus */
 .ui-menubar li ul {
 		border:1px solid #777;

@@ -70,7 +70,7 @@
 .ui-textarea
 {
 	color:#555;
-	font-size:1.3em;
+	font-size:1.2em;
 }
 
 .ui-modal header,
@@ -80,14 +80,48 @@
 .ui-input[type="submit"],
 .ui-button
 {
-	border-bottom:1px solid #666;
+	   border-bottom:1px solid #777 !important;
 	background-color:                               #888;
 	background-image:   -moz-linear-gradient(90deg, #888, #CCC 100%);
 	background-image:-webkit-linear-gradient(90deg, #888, #CCC 100%);
 	background-image:     -o-linear-gradient(90deg, #888, #CCC 100%);
 	background-image:    -ms-linear-gradient(90deg, #888, #CCC 100%);
 	background-image:        linear-gradient(90deg, #888, #CCC 100%);
-	background:-moz-linear-gradient(center top,#CCC,#888) repeat scroll 0 0 transparent;
+	      background:-moz-linear-gradient(center top,#CCC,#888) repeat scroll 0 0 transparent;
+}
+
+.ui-input[type="button"]:hover,
+.ui-input[type="reset"]:hover,
+.ui-input[type="submit"]:hover,
+.ui-button:hover,
+.ui-input[type="button"]:focus,
+.ui-input[type="reset"]:focus,
+.ui-input[type="submit"]:focus,
+.ui-button:focus
+{
+  border-bottom:1px solid #888 !important;
+  background-color:                               #999;
+  background-image:   -moz-linear-gradient(90deg, #999, #DDD 100%);
+  background-image:-webkit-linear-gradient(90deg, #999, #DDD 100%);
+  background-image:     -o-linear-gradient(90deg, #999, #DDD 100%);
+  background-image:    -ms-linear-gradient(90deg, #999, #DDD 100%);
+  background-image:        linear-gradient(90deg, #999, #DDD 100%);
+        background:   -moz-linear-gradient(center top , #DDD, #999) repeat scroll 0 0 transparent;
+}
+
+.ui-input[type="button"]:active,
+.ui-input[type="reset"]:active,
+.ui-input[type="submit"]:active,
+.ui-button:active
+{
+  border-bottom:1px solid #999 !important;
+  background-color:                               #DDD;
+  background-image:   -moz-linear-gradient(90deg, #DDD, #999 100%);
+  background-image:-webkit-linear-gradient(90deg, #DDD, #999 100%);
+  background-image:     -o-linear-gradient(90deg, #DDD, #999 100%);
+  background-image:    -ms-linear-gradient(90deg, #DDD, #999 100%);
+  background-image:        linear-gradient(90deg, #DDD, #999 100%);
+        background:   -moz-linear-gradient(center top , #999, #DDD) repeat scroll 0 0 transparent;
 }
 
 .ui-modal header,
@@ -106,8 +140,8 @@
 .ui-textarea,
 .ui-select
 {
-    border: 1px solid #999;
-    border-radius:.25em;
+  border-radius:.25em;
+         border:1px solid #999;
 }
 
 .ui-tooltip {
@@ -122,8 +156,8 @@
 .ui-modal header .ui_modal_header_item,
 .ui-menubar > li.ui-menubar-exit
 {
-    background:#444;
-    box-shadow:-1px -1px #CCC inset;
+       background:#444;
+       box-shadow:-1px -1px #CCC inset;
     border-radius:.25em;
 }
 
@@ -132,7 +166,7 @@
 .ui-modal header .ui_modal_header_item:after,
 .ui-menubar > li.ui-menubar-exit:after
 {
-    color:#AAA;
+          color:#AAA;
     text-shadow:-1px -1px #222;
 }
 
@@ -148,32 +182,6 @@
 }
 
 /*******************************************************************************
- * PROGRESS BAR                                                                *
- * @author Hector Menendez <h@cun.mx>                                          *
- * @licence http://etor.mx/licence.txt                                         *
- * @created 2011/SEP/12 14:56                                                  *
- *******************************************************************************/
-
-.ui-progressbar {
-    border-radius:.25em;
-    border-top      : 1px solid transparent;
-    border-left     : 1px solid transparent;
-    border-bottom   : 1px solid transparent;
-    border-right    : 1px solid transparent;
-}
-
-.ui-progressbar,
-.ui-progressbar div.ui_progress_bar {
-    box-shadow:1px 0px 1px rgba(0,0,0, .1);
-    border-right:1px solid rgba(255,255,255,.2);
-    background-image:   -moz-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
-    background-image:-webkit-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
-    background-image:     -o-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
-    background-image:    -ms-linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
-    background-image:        linear-gradient(90deg,  rgba(255,255,255, 0.1) 0%, rgba(0,0,0, 0.05) 35%, rgba(0,0,0, 0.05) 65%, rgba(0,0,0, 0.1) 100%);
-}
-
-/*******************************************************************************
  * OVERLAY                                                                     *
  *                                                                             *
  * @author Hector Menendez <h@cun.mx>                                          *
@@ -181,20 +189,11 @@
  * @created 2011/AUG/30 00:16                                                  *
  *******************************************************************************/
 
-.ui-overlay { background-color:#000C16; }
-
-/*******************************************************************************
- * INSET                                                                       *
- *                                                                             *
- * @author Hector Menendez <h@cun.mx>                                          *
- * @licence http://etor.mx/licence.txt
- * @created 2011/SEP/05 01:25                                                  *
- *******************************************************************************/
-
-fieldset.ui-inset > legend {
-    font-size:0.85em;
-    font-weight:bold;
+.ui-overlay {
+  background-color:#000C16;
+           opacity:0.8;
 }
+
 
 /*******************************************************************************
  * LOADER                                                                      *
@@ -205,12 +204,17 @@ fieldset.ui-inset > legend {
  *******************************************************************************/
 
 .ui-loader{
-    background:transparent;
-    background-image:     -o-linear-gradient(rgba(0,11,21,0), #CCC 80%),      -o-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
-    background-image:   -moz-linear-gradient(rgba(0,11,21,0), #CCC 80%),    -moz-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
-    background-image:    -ms-linear-gradient(rgba(0,11,21,0), #CCC 80%),     -ms-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
-    background-image:-webkit-linear-gradient(rgba(0,11,21,0), #CCC 80%), -webkit-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
-    background-image:        linear-gradient(rgba(0,11,21,0), #CCC 80%),         linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+          background:transparent;
+    background-image:     -o-linear-gradient(rgba(0,11,21,0), #CCC 80%),      
+                          -o-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:   -moz-linear-gradient(rgba(0,11,21,0), #CCC 80%),
+                        -moz-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:    -ms-linear-gradient(rgba(0,11,21,0), #CCC 80%),
+                         -ms-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:-webkit-linear-gradient(rgba(0,11,21,0), #CCC 80%),
+                     -webkit-linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
+    background-image:        linear-gradient(rgba(0,11,21,0), #CCC 80%),         
+                             linear-gradient(0, #FFF 50%, rgba(0,11,21,0) 50%, rgba(255,255,255,0));
 }
 
 .ui-loader:before {
@@ -219,4 +223,3 @@ fieldset.ui-inset > legend {
     background:     -o-radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
     background:        radial-gradient(closest-side, #333C44 50%, rgba(0,11,21,0) 55%);
 }
-

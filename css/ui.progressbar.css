@@ -1,0 +1,24 @@
+/*******************************************************************************
+ * PROGRESS BAR                                                                *
+ * @author Hector Menendez <h@cun.mx>                                          *
+ * @licence http://etor.mx/licence.txt                                         *
+ * @created 2011/SEP/12 14:56                                                  *
+ *******************************************************************************/
+
+.ui-progressbar,
+.ui-progressbar div.ui_progress_bar,
+.ui-progressbar div.ui_progress_val
+{
+  line-height:2.1em;
+          top:0;
+         left:0;
+        width:100%;
+       height:100%;
+     overflow:hidden;
+      display:block;
+     position:absolute;
+}
+
+.ui-progressbar { position:relative; }
+.ui-progressbar div.ui_progress_bar { width:0px; }
+.ui-progressbar div.ui_progress_val { text-align:center; }
